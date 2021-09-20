@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby
+package ua.edu.ukma.dudes.schedulemebaby
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -6,8 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class ScheduleMeBabyApplicationTests {
 
-	@Test
-	fun contextLoads() {
-	}
+    @Test
+    fun contextLoads() {
+    }
 
 }
