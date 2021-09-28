@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.schedulemebaby
+package ua.edu.ukma.dudes.scheduleMeBaby
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
