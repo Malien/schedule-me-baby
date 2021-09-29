@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.controller
+package ua.edu.ukma.dudes.schedulemebaby.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
