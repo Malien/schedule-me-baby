@@ -1,4 +1,4 @@
-create table students
+create table if not exists students
 (
     id bigint auto_increment,
     name varchar(128) not null,
@@ -6,7 +6,7 @@ create table students
         primary key (id)
 );
 
-create table subjects
+create table if not exists subjects
 (
     id bigint auto_increment,
     name varchar(128) not null,
@@ -14,7 +14,7 @@ create table subjects
         primary key (id)
 );
 
-create table teachers
+create table if not exists teachers
 (
     id bigint auto_increment,
     name varchar(128) not null,
@@ -22,7 +22,7 @@ create table teachers
         primary key (id)
 );
 
-create table groups
+create table if not exists groups
 (
     id bigint auto_increment,
     subject_id bigint not null,
@@ -39,7 +39,7 @@ create table groups
             on update cascade
 );
 
-create table students_groups
+create table if not exists students_groups
 (
     student_id bigint,
     group_id bigint,
@@ -53,7 +53,7 @@ create table students_groups
             on update cascade
 );
 
-create table timeslots
+create table if not exists timeslots
 (
     id bigint auto_increment,
     group_id bigint not null,
