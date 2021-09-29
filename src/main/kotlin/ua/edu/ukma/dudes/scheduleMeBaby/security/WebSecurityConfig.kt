@@ -14,6 +14,9 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             authorizeRequests {
                 authorize("/**", permitAll)
             }
+            csrf {
+                disable()
+            }
         }
     }
 }
