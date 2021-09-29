@@ -10,4 +10,8 @@ class StudentService(private val studentRepository: StudentRepository) {
     fun findAllStudents(): MutableIterable<Student> = studentRepository.findAll()
 
     fun findStudentByID(id: Int): Optional<Student> = studentRepository.findById(id)
+
+    fun deleteStudentByID(id: Int) = studentRepository.deleteById(id)
+
+    fun saveStudent(student: Student): Student = studentRepository.save(student)
 }
