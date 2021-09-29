@@ -4,4 +4,13 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "students")
-data class Student(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Int, var name: String)
+class Student(
+    @Column(nullable = false)
+    var name: String
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id", nullable = false)
+    var student_id: Long? = null
+
+}

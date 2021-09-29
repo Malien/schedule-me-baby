@@ -26,5 +26,5 @@ class SubjectService() {
         subjectRepository.deleteById(id)
     }
 
-    fun mapToDTO(subject: Subject) : SubjectDTO = SubjectDTO(subject.id, subject.name)
+    fun mapToDTO(subject: Subject) : SubjectDTO = SubjectDTO(subject.subject_id, subject.name)
 }

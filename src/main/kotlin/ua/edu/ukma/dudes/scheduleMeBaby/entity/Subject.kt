@@ -8,8 +8,8 @@ import javax.persistence.*
 class Subject(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    var id: Long? = null,
+    @Column(name = "subject_id", nullable = false)
+    var subject_id: Long? = null,
 
     @Column(name = "name", nullable = false)
     var name: String? = null,
