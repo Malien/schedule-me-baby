@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.5.21"
     kotlin("plugin.jpa") version "1.5.21"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.5.21"
+    id("org.flywaydb.flyway") version "8.0.0-beta3"
 }
 
 group = "ua.edu.ukma.dudes"
@@ -30,6 +31,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     implementation("com.h2database:h2")
+    compileOnly("org.flywaydb:flyway-core")
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,36 +1,36 @@
 create table if not exists students
 (
-    id bigint auto_increment,
+    student_id bigint auto_increment,
     name varchar(128) not null,
     constraint STUDENTS_PK
-        primary key (id)
+        primary key (student_id)
 );
 
 create table if not exists subjects
 (
-    id bigint auto_increment,
+    subject_id bigint auto_increment,
     name varchar(128) not null,
     constraint SUBJECTS_PK
-        primary key (id)
+        primary key (subject_id)
 );
 
 create table if not exists teachers
 (
-    id bigint auto_increment,
+    teacher_id bigint auto_increment,
     name varchar(128) not null,
     constraint TEACHERS_PK
-        primary key (id)
+        primary key (teacher_id)
 );
 
 create table if not exists groups
 (
-    id bigint auto_increment,
+    group_id bigint auto_increment,
     subject_id bigint not null,
     teacher_id bigint not null,
     number int not null,
     type int not null,
     constraint GROUPS_PK
-        primary key (id),
+        primary key (group_id),
     constraint GROUPS_SUBJECTS_ID_FK
         foreign key (subject_id) references SUBJECTS
             on update cascade,
@@ -55,14 +55,14 @@ create table if not exists students_groups
 
 create table if not exists timeslots
 (
-    id bigint auto_increment,
+    timeslot_id bigint auto_increment,
     group_id bigint not null,
     day int not null,
     class int not null,
     auditorium varchar(256) not null,
     weeks array not null,
     constraint TIMESLOTS_PK
-        primary key (id),
+        primary key (timeslot_id),
     constraint TIMESLOTS_GROUPS_ID_FK
         foreign key (group_id) references GROUPS
             on update cascade

@@ -1,7 +1,7 @@
-package ua.edu.ukma.dudes.schedulemebaby.service
+package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
-import ua.edu.ukma.dudes.schedulemebaby.entity.Teacher
+import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 import ua.edu.ukma.dudes.schedulemebaby.repository.TeacherRepository
 import java.util.*
 

@@ -11,6 +11,6 @@ class Student(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id", nullable = false)
-    var student_id: Long? = null
+    var studentId: Long? = null
 
 }

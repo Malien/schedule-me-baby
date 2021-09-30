@@ -1,7 +1,15 @@
-package ua.edu.ukma.dudes.schedulemebaby.entity
+package ua.edu.ukma.dudes.scheduleMeBaby.entity
 
 import javax.persistence.*
 
 @Entity
 @Table(name = "teachers")
-data class Teacher(@Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Int? = null, var name: String)
+class Teacher(
+    @Column(nullable = false)
+    var name: String
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "teacher_id", nullable = false)
+    var teacherId: Long? = null
+}

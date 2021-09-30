@@ -2,9 +2,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Student
-import ua.edu.ukma.dudes.scheduleMeBaby.entity.Subject
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.StudentRepository
 import java.util.*
 
@@ -21,6 +19,6 @@ class StudentService(private val studentRepository: StudentRepository) {
         return mapToDTO(studentRepository.save(student))
     }
 
-    fun mapToDTO(student: Student) : StudentDTO = StudentDTO(student.student_id, student.name)
+    fun mapToDTO(student: Student) : StudentDTO = StudentDTO(student.studentId, student.name)
 
 }

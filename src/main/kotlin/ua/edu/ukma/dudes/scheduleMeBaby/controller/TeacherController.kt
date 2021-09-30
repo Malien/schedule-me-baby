@@ -1,10 +1,10 @@
-package ua.edu.ukma.dudes.schedulemebaby.controller
+package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import ua.edu.ukma.dudes.schedulemebaby.dto.CreateTeacherDTO
-import ua.edu.ukma.dudes.schedulemebaby.entity.Teacher
-import ua.edu.ukma.dudes.schedulemebaby.service.TeacherService
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
+import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.util.*
 
 @RestController
