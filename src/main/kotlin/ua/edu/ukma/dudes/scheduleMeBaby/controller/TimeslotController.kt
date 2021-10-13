@@ -7,6 +7,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
 import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TimeslotService
+import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateTimeslotDTO
 
 @RestController
 @RequestMapping("/timeslot")
@@ -30,9 +31,9 @@ class TimeslotController(private val timeslotService: TimeslotService) {
     fun createGroup(@RequestBody timeslot: CreateTimeslotDTO): TimeslotDTO =
         timeslotService.createTimeslot(timeslot).toDto()
 
-//    @PatchMapping("/{id}")
-//    fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) =
-//        groupService.updateGroup(group)
+    @PatchMapping("/{id}")
+    fun updateGroup(@PathVariable id: Long, @RequestBody timeslot: UpdateTimeslotDTO) =
+        timeslotService.updateTimeslot(id, timeslot)
 
     @DeleteMapping("/{id}")
     fun deleteGroupById(@PathVariable id: Long) = timeslotService.deleteTimeslotByID(id)

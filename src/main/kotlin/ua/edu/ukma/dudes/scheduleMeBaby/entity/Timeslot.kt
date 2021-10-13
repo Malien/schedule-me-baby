@@ -6,13 +6,13 @@ import javax.persistence.*
 @Table(name = "timeslots")
 class Timeslot(
     @Column(name = "day", nullable = false)
-    val day: Int,
+    var day: Int,
     @Column(name = "class", nullable = false)
-    val clazz: Int,
+    var clazz: Int,
     @Column(name = "auditorium", nullable = false)
-    val auditorium: String,
+    var auditorium: String,
     @Column(name = "weeks", nullable = false)
-    val weeks: String,
+    var weeks: String,
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "group_id", nullable = false)
     val group: Group

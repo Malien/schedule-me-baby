@@ -16,7 +16,6 @@ data class CreateTimeslotDTO(
 )
 
 data class UpdateTimeslotDTO(
-    val id: Long,
     val day: Int? = null,
     val clazz: Int? = null,
     val auditorium: String? = null,
@@ -45,4 +44,23 @@ class TimeslotService(
                     ?: throw RuntimeException("Cannot find group with id ${createDto.groupId}")
             )
         )
+
+    fun updateTimeslot(id: Long, updateDto: UpdateTimeslotDTO) {
+        val (day, clazz, auditorium, weeks) = updateDto
+        val timeslot = timeslotRepository.findByIdOrNull(id)
+            ?: throw RuntimeException("Cannot find timeslot with id $id")
+        if (day != null) {
+            timeslot.day = day
+        }
+        if (clazz != null) {
+            timeslot.clazz = clazz
+        }
+        if (auditorium != null) {
+            timeslot.auditorium = auditorium
+        }
+        if (weeks != null) {
+            timeslot.weeks = weeks
+        }
+        timeslotRepository.save(timeslot)
+    }
 }

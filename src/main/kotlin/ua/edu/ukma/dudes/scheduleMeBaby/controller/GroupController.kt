@@ -33,7 +33,7 @@ class GroupController(private val groupService: GroupService) {
 
     @PatchMapping("/{id}")
     fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) =
-        groupService.updateGroup(group)
+        groupService.updateGroup(id, group)
 
     @DeleteMapping("/{id}")
     fun deleteGroupById(@PathVariable id: Long) = groupService.deleteGroupByID(id)

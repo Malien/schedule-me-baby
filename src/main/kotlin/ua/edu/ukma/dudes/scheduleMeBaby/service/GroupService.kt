@@ -9,7 +9,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.repository.TeacherRepository
 import java.util.*
 
 data class CreateGroupDTO(val number: Int, val type: Int, val subjectId: Long, val teacherId: Long)
-data class UpdateGroupDTO(val id: Long, val teacherId: Long)
+data class UpdateGroupDTO(val teacherId: Long)
 
 @Service
 class GroupService(
@@ -36,11 +36,12 @@ class GroupService(
             )
         )
 
-    fun updateGroup(updateDto: UpdateGroupDTO) {
-        val group = groupRepository.findByIdOrNull(updateDto.id)
-            ?: throw RuntimeException("Cannot find group with id ${updateDto.id}")
-        group.teacher = teacherRepository.findByIdOrNull(updateDto.teacherId)
-            ?: throw RuntimeException("Cannot find teacher with id ${updateDto.teacherId}")
+    fun updateGroup(id: Long, updateDto: UpdateGroupDTO) {
+        val (teacherId) = updateDto
+        val group = groupRepository.findByIdOrNull(id)
+            ?: throw RuntimeException("Cannot find group with id $id")
+        group.teacher = teacherRepository.findByIdOrNull(teacherId)
+            ?: throw RuntimeException("Cannot find teacher with id $teacherId")
         groupRepository.save(group)
     }
 
