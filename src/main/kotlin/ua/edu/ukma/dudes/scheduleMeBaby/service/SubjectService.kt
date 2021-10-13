@@ -18,7 +18,7 @@ class SubjectService() {
     fun findAllSubjects(): Iterable<SubjectDTO> = subjectRepository.findAll().map { mapToDTO(it) }
 
     fun saveSubject(subjectDTO: SubjectDTO): SubjectDTO {
-        val newSubject = Subject(subjectDTO.id, subjectDTO.name)
+        val newSubject = Subject(subjectDTO.name!!)
         return mapToDTO(subjectRepository.save(newSubject))
     }
 

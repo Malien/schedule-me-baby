@@ -6,12 +6,15 @@ import javax.persistence.*
 @Table(name="subjects")
 @Entity
 class Subject(
+    @Column(name = "name", nullable = false)
+    var name: String,
+
+    @OneToMany(mappedBy = "subject", orphanRemoval = true)
+    val groups: MutableSet<Group> = mutableSetOf()
+) {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_id", nullable = false)
-    var subjectId: Long? = null,
-
-    @Column(name = "name", nullable = false)
-    var name: String? = null,
-) {
+    var subjectId: Long? = null
 }
