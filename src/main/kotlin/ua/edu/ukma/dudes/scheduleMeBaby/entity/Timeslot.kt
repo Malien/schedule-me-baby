@@ -13,14 +13,12 @@ class Timeslot(
     val auditorium: String,
     @Column(name = "weeks", nullable = false)
     val weeks: String,
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "group_id", nullable = false)
+    val group: Group
 ) {
-
     @Id
     @Column(name = "timeslot_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val timeslotId: Long? = null
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "group_id", nullable = false)
-    lateinit var group: Group
 }

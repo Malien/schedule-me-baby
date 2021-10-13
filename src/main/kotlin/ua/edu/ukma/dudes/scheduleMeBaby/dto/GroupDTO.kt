@@ -4,4 +4,4 @@ import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
 
 data class GroupDTO(val id: Long, val number: Int, val type: Int)
 
-fun Group.toGroupDTO(): GroupDTO = GroupDTO(groupId!!, number, type)
+fun Group.toDto(): GroupDTO = GroupDTO(groupId!!, number, type)
