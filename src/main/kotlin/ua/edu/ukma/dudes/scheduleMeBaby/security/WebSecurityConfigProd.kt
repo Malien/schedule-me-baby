@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.web.servlet.invoke
 
 @EnableWebSecurity
-@ConditionalOnExpression("#{!environment.getProperty('spring.profiles.active').contains('prod')")
+@ConditionalOnExpression("#{environment.getProperty('spring.profiles.active').contains('prod')")
 class WebSecurityConfigProd : WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity?) {
