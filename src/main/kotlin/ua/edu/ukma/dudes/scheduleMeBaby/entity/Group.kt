@@ -17,7 +17,7 @@ class Group(
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "teacher_id", nullable = false)
-    val teacher: Teacher
+    var teacher: Teacher
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

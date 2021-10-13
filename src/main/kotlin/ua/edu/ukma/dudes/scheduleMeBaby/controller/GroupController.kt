@@ -6,6 +6,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.dto.GroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toGroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateGroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.GroupService
+import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateGroupDTO
 
 @RestController
 @RequestMapping("/group")
@@ -27,6 +28,10 @@ class GroupController(private val groupService: GroupService) {
     @PutMapping("/")
     fun createGroup(@RequestBody group: CreateGroupDTO): GroupDTO =
         groupService.createGroup(group).toGroupDTO()
+
+    @PatchMapping("/{id}")
+    fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) =
+        groupService.updateGroup(group)
 
     @DeleteMapping("/{id}")
     fun deleteGroupById(@PathVariable id: Long) = groupService.deleteGroupByID(id)

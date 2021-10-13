@@ -11,6 +11,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.repository.TeacherRepository
 import java.util.*
 
 data class CreateGroupDTO(val number: Int, val type: Int, val subjectId: Long, val teacherId: Long)
+data class UpdateGroupDTO(val groupId: Long, val teacherId: Long)
 
 @Service
 class GroupService(
@@ -37,6 +38,12 @@ class GroupService(
             )
         )
 
-    // Groups cannot be updated
-    // fun updateGroup(group: Group) = groupRepository.save(group)
+    fun updateGroup(updateDto: UpdateGroupDTO) {
+        val group = groupRepository.findByIdOrNull(updateDto.groupId)
+            ?: throw RuntimeException("Cannot find group with id ${updateDto.groupId}")
+        group.teacher = teacherRepository.findByIdOrNull(updateDto.teacherId)
+            ?: throw RuntimeException("Cannot find teacher with id ${updateDto.teacherId}")
+        groupRepository.save(group)
+    }
+
 }
