@@ -19,12 +19,12 @@ class TeacherController {
     fun getStudents(): Iterable<Teacher> = teacherService.findAllTeachers()
 
     @GetMapping("/{id}")
-    fun getStudentByID(@PathVariable id: Int): Optional<Teacher> = teacherService.findTeacherByID(id)
+    fun getStudentByID(@PathVariable id: Long): Optional<Teacher> = teacherService.findTeacherByID(id)
 
     @PostMapping("/")
     fun saveStudent(@RequestBody teacher: CreateTeacherDTO): Teacher =
         teacherService.saveTeacher(Teacher(name = teacher.name))
 
     @DeleteMapping("/{id}")
-    fun deleteStudentByID(@PathVariable id: Int) = teacherService.deleteTeacherByID(id)
+    fun deleteStudentByID(@PathVariable id: Long) = teacherService.deleteTeacherByID(id)
 }

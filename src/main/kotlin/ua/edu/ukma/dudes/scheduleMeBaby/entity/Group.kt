@@ -7,21 +7,22 @@ import javax.persistence.*
 class Group(
     @Column(nullable = false)
     val number: Int,
+
     @Column(nullable = false)
-    val type: Int
+    val type: Int,
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "subject_id", nullable = false)
+    val subject: Subject,
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "teacher_id", nullable = false)
+    val teacher: Teacher
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_id", nullable = false)
     val groupId: Long? = null
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "subject_id", nullable = false)
-    lateinit var subject: Subject
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "teacher_id", nullable = false)
-    lateinit var teacher: Teacher
 
     @OneToMany(mappedBy = "group", orphanRemoval = true)
     val timeslot: MutableSet<Timeslot> = mutableSetOf()

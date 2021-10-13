@@ -9,9 +9,9 @@ import java.util.*
 class TeacherService(private val teacherRepository: TeacherRepository) {
     fun findAllTeachers(): Iterable<Teacher> = teacherRepository.findAll()
 
-    fun findTeacherByID(id: Int): Optional<Teacher> = teacherRepository.findById(id)
+    fun findTeacherByID(id: Long): Optional<Teacher> = teacherRepository.findById(id)
 
-    fun deleteTeacherByID(id: Int) = teacherRepository.deleteById(id)
+    fun deleteTeacherByID(id: Long) = teacherRepository.deleteById(id)
 
     fun saveTeacher(teacher: Teacher): Teacher = teacherRepository.save(teacher)
 }
