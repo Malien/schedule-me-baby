@@ -1,7 +1,6 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.repository
+package ua.edu.ukma.dudes.schedulemebaby.repository
 
 import org.springframework.data.repository.CrudRepository
-import ua.edu.ukma.dudes.scheduleMeBaby.entity.Subject
+import ua.edu.ukma.dudes.schedulemebaby.entity.Subject
 
-interface SubjectRepository : CrudRepository<Subject, Long> {
-}
+interface SubjectRepository : CrudRepository<Subject, Long>
