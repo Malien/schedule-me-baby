@@ -3,9 +3,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.controller
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.entity.Subject
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @RestController
 @RequestMapping("/subject")
@@ -15,7 +13,7 @@ class SubjectController(private val subjectService: SubjectService) {
     fun getAllSubjects(): ResponseEntity<Iterable<SubjectDTO>> = ResponseEntity.ok(subjectService.findAllSubjects())
 
     @GetMapping("/{id}")
-    fun getStudentById(@PathVariable id: Long): ResponseEntity<SubjectDTO> {
+    fun getSubjectById(@PathVariable id: Long): ResponseEntity<SubjectDTO> {
         val optional = subjectService.findSubjectById(id)
         return if (optional.isPresent)
             ResponseEntity.ok(optional.get())
@@ -27,7 +25,7 @@ class SubjectController(private val subjectService: SubjectService) {
     fun saveSubject(@RequestBody subjectDTO: SubjectDTO): ResponseEntity<Any> {
         return try {
             ResponseEntity.ok(subjectService.saveSubject(subjectDTO))
-        } catch (e: Exception){
+        } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)
         }
     }
@@ -37,7 +35,7 @@ class SubjectController(private val subjectService: SubjectService) {
         return try {
             subjectService.deleteSubjectById(id)
             ResponseEntity.ok().build()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)
         }
     }

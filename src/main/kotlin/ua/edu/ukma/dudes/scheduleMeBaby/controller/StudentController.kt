@@ -1,11 +1,9 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
-import java.util.*
 
 @RestController
 @RequestMapping("/student")
@@ -24,7 +22,10 @@ class StudentController(private val studentService: StudentService) {
     }
 
     @PostMapping("/")
-    fun saveStudent(@RequestBody student: StudentDTO): StudentDTO = studentService.saveStudent(student)
+    fun createStudent(@RequestBody student: StudentDTO): StudentDTO = studentService.createStudent(student)
+
+    @PutMapping("/")
+    fun updateStudent(@RequestBody student: StudentDTO): StudentDTO = studentService.updateStudent(student)
 
     @DeleteMapping("/{id}")
     fun deleteStudentByID(@PathVariable id: Long) = studentService.deleteStudentByID(id)

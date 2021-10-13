@@ -1,6 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
@@ -9,22 +8,18 @@ import java.util.*
 
 @RestController
 @RequestMapping("/teacher")
-class TeacherController {
-
-    // TODO just for example, move to ctor
-    @Autowired
-    private lateinit var teacherService: TeacherService
+class TeacherController(val teacherService: TeacherService) {
 
     @GetMapping("/")
-    fun getStudents(): Iterable<Teacher> = teacherService.findAllTeachers()
+    fun getTeachers(): Iterable<Teacher> = teacherService.findAllTeachers()
 
     @GetMapping("/{id}")
-    fun getStudentByID(@PathVariable id: Int): Optional<Teacher> = teacherService.findTeacherByID(id)
+    fun getTeacherByID(@PathVariable id: Int): Optional<Teacher> = teacherService.findTeacherByID(id)
 
     @PostMapping("/")
-    fun saveStudent(@RequestBody teacher: CreateTeacherDTO): Teacher =
+    fun saveTeacher(@RequestBody teacher: CreateTeacherDTO): Teacher =
         teacherService.saveTeacher(Teacher(name = teacher.name))
 
     @DeleteMapping("/{id}")
-    fun deleteStudentByID(@PathVariable id: Int) = teacherService.deleteTeacherByID(id)
+    fun deleteTeacherByID(@PathVariable id: Int) = teacherService.deleteTeacherByID(id)
 }
