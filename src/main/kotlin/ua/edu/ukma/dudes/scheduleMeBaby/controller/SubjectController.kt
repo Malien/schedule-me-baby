@@ -9,7 +9,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 @RequestMapping("/subject")
 class SubjectController(private val subjectService: SubjectService) {
 
-    @GetMapping("/all")
+    @GetMapping("/")
     fun getAllSubjects(): ResponseEntity<Iterable<SubjectDTO>> = ResponseEntity.ok(subjectService.findAllSubjects())
 
     @GetMapping("/{id}")
@@ -22,9 +22,18 @@ class SubjectController(private val subjectService: SubjectService) {
     }
 
     @PostMapping("/")
-    fun saveSubject(@RequestBody subjectDTO: SubjectDTO): ResponseEntity<Any> {
+    fun createSubject(@RequestBody subjectDTO: SubjectDTO): ResponseEntity<Any> {
         return try {
-            ResponseEntity.ok(subjectService.saveSubject(subjectDTO))
+            ResponseEntity.ok(subjectService.createSubject(subjectDTO))
+        } catch (e: Exception) {
+            ResponseEntity.badRequest().body(e.message)
+        }
+    }
+
+    @PutMapping("/")
+    fun updateSubject(@RequestBody subjectDTO: SubjectDTO): ResponseEntity<Any> {
+        return try {
+            ResponseEntity.ok(subjectService.updateSubject(subjectDTO))
         } catch (e: Exception) {
             ResponseEntity.badRequest().body(e.message)
         }

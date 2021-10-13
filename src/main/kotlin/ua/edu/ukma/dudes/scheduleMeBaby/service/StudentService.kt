@@ -29,7 +29,7 @@ class StudentService(private val studentRepository: StudentRepository) {
         if (studentDTO.name.isNullOrBlank())
             throw InvalidArgumentException()
         val student = Student(studentDTO.name!!)
-        student.studentId = studentDTO.id!!
+        student.studentId = studentDTO.id
         return mapToDTO(studentRepository.save(student))
     }
 
