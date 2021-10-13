@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.schedulemebaby.entity
+package ua.edu.ukma.dudes.scheduleMeBaby.entity
 
 import javax.persistence.*
 

@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.schedulemebaby.controller
+package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

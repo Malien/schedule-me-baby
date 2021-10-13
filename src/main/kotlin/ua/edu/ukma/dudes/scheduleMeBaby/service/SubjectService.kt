@@ -1,10 +1,10 @@
-package ua.edu.ukma.dudes.schedulemebaby.service
+package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import ua.edu.ukma.dudes.schedulemebaby.dto.SubjectDTO
-import ua.edu.ukma.dudes.schedulemebaby.entity.Subject
-import ua.edu.ukma.dudes.schedulemebaby.repository.SubjectRepository
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.entity.Subject
+import ua.edu.ukma.dudes.scheduleMeBaby.repository.SubjectRepository
 import java.util.*
 
 @Service

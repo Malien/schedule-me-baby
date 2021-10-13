@@ -1,9 +1,9 @@
-package ua.edu.ukma.dudes.schedulemebaby.service
+package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
-import ua.edu.ukma.dudes.schedulemebaby.dto.StudentDTO
-import ua.edu.ukma.dudes.schedulemebaby.entity.Student
-import ua.edu.ukma.dudes.schedulemebaby.repository.StudentRepository
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.entity.Student
+import ua.edu.ukma.dudes.scheduleMeBaby.repository.StudentRepository
 import java.util.*
 
 @Service

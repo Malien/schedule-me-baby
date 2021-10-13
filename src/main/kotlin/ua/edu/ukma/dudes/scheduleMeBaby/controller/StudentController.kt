@@ -1,10 +1,9 @@
-package ua.edu.ukma.dudes.schedulemebaby.controller
+package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.entity.Student
 import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
 import java.util.*
 

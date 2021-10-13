@@ -1,8 +1,8 @@
-package ua.edu.ukma.dudes.schedulemebaby.service
+package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
-import ua.edu.ukma.dudes.schedulemebaby.entity.Timeslot
-import ua.edu.ukma.dudes.schedulemebaby.repository.TimeslotRepository
+import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
+import ua.edu.ukma.dudes.scheduleMeBaby.repository.TimeslotRepository
 import java.util.*
 
 @Service

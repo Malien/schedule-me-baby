@@ -1,8 +1,8 @@
-package ua.edu.ukma.dudes.schedulemebaby.service
+package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
-import ua.edu.ukma.dudes.schedulemebaby.entity.Group
-import ua.edu.ukma.dudes.schedulemebaby.repository.GroupRepository
+import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
+import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import java.util.*
 
 @Service
