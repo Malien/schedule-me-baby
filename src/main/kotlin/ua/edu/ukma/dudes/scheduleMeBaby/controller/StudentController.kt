@@ -10,11 +10,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/student")
-class StudentController {
-
-    // TODO just for example, move to ctor
-    @Autowired
-    private lateinit var studentService: StudentService
+class StudentController(private val studentService: StudentService) {
 
     @GetMapping("/")
     fun getStudents(): ResponseEntity<Iterable<StudentDTO>> = ResponseEntity.ok(studentService.findAllStudents())
