@@ -15,8 +15,8 @@ class SubjectService(val subjectRepository: SubjectRepository) {
     fun findAllSubjects(): Iterable<SubjectDTO> = subjectRepository.findAll().map { mapToDTO(it) }
 
     fun createSubject(subjectDTO: SubjectDTO): SubjectDTO {
-        if (subjectDTO.name.isNullOrBlank())
-            throw InvalidArgumentException("Subject's name cannot be blank")
+        if (subjectDTO.name == null)
+            throw InvalidArgumentException("Subject's name cannot be null")
         val newSubject = Subject(subjectDTO.name!!)
         return mapToDTO(subjectRepository.save(newSubject))
     }
@@ -24,8 +24,8 @@ class SubjectService(val subjectRepository: SubjectRepository) {
     fun updateSubject(subjectDTO: SubjectDTO): SubjectDTO {
         if (subjectDTO.id == null)
             throw NotFoundException("Subject's id cannot be null")
-        if (subjectDTO.name.isNullOrBlank())
-            throw InvalidArgumentException("Subject's name cannot be blank")
+        if (subjectDTO.name == null)
+            throw InvalidArgumentException("Subject's name cannot be null")
         val subject = Subject(subjectDTO.name!!)
         subject.subjectId = subjectDTO.id
         return mapToDTO(subjectRepository.save(subject))

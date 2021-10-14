@@ -1,3 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.dto
 
-data class TeacherDTO(var id: Long?, var name: String?)
+import javax.validation.constraints.NotBlank
+
+data class TeacherDTO(var id: Long?, @field:NotBlank var name: String?)

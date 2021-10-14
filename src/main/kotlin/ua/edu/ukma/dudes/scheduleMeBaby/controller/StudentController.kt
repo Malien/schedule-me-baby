@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/student")
@@ -33,13 +34,13 @@ class StudentController(private val studentService: StudentService) {
     }
 
     @PostMapping("/")
-    fun createStudent(@RequestBody student: StudentDTO): StudentDTO {
+    fun createStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
         logger.info("/student/ createStudent")
         return studentService.createStudent(student)
     }
 
     @PutMapping("/")
-    fun updateStudent(@RequestBody student: StudentDTO): StudentDTO {
+    fun updateStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
         logger.info("/student/ updateStudent")
         return studentService.updateStudent(student)
     }

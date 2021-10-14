@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/subject")
@@ -22,10 +23,10 @@ class SubjectController(private val subjectService: SubjectService) {
     }
 
     @PostMapping("/")
-    fun createSubject(@RequestBody subjectDTO: SubjectDTO): SubjectDTO = subjectService.createSubject(subjectDTO)
+    fun createSubject(@Valid @RequestBody subjectDTO: SubjectDTO): SubjectDTO = subjectService.createSubject(subjectDTO)
 
     @PutMapping("/")
-    fun updateSubject(@RequestBody subjectDTO: SubjectDTO): SubjectDTO = subjectService.updateSubject(subjectDTO)
+    fun updateSubject(@Valid @RequestBody subjectDTO: SubjectDTO): SubjectDTO = subjectService.updateSubject(subjectDTO)
 
     @DeleteMapping("/{id}")
     fun deleteSubjectById(@PathVariable id: Long) = subjectService.deleteSubjectById(id)

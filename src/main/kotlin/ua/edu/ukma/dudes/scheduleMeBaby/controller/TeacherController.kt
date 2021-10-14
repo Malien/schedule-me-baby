@@ -9,6 +9,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.util.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/teacher")
@@ -30,13 +31,13 @@ class TeacherController(private val teacherService: TeacherService) {
     }
 
     @PostMapping("/")
-    fun createTeacher(@RequestBody teacher: TeacherDTO): TeacherDTO {
+    fun createTeacher(@Valid @RequestBody teacher: TeacherDTO): TeacherDTO {
         logger.info("/teacher/ createTeacher")
         return teacherService.createTeacher(teacher)
     }
 
     @PutMapping("/")
-    fun updateTeacher(@RequestBody teacher: TeacherDTO): TeacherDTO {
+    fun updateTeacher(@Valid @RequestBody teacher: TeacherDTO): TeacherDTO {
         logger.info("/teacher/ updateTeacher")
         return teacherService.updateTeacher(teacher)
     }
