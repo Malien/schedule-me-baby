@@ -24,9 +24,9 @@ class TeacherController(private val teacherService: TeacherService) {
     }
 
     @GetMapping("/{id}")
-    fun getTeacherByID(@PathVariable id: Long): Optional<Teacher> {
-        logger.info("/teacher/$id getTeacherByID")
-        return teacherService.findTeacherByID(id)
+    fun getTeacherById(@PathVariable id: Long): Optional<Teacher> {
+        logger.info("/teacher/$id getTeacherById")
+        return teacherService.findTeacherById(id)
     }
 
     @PostMapping("/")
@@ -42,8 +42,8 @@ class TeacherController(private val teacherService: TeacherService) {
     }
 
     @DeleteMapping("/{id}")
-    fun deleteTeacherByID(@PathVariable id: Long) {
-        logger.info("/teacher/$id deleteTeacherByID")
-        return teacherService.deleteTeacherByID(id)
+    fun deleteTeacherById(@PathVariable id: Long) {
+        logger.info("/teacher/$id deleteTeacherById")
+        return teacherService.deleteTeacherById(id)
     }
 }

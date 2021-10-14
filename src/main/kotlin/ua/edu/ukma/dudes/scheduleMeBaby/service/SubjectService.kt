@@ -16,16 +16,16 @@ class SubjectService(val subjectRepository: SubjectRepository) {
 
     fun createSubject(subjectDTO: SubjectDTO): SubjectDTO {
         if (subjectDTO.name.isNullOrBlank())
-            throw InvalidArgumentException()
+            throw InvalidArgumentException("Subject's name cannot be blank")
         val newSubject = Subject(subjectDTO.name!!)
         return mapToDTO(subjectRepository.save(newSubject))
     }
 
     fun updateSubject(subjectDTO: SubjectDTO): SubjectDTO {
         if (subjectDTO.id == null)
-            throw NotFoundException()
+            throw NotFoundException("Subject's id cannot be null")
         if (subjectDTO.name.isNullOrBlank())
-            throw InvalidArgumentException()
+            throw InvalidArgumentException("Subject's name cannot be blank")
         val subject = Subject(subjectDTO.name!!)
         subject.subjectId = subjectDTO.id
         return mapToDTO(subjectRepository.save(subject))

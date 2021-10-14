@@ -1,8 +1,8 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 
 @RestController
@@ -10,42 +10,23 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 class SubjectController(private val subjectService: SubjectService) {
 
     @GetMapping("/")
-    fun getAllSubjects(): ResponseEntity<Iterable<SubjectDTO>> = ResponseEntity.ok(subjectService.findAllSubjects())
+    fun getAllSubjects(): Iterable<SubjectDTO> = subjectService.findAllSubjects()
 
     @GetMapping("/{id}")
-    fun getSubjectById(@PathVariable id: Long): ResponseEntity<SubjectDTO> {
+    fun getSubjectById(@PathVariable id: Long): SubjectDTO {
         val optional = subjectService.findSubjectById(id)
         return if (optional.isPresent)
-            ResponseEntity.ok(optional.get())
+            optional.get()
         else
-            ResponseEntity.notFound().build()
+            throw NotFoundException("Subject not found with id: $id")
     }
 
     @PostMapping("/")
-    fun createSubject(@RequestBody subjectDTO: SubjectDTO): ResponseEntity<Any> {
-        return try {
-            ResponseEntity.ok(subjectService.createSubject(subjectDTO))
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().body(e.message)
-        }
-    }
+    fun createSubject(@RequestBody subjectDTO: SubjectDTO): SubjectDTO = subjectService.createSubject(subjectDTO)
 
     @PutMapping("/")
-    fun updateSubject(@RequestBody subjectDTO: SubjectDTO): ResponseEntity<Any> {
-        return try {
-            ResponseEntity.ok(subjectService.updateSubject(subjectDTO))
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().body(e.message)
-        }
-    }
+    fun updateSubject(@RequestBody subjectDTO: SubjectDTO): SubjectDTO = subjectService.updateSubject(subjectDTO)
 
     @DeleteMapping("/{id}")
-    fun deleteSubjectById(@PathVariable id: Long): ResponseEntity<Any> {
-        return try {
-            subjectService.deleteSubjectById(id)
-            ResponseEntity.ok().build()
-        } catch (e: Exception) {
-            ResponseEntity.badRequest().body(e.message)
-        }
-    }
+    fun deleteSubjectById(@PathVariable id: Long) = subjectService.deleteSubjectById(id)
 }

@@ -19,9 +19,9 @@ class GroupService(
 ) {
     fun findAllGroups(): Iterable<Group> = groupRepository.findAll()
 
-    fun findGroupByID(id: Long): Optional<Group> = groupRepository.findById(id)
+    fun findGroupById(id: Long): Optional<Group> = groupRepository.findById(id)
 
-    fun deleteGroupByID(id: Long) = groupRepository.deleteById(id)
+    fun deleteGroupById(id: Long) = groupRepository.deleteById(id)
 
     fun createGroup(createDto: CreateGroupDTO): Group =
         // There are definitely better exception types to be thrown, rather then RuntimeException

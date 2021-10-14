@@ -29,9 +29,9 @@ class TimeslotService(
 ) {
     fun findAllTimeslots(): Iterable<Timeslot> = timeslotRepository.findAll()
 
-    fun findTimeslotByID(id: Long): Optional<Timeslot> = timeslotRepository.findById(id)
+    fun findTimeslotById(id: Long): Optional<Timeslot> = timeslotRepository.findById(id)
 
-    fun deleteTimeslotByID(id: Long) = timeslotRepository.deleteById(id)
+    fun deleteTimeslotById(id: Long) = timeslotRepository.deleteById(id)
 
     fun createTimeslot(createDto: CreateTimeslotDTO): Timeslot =
         timeslotRepository.save(

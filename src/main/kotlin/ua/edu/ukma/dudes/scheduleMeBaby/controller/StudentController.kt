@@ -4,9 +4,9 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.slf4j.Marker
 import org.slf4j.MarkerFactory
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
 
 @RestController
@@ -17,19 +17,19 @@ class StudentController(private val studentService: StudentService) {
     private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")
 
     @GetMapping("/")
-    fun getStudents(): ResponseEntity<Iterable<StudentDTO>> {
+    fun getStudents(): Iterable<StudentDTO> {
         logger.info(CONFIDENTIAL_MARKER, "/student/ getStudents")
-        return ResponseEntity.ok(studentService.findAllStudents())
+        return studentService.findAllStudents()
     }
 
     @GetMapping("/{id}")
-    fun getStudentByID(@PathVariable id: Long): ResponseEntity<StudentDTO> {
-        logger.info("/student/$id getStudentByID")
-        val optional = studentService.findStudentByID(id)
+    fun getStudentById(@PathVariable id: Long): StudentDTO {
+        logger.info("/student/$id getStudentById")
+        val optional = studentService.findStudentById(id)
         return if (optional.isPresent)
-            ResponseEntity.ok(optional.get())
+            optional.get()
         else
-            ResponseEntity.notFound().build()
+            throw NotFoundException("Student not found with id: $id")
     }
 
     @PostMapping("/")
@@ -45,8 +45,8 @@ class StudentController(private val studentService: StudentService) {
     }
 
     @DeleteMapping("/{id}")
-    fun deleteStudentByID(@PathVariable id: Long) {
-        logger.info("/student/$id deleteStudentByID")
-        return studentService.deleteStudentByID(id)
+    fun deleteStudentById(@PathVariable id: Long) {
+        logger.info("/student/$id deleteStudentById")
+        return studentService.deleteStudentById(id)
     }
 }

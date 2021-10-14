@@ -12,22 +12,22 @@ import java.util.*
 class StudentService(private val studentRepository: StudentRepository) {
     fun findAllStudents(): Iterable<StudentDTO> = studentRepository.findAll().map { mapToDTO(it) }
 
-    fun findStudentByID(id: Long): Optional<StudentDTO> = studentRepository.findById(id).map { mapToDTO(it) }
+    fun findStudentById(id: Long): Optional<StudentDTO> = studentRepository.findById(id).map { mapToDTO(it) }
 
-    fun deleteStudentByID(id: Long) = studentRepository.deleteById(id)
+    fun deleteStudentById(id: Long) = studentRepository.deleteById(id)
 
     fun createStudent(studentDTO: StudentDTO): StudentDTO {
         if (studentDTO.name.isNullOrBlank())
-            throw InvalidArgumentException()
+            throw InvalidArgumentException("Student's name cannot be blank")
         val student = Student(studentDTO.name!!)
         return mapToDTO(studentRepository.save(student))
     }
 
     fun updateStudent(studentDTO: StudentDTO): StudentDTO {
         if (studentDTO.id == null)
-            throw NotFoundException()
+            throw NotFoundException("Subject's id cannot be null")
         if (studentDTO.name.isNullOrBlank())
-            throw InvalidArgumentException()
+            throw InvalidArgumentException("Student's name cannot be blank")
         val student = Student(studentDTO.name!!)
         student.studentId = studentDTO.id
         return mapToDTO(studentRepository.save(student))
