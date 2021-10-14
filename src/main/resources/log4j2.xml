@@ -2,6 +2,7 @@
 <Configuration>
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <MarkerFilter marker="CONFIDENTIAL" onMatch="DENY" onMismatch="ACCEPT"/>
             <PatternLayout pattern="%style{%date{DEFAULT}}{yellow} %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green} %message%n"
                            disableAnsi="false"/>
         </Console>

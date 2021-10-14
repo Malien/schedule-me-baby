@@ -1,5 +1,9 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.slf4j.Marker
+import org.slf4j.MarkerFactory
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
@@ -8,20 +12,38 @@ import java.util.*
 
 @RestController
 @RequestMapping("/teacher")
-class TeacherController(val teacherService: TeacherService) {
+class TeacherController(private val teacherService: TeacherService) {
+
+    private val logger: Logger = LoggerFactory.getLogger(TeacherController::class.java)
+    private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")
 
     @GetMapping("/")
-    fun getTeachers(): Iterable<Teacher> = teacherService.findAllTeachers()
+    fun getTeachers(): Iterable<Teacher> {
+        logger.info(CONFIDENTIAL_MARKER, "/teacher/ getTeachers")
+        return teacherService.findAllTeachers()
+    }
 
     @GetMapping("/{id}")
-    fun getTeacherByID(@PathVariable id: Long): Optional<Teacher> = teacherService.findTeacherByID(id)
+    fun getTeacherByID(@PathVariable id: Long): Optional<Teacher> {
+        logger.info("/teacher/$id getTeacherByID")
+        return teacherService.findTeacherByID(id)
+    }
 
     @PostMapping("/")
-    fun createTeacher(@RequestBody teacher: TeacherDTO): TeacherDTO = teacherService.createTeacher(teacher)
+    fun createTeacher(@RequestBody teacher: TeacherDTO): TeacherDTO {
+        logger.info("/teacher/ createTeacher")
+        return teacherService.createTeacher(teacher)
+    }
 
     @PutMapping("/")
-    fun updateTeacher(@RequestBody teacher: TeacherDTO): TeacherDTO = teacherService.updateTeacher(teacher)
+    fun updateTeacher(@RequestBody teacher: TeacherDTO): TeacherDTO {
+        logger.info("/teacher/ updateTeacher")
+        return teacherService.updateTeacher(teacher)
+    }
 
     @DeleteMapping("/{id}")
-    fun deleteTeacherByID(@PathVariable id: Long) = teacherService.deleteTeacherByID(id)
+    fun deleteTeacherByID(@PathVariable id: Long) {
+        logger.info("/teacher/$id deleteTeacherByID")
+        return teacherService.deleteTeacherByID(id)
+    }
 }
