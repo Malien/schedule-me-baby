@@ -1,5 +1,7 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
@@ -9,8 +11,13 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
 @RequestMapping("/student")
 class StudentController(private val studentService: StudentService) {
 
+    val logger: Logger = LoggerFactory.getLogger(StudentController::class.java)
+
     @GetMapping("/")
-    fun getStudents(): ResponseEntity<Iterable<StudentDTO>> = ResponseEntity.ok(studentService.findAllStudents())
+    fun getStudents(): ResponseEntity<Iterable<StudentDTO>> {
+        logger.info("getStudents")
+        return ResponseEntity.ok(studentService.findAllStudents())
+    }
 
     @GetMapping("/{id}")
     fun getStudentByID(@PathVariable id: Long): ResponseEntity<StudentDTO> {
