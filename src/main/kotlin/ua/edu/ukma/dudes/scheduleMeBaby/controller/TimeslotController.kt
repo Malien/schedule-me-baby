@@ -1,5 +1,8 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.slf4j.MDC
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
@@ -12,6 +15,8 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateTimeslotDTO
 @RestController
 @RequestMapping("/timeslot")
 class TimeslotController(private val timeslotService: TimeslotService) {
+    private val logger: Logger = LogManager.getLogger()
+
 
     // TODO: Filtering via query params
     @GetMapping("/")
@@ -31,10 +36,17 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         timeslotService.createTimeslot(timeslot).toDto()
 
     @PatchMapping("/{id}")
-    fun updateTimeslot(@PathVariable id: Long, @RequestBody timeslot: UpdateTimeslotDTO) =
+    fun updateTimeslot(@PathVariable id: Long, @RequestBody timeslot: UpdateTimeslotDTO) {
+        MDC.put("item_id", id.toString())
+        logger.info("UPDATE /timeslot/$id updateTimeslot")
         timeslotService.updateTimeslot(id, timeslot)
+    }
 
     @DeleteMapping("/{id}")
-    fun deleteTimeslotById(@PathVariable id: Long) = timeslotService.deleteTimeslotById(id)
+    fun deleteTimeslotById(@PathVariable id: Long) {
+        MDC.put("item_id", id.toString())
+        logger.info("DELETE /timeslot/$id deleteTimeslotById")
+        timeslotService.deleteTimeslotById(id)
+    }
 
 }

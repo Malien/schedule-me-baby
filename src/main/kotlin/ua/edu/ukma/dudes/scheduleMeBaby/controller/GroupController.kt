@@ -26,35 +26,34 @@ class GroupController(private val groupService: GroupService) {
         return groupService.findAllGroups().map(Group::toDto)
     }
 
-        @GetMapping("/{id}")
-        fun getGroupsById(@PathVariable id: Long): GroupDTO {
-            MDC.put("groupRequest", id.toString())
-            logger.info("/group/$id getGroupById")
-            val optional = groupService.findGroupById(id)
-            return if (optional.isPresent)
-                optional.get().toDto()
-            else
-                throw NotFoundException("Group not found with id: $id")
-        }
+    @GetMapping("/{id}")
+    fun getGroupsById(@PathVariable id: Long): GroupDTO {
+        MDC.put("groupRequest", id.toString())
+        logger.info("/group/$id getGroupById")
+        val optional = groupService.findGroupById(id)
+        return if (optional.isPresent)
+            optional.get().toDto()
+        else
+            throw NotFoundException("Group not found with id: $id")
+    }
 
-        @PutMapping("/")
-        fun createGroup(@RequestBody group: CreateGroupDTO): GroupDTO {
-            logger.info("PUT /group/ createGroup")
-            return groupService.createGroup(group).toDto()
-        }
+    @PutMapping("/")
+    fun createGroup(@RequestBody group: CreateGroupDTO): GroupDTO {
+        logger.info("PUT /group/ createGroup")
+        return groupService.createGroup(group).toDto()
+    }
 
-        @PatchMapping("/{id}")
-        fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) {
-            MDC.put("groupRequest", id.toString())
-            logger.info("PATCH /group/$id updateGroup")
-            return groupService.updateGroup(id, group)
-        }
+    @PatchMapping("/{id}")
+    fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) {
+        MDC.put("groupRequest", id.toString())
+        logger.info("PATCH /group/$id updateGroup")
+        return groupService.updateGroup(id, group)
+    }
 
-        @DeleteMapping("/{id}")
-        fun deleteGroupById(@PathVariable id: Long) {
-            MDC.put("groupRequest", id.toString())
-            logger.info("DELETE /group/$id deleteGroupBuId")
-            groupService.deleteGroupById(id)
-        }
+    @DeleteMapping("/{id}")
+    fun deleteGroupById(@PathVariable id: Long) {
+        MDC.put("groupRequest", id.toString())
+        logger.info("DELETE /group/$id deleteGroupBuId")
+        groupService.deleteGroupById(id)
     }
 }
