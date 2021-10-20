@@ -24,6 +24,7 @@ class TeacherController(private val teacherService: TeacherService) {
 
     @GetMapping("/{id}")
     fun getTeacherById(@PathVariable id: Long): Optional<Teacher> {
+        MDC.put("item_id", id.toString())
         logger.info("/teacher/$id getTeacherById")
         MDC.put("teacherRequest", id.toString())
         return teacherService.findTeacherById(id)

@@ -25,7 +25,7 @@ class StudentController(private val studentService: StudentService) {
 
     @GetMapping("/{id}")
     fun getStudentById(@PathVariable id: Long): StudentDTO {
-        MDC.put("studentRequest", id.toString())
+        MDC.put("item_id", id.toString())
         logger.info("/student/$id getStudentById")
         val optional = studentService.findStudentById(id)
         return if (optional.isPresent)
@@ -36,19 +36,21 @@ class StudentController(private val studentService: StudentService) {
 
     @PostMapping("/")
     fun createStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
+        MDC.put("item_id", student.id.toString())
         logger.info("/student/ createStudent")
         return studentService.createStudent(student)
     }
 
     @PutMapping("/")
     fun updateStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
+        MDC.put("item_id", student.id.toString())
         logger.info("/student/ updateStudent")
         return studentService.updateStudent(student)
     }
 
     @DeleteMapping("/{id}")
     fun deleteStudentById(@PathVariable id: Long) {
-        MDC.put("studentRequest", id.toString())
+        MDC.put("item_id", id.toString())
         logger.info("/student/$id deleteStudentById")
         return studentService.deleteStudentById(id)
     }
