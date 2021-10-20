@@ -1,9 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
-import org.slf4j.LoggerFactory
-import org.slf4j.MDC
-import org.slf4j.Marker
-import org.slf4j.MarkerFactory
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
