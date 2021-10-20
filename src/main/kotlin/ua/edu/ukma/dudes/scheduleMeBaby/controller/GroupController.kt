@@ -28,7 +28,7 @@ class GroupController(private val groupService: GroupService) {
 
     @GetMapping("/{id}")
     fun getGroupsById(@PathVariable id: Long): GroupDTO {
-        MDC.put("groupRequest", id.toString())
+        MDC.put("item_id", id.toString())
         logger.info("/group/$id getGroupById")
         val optional = groupService.findGroupById(id)
         return if (optional.isPresent)
@@ -45,14 +45,14 @@ class GroupController(private val groupService: GroupService) {
 
     @PatchMapping("/{id}")
     fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) {
-        MDC.put("groupRequest", id.toString())
+        MDC.put("item_id", id.toString())
         logger.info("PATCH /group/$id updateGroup")
         return groupService.updateGroup(id, group)
     }
 
     @DeleteMapping("/{id}")
     fun deleteGroupById(@PathVariable id: Long) {
-        MDC.put("groupRequest", id.toString())
+        MDC.put("item_id", id.toString())
         logger.info("DELETE /group/$id deleteGroupBuId")
         groupService.deleteGroupById(id)
     }
