@@ -1,5 +1,8 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
+import org.slf4j.LoggerFactory
+import org.slf4j.MDC
+import org.slf4j.MarkerFactory
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
@@ -9,7 +12,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TimeslotService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateTimeslotDTO
 
-private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")
+private val CONFIDENTIAL_MARKER = MarkerFactory.getMarker("CONFIDENTIAL")
 
 @RestController
 @RequestMapping("/timeslot")

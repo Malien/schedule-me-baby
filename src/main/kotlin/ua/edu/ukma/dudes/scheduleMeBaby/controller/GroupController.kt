@@ -39,8 +39,10 @@ class GroupController(private val groupService: GroupService) {
 
     @PutMapping("/")
     fun createGroup(@RequestBody group: CreateGroupDTO): GroupDTO {
+        val group = groupService.createGroup(group).toDto()
+        MDC.put("groupRequest", group.id.toString())
         logger.info("PUT /group/ createGroup")
-        return groupService.createGroup(group).toDto()
+        return group
     }
 
     @PatchMapping("/{id}")
