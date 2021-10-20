@@ -27,7 +27,9 @@ class ExceptionHandlerController : ResponseEntityExceptionHandler() {
     fun handleInvalidArgument(ex: InvalidArgumentException, request: WebRequest): ResponseEntity<Any> {
         val body: MutableMap<String, Any> = LinkedHashMap()
         body["timestamp"] = LocalDateTime.now()
-        body["message"] = ex.message
+        if (ex.message != null) {
+            body["message"] = ex.message
+        }
         return ResponseEntity(body, HttpStatus.BAD_REQUEST)
     }
 
