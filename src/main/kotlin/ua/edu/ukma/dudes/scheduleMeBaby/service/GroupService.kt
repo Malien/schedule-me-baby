@@ -3,6 +3,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
+import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.SubjectRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.TeacherRepository
@@ -30,18 +31,18 @@ class GroupService(
                 number = createDto.number,
                 type = createDto.type,
                 subject = subjectRepository.findByIdOrNull(createDto.subjectId)
-                    ?: throw RuntimeException("Teacher by id ${createDto.teacherId} is not present "),
+                    ?: throw NotFoundException("Teacher by id ${createDto.teacherId} is not present "),
                 teacher = teacherRepository.findByIdOrNull(createDto.teacherId)
-                    ?: throw RuntimeException("Teacher by id ${createDto.teacherId} is not present")
+                    ?: throw NotFoundException("Teacher by id ${createDto.teacherId} is not present")
             )
         )
 
     fun updateGroup(id: Long, updateDto: UpdateGroupDTO) {
         val (teacherId) = updateDto
         val group = groupRepository.findByIdOrNull(id)
-            ?: throw RuntimeException("Cannot find group with id $id")
+            ?: throw NotFoundException("Cannot find group with id $id")
         group.teacher = teacherRepository.findByIdOrNull(teacherId)
-            ?: throw RuntimeException("Cannot find teacher with id $teacherId")
+            ?: throw NotFoundException("Cannot find teacher with id $teacherId")
         groupRepository.save(group)
     }
 

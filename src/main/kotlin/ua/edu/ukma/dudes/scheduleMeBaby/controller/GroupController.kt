@@ -37,7 +37,7 @@ class GroupController(private val groupService: GroupService) {
             throw NotFoundException("Group not found with id: $id")
     }
 
-    @PutMapping("/")
+    @PostMapping("/")
     fun createGroup(@RequestBody group: CreateGroupDTO): GroupDTO {
         val group = groupService.createGroup(group).toDto()
         MDC.put("groupRequest", group.id.toString())
@@ -45,7 +45,7 @@ class GroupController(private val groupService: GroupService) {
         return group
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) {
         MDC.put("item_id", id.toString())
         logger.info("PATCH /group/$id updateGroup")

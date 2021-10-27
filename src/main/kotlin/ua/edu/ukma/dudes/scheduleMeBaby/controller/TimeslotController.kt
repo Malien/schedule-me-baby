@@ -38,7 +38,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
             throw NotFoundException("Timeslot not found with id: $id")
     }
 
-    @PutMapping("/")
+    @PostMapping("/")
     fun createTimeslot(@RequestBody timeslot: CreateTimeslotDTO): TimeslotDTO {
         val timeslot = timeslotService.createTimeslot(timeslot).toDto()
         MDC.put("timeslotRequest", timeslot.id.toString())
@@ -46,7 +46,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         return timeslot
     }
 
-    @PatchMapping("/{id}")
+    @PuthMapping("/{id}")
     fun updateTimeslot(@PathVariable id: Long, @RequestBody timeslot: UpdateTimeslotDTO) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("PATCH /timeslot/$id updateTimeslot")
