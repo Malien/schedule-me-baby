@@ -46,7 +46,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         return timeslot
     }
 
-    @PuthMapping("/{id}")
+    @PutMapping("/{id}")
     fun updateTimeslot(@PathVariable id: Long, @RequestBody timeslot: UpdateTimeslotDTO) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("PATCH /timeslot/$id updateTimeslot")
