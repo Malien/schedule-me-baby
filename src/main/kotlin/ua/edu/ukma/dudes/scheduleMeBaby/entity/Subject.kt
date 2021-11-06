@@ -12,7 +12,6 @@ class Subject(
     @OneToMany(mappedBy = "subject", orphanRemoval = true)
     val groups: MutableSet<Group> = mutableSetOf()
 ) {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_id", nullable = false)

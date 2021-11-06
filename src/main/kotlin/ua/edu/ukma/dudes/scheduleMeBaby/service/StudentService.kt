@@ -25,7 +25,7 @@ class StudentService(private val studentRepository: StudentRepository) {
 
     fun updateStudent(studentDTO: StudentDTO): StudentDTO {
         if (studentDTO.id == null)
-            throw NotFoundException("Subject's id cannot be null")
+            throw NotFoundException("Student's id cannot be null")
         if (studentDTO.name.isNullOrBlank())
             throw InvalidArgumentException("Student's name cannot be blank")
         val student = Student(studentDTO.name!!)

@@ -1,5 +1,11 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.slf4j.MarkerFactory
@@ -17,12 +23,38 @@ class StudentController(private val studentService: StudentService) {
 
     private val logger = LoggerFactory.getLogger(StudentController::class.java)
 
+    @Operation(summary = "Get all students")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "All students", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = StudentDTO::class)))
+                    ))
+                ]
+            )
+        ]
+    )
     @GetMapping("/")
     fun getStudents(): Iterable<StudentDTO> {
         logger.info(CONFIDENTIAL_MARKER, "/student/ getStudents")
         return studentService.findAllStudents()
     }
 
+    @Operation(summary = "Get student by id")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Found student", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = StudentDTO::class)))
+                    ))]
+            ),
+            ApiResponse(responseCode = "404", description = "Student not found", content = [Content()])
+        ]
+    )
     @GetMapping("/{id}")
     fun getStudentById(@PathVariable id: Long): StudentDTO {
         MDC.put("item_id", id.toString())
@@ -34,6 +66,19 @@ class StudentController(private val studentService: StudentService) {
             throw NotFoundException("Student not found with id: $id")
     }
 
+    @Operation(summary = "Create Student")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Created student", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = StudentDTO::class)))
+                    ))]
+            ),
+            ApiResponse(responseCode = "400", description = "Student's name cannot be blank", content = [Content()])
+        ]
+    )
     @PostMapping("/")
     fun createStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
         MDC.put("item_id", student.id.toString())
@@ -41,6 +86,20 @@ class StudentController(private val studentService: StudentService) {
         return studentService.createStudent(student)
     }
 
+    @Operation(summary = "Update Student")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Updated student", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = StudentDTO::class)))
+                    ))]
+            ),
+            ApiResponse(responseCode = "400", description = "Student's name cannot be blank", content = [Content()]),
+            ApiResponse(responseCode = "404", description = "Student not found", content = [Content()])
+        ]
+    )
     @PutMapping("/")
     fun updateStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
         MDC.put("item_id", student.id.toString())
@@ -48,6 +107,19 @@ class StudentController(private val studentService: StudentService) {
         return studentService.updateStudent(student)
     }
 
+    @Operation(summary = "Delete Student")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200", description = "Deleted student", content = [
+                    (Content(
+                        mediaType = "application/json",
+                        array = (ArraySchema(schema = Schema(implementation = StudentDTO::class)))
+                    ))]
+            ),
+            ApiResponse(responseCode = "404", description = "Student not found", content = [Content()])
+        ]
+    )
     @DeleteMapping("/{id}")
     fun deleteStudentById(@PathVariable id: Long) {
         MDC.put("item_id", id.toString())
