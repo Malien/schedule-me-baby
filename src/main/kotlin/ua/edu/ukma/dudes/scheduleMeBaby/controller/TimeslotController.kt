@@ -11,6 +11,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TimeslotService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateTimeslotDTO
+import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER = MarkerFactory.getMarker("CONFIDENTIAL")
 
@@ -39,7 +40,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
     }
 
     @PostMapping("/")
-    fun createTimeslot(@RequestBody timeslot: CreateTimeslotDTO): TimeslotDTO {
+    fun createTimeslot(@Valid @RequestBody timeslot: CreateTimeslotDTO): TimeslotDTO {
         val timeslot = timeslotService.createTimeslot(timeslot).toDto()
         MDC.put("timeslotRequest", timeslot.id.toString())
         logger.info("PUT /timeslot createTimeslot")
@@ -47,7 +48,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
     }
 
     @PutMapping("/{id}")
-    fun updateTimeslot(@PathVariable id: Long, @RequestBody timeslot: UpdateTimeslotDTO) {
+    fun updateTimeslot(@PathVariable id: Long, @Valid @RequestBody timeslot: UpdateTimeslotDTO) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("PATCH /timeslot/$id updateTimeslot")
         return timeslotService.updateTimeslot(id, timeslot)
