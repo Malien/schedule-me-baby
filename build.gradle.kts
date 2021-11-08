@@ -24,6 +24,8 @@ configurations {
     }
 }
 
+val jsonWebTokenVersion = "0.11.2"
+
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -38,6 +40,9 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springdoc:springdoc-openapi-ui:1.5.2")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.3.9")
+    implementation("io.jsonwebtoken:jjwt-api:${jsonWebTokenVersion}")
+    implementation("io.jsonwebtoken:jjwt-impl:${jsonWebTokenVersion}")
+    implementation("io.jsonwebtoken:jjwt-jackson:${jsonWebTokenVersion}")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
