@@ -2,11 +2,16 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.InvalidArgumentException
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.TeacherRepository
 import java.util.*
+import javax.validation.constraints.NotBlank
+
+data class CreateTeacherDTO(@NotBlank val name: String)
+typealias UpdateTeacherDTO = CreateTeacherDTO
 
 @Service
 class TeacherService(private val teacherRepository: TeacherRepository) {
@@ -16,22 +21,13 @@ class TeacherService(private val teacherRepository: TeacherRepository) {
 
     fun deleteTeacherById(id: Long) = teacherRepository.deleteById(id)
 
-    fun createTeacher(teacherDTO: TeacherDTO): TeacherDTO {
-        if (teacherDTO.name.isNullOrBlank())
-            throw InvalidArgumentException("Teacher's name cannot be blank")
-        val teacher = Teacher(teacherDTO.name!!)
-        return mapToDTO(teacherRepository.save(teacher))
-    }
+    fun createTeacher(request: CreateTeacherDTO): TeacherDTO =
+        teacherRepository.save(Teacher(name = request.name)).toDto()
 
-    fun updateTeacher(studentDTO: TeacherDTO): TeacherDTO {
-        if (studentDTO.id == null)
-            throw NotFoundException("Teacher's id cannot be null")
-        if (studentDTO.name.isNullOrBlank())
-            throw InvalidArgumentException("Teacher's name cannot be blank")
-        val teacher = Teacher(studentDTO.name!!)
-        teacher.teacherId = studentDTO.id
-        return mapToDTO(teacherRepository.save(teacher))
+    fun updateTeacher(id: Long, patch: UpdateTeacherDTO): TeacherDTO {
+        val teacher = teacherRepository.findById(id)
+            .orElseThrow { NotFoundException("Cannot find teacher by id: $id") }
+        teacher.name = patch.name
+        return teacherRepository.save(teacher).toDto()
     }
-
-    fun mapToDTO(teacher: Teacher): TeacherDTO = TeacherDTO(teacher.teacherId, teacher.name)
 }

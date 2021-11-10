@@ -1,6 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -13,9 +12,10 @@ import org.slf4j.MDC
 import org.slf4j.MarkerFactory
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
+import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateStudentDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
+import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateStudentDTO
 import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER = MarkerFactory.getMarker("CONFIDENTIAL")
@@ -58,7 +58,9 @@ class StudentController(private val studentService: StudentService) {
     fun getStudentById(@PathVariable id: Long): StudentDTO {
         MDC.put("item_id", id.toString())
         logger.info("/student/$id getStudentById")
-        return studentService.findStudentById(id).orElseThrow { NotFoundException("Student not found with id: $id") }
+        return studentService
+            .findStudentById(id)
+            .orElseThrow { NotFoundException("Student not found with id: $id") }
     }
 
     @Operation(summary = "Create Student")
@@ -67,7 +69,7 @@ class StudentController(private val studentService: StudentService) {
             ApiResponse(
                 responseCode = "200", description = "Created student", content = [Content(
                     mediaType = "application/json",
-                    array = (ArraySchema(schema = Schema(implementation = StudentDTO::class)))
+                    array = ArraySchema(schema = Schema(implementation = StudentDTO::class))
                 )]
             ),
             ApiResponse(responseCode = "400", description = "Student's name cannot be blank", content = [Content()])
@@ -77,12 +79,11 @@ class StudentController(private val studentService: StudentService) {
         required = true,
         content = [Content(
             mediaType = "application/json",
-            schema = Schema(implementation = StudentDTO::class)
+            schema = Schema(implementation = CreateStudentDTO::class)
         )]
     )
     @PostMapping("/")
-    fun createStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
-        MDC.put("item_id", student.id.toString())
+    fun createStudent(@Valid @RequestBody student: CreateStudentDTO): StudentDTO {
         logger.info("/student/ createStudent")
         return studentService.createStudent(student)
     }
@@ -104,14 +105,14 @@ class StudentController(private val studentService: StudentService) {
         required = true,
         content = [Content(
             mediaType = "application/json",
-            schema = Schema(implementation = StudentDTO::class)
+            schema = Schema(implementation = UpdateStudentDTO::class)
         )]
     )
-    @PutMapping("/")
-    fun updateStudent(@Valid @RequestBody student: StudentDTO): StudentDTO {
-        MDC.put("item_id", student.id.toString())
+    @PatchMapping("/{id}")
+    fun updateStudent(@PathVariable id: Long, @Valid @RequestBody student: UpdateStudentDTO): StudentDTO {
+        MDC.put("item_id", id.toString())
         logger.info("/student/ updateStudent")
-        return studentService.updateStudent(student)
+        return studentService.updateStudent(id, student)
     }
 
     @Operation(summary = "Delete Student")

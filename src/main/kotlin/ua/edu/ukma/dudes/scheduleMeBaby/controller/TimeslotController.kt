@@ -115,7 +115,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
             schema = Schema(implementation = UpdateTimeslotDTO::class)
         )]
     )
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     fun updateTimeslot(@PathVariable id: Long, @Valid @RequestBody timeslot: UpdateTimeslotDTO) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("PATCH /timeslot/$id updateTimeslot")

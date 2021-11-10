@@ -1,7 +1,6 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.extensions.Extension
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -13,11 +12,11 @@ import org.slf4j.MDC
 import org.slf4j.Marker
 import org.slf4j.MarkerFactory
 import org.springframework.web.bind.annotation.*
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.GroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
+import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
+import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateSubjectDTO
 import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")
@@ -79,12 +78,12 @@ class SubjectController(private val subjectService: SubjectService) {
         required = true,
         content = [Content(
             mediaType = "application/json",
-            schema = Schema(implementation = SubjectDTO::class)
+            schema = Schema(implementation = CreateSubjectDTO::class)
         )]
     )
     @PostMapping("/")
-    fun createSubject(@Valid @RequestBody subjectDTO: SubjectDTO): SubjectDTO {
-        val subj = subjectService.createSubject(subjectDTO)
+    fun createSubject(@Valid @RequestBody request: CreateSubjectDTO): SubjectDTO {
+        val subj = subjectService.createSubject(request)
         MDC.put("subjectRequest", subj.id.toString())
         logger.info("POST /subject createSubject")
         return subj
@@ -107,14 +106,14 @@ class SubjectController(private val subjectService: SubjectService) {
         required = true,
         content = [Content(
             mediaType = "application/json",
-            schema = Schema(implementation = SubjectDTO::class)
+            schema = Schema(implementation = UpdateSubjectDTO::class)
         )]
     )
-    @PutMapping("/")
-    fun updateSubject(@Valid @RequestBody subjectDTO: SubjectDTO): SubjectDTO {
-        MDC.put("subjectRequest", subjectDTO.id.toString())
+    @PatchMapping("/{id}")
+    fun updateSubject(@PathVariable id: Long, @Valid @RequestBody request: UpdateSubjectDTO): SubjectDTO {
+        MDC.put("subjectRequest", id.toString())
         logger.info("POST /subject createSubject")
-        return subjectService.updateSubject(subjectDTO)
+        return subjectService.updateSubject(id, request)
     }
 
     @Operation(summary = "Delete existing subject")

@@ -9,14 +9,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.*
 import org.springframework.web.bind.annotation.*
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
-import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateTimeslotDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
-import java.util.*
+import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateTeacherDTO
 import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")
@@ -85,8 +84,8 @@ class TeacherController(private val teacherService: TeacherService) {
         )]
     )
     @PostMapping("/")
-    fun createTeacher(@Valid @RequestBody teacher: TeacherDTO): TeacherDTO {
-        val teacher = teacherService.createTeacher(teacher)
+    fun createTeacher(@Valid @RequestBody request: CreateTeacherDTO): TeacherDTO {
+        val teacher = teacherService.createTeacher(request)
         MDC.put("teacherRequest", teacher.id.toString())
         logger.info("/teacher/ createTeacher")
         return teacher
@@ -109,14 +108,14 @@ class TeacherController(private val teacherService: TeacherService) {
         required = true,
         content = [Content(
             mediaType = "application/json",
-            schema = Schema(implementation = TeacherDTO::class)
+            schema = Schema(implementation = UpdateTeacherDTO::class)
         )]
     )
-    @PutMapping("/")
-    fun updateTeacher(@Valid @RequestBody teacher: TeacherDTO): TeacherDTO {
-        MDC.put("teacherRequest", teacher.id.toString())
+    @PatchMapping("/{id}")
+    fun updateTeacher(@PathVariable id: Long, @Valid @RequestBody patch: UpdateTeacherDTO): TeacherDTO {
+        MDC.put("teacherRequest", id.toString())
         logger.info("/teacher/ updateTeacher")
-        return teacherService.updateTeacher(teacher)
+        return teacherService.updateTeacher(id, patch)
     }
 
     @Operation(summary = "Delete existing teacher")

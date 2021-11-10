@@ -107,7 +107,7 @@ class GroupController(private val groupService: GroupService) {
             schema = Schema(implementation = UpdateGroupDTO::class)
         )]
     )
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) {
         MDC.put("item_id", id.toString())
         logger.info("PATCH /group/$id updateGroup")
