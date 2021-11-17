@@ -9,7 +9,15 @@ class User(
     val login: String,
 
     @Column(name = "password", nullable = false)
-    val password: String
+    val password: String,
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.DETACH])
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = [JoinColumn(name = "user_id")],
+        inverseJoinColumns = [JoinColumn(name = "role_id")]
+    )
+    val roles: MutableSet<Role> = mutableSetOf()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

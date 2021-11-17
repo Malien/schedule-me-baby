@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.security
+package ua.edu.ukma.dudes.scheduleMeBaby.security.config
 
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component

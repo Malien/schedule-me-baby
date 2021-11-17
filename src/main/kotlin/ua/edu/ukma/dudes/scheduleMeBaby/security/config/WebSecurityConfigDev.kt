@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.security
+package ua.edu.ukma.dudes.scheduleMeBaby.security.config
 
 import org.springframework.context.annotation.Profile
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
