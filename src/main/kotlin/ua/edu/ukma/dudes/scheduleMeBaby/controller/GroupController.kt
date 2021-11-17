@@ -10,9 +10,9 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.slf4j.MarkerFactory
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.GroupDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
@@ -39,6 +39,7 @@ class GroupController(private val groupService: GroupService) {
         )]
     )
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'USER')")
     fun getGroups(): Iterable<GroupDTO> {
         logger.info(CONFIDENTIAL_MARKER, "/groups/ getGroups")
         return groupService.findAllGroups().map(Group::toDto)
@@ -57,6 +58,7 @@ class GroupController(private val groupService: GroupService) {
         ]
     )
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun getGroupsById(@PathVariable id: Long): GroupDTO {
         MDC.put("item_id", id.toString())
         logger.info("/group/$id getGroupById")
@@ -75,7 +77,11 @@ class GroupController(private val groupService: GroupService) {
                     schema = Schema(implementation = GroupDTO::class)
                 )]
             ),
-            ApiResponse(responseCode = "404", description = "Teacher/Subject by id cannot be found", content = [Content()]),
+            ApiResponse(
+                responseCode = "404",
+                description = "Teacher/Subject by id cannot be found",
+                content = [Content()]
+            ),
         ]
     )
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -86,6 +92,7 @@ class GroupController(private val groupService: GroupService) {
         )]
     )
     @PostMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
     fun createGroup(@RequestBody group: CreateGroupDTO): GroupDTO {
         val group = groupService.createGroup(group).toDto()
         MDC.put("groupRequest", group.id.toString())
@@ -97,7 +104,11 @@ class GroupController(private val groupService: GroupService) {
     @ApiResponses(
         value = [
             ApiResponse(responseCode = "200", description = "Updated group", content = [Content()]),
-            ApiResponse(responseCode = "404", description = "Subject/Teacher/Group by id cannot be found", content = [Content()]),
+            ApiResponse(
+                responseCode = "404",
+                description = "Subject/Teacher/Group by id cannot be found",
+                content = [Content()]
+            ),
         ]
     )
     @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -108,6 +119,7 @@ class GroupController(private val groupService: GroupService) {
         )]
     )
     @PatchMapping("/{id}")
+    @PreAuthorize("ADMIN")
     fun updateGroup(@PathVariable id: Long, @RequestBody group: UpdateGroupDTO) {
         MDC.put("item_id", id.toString())
         logger.info("PATCH /group/$id updateGroup")
@@ -122,6 +134,7 @@ class GroupController(private val groupService: GroupService) {
         ]
     )
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteGroupById(@PathVariable id: Long) {
         MDC.put("item_id", id.toString())
         logger.info("DELETE /group/$id deleteGroupBuId")

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.*
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
@@ -37,6 +38,7 @@ class TeacherController(private val teacherService: TeacherService) {
         )]
     )
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun getTeachers(): Iterable<TeacherDTO> {
         logger.info(CONFIDENTIAL_MARKER, "/teacher/ getTeachers")
         return teacherService.findAllTeachers().map(Teacher::toDto)
@@ -55,6 +57,7 @@ class TeacherController(private val teacherService: TeacherService) {
         ]
     )
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun getTeacherById(@PathVariable id: Long): TeacherDTO {
         MDC.put("teacherRequest", id.toString())
         logger.info("/teacher/$id getTeacherById")
@@ -84,6 +87,7 @@ class TeacherController(private val teacherService: TeacherService) {
         )]
     )
     @PostMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
     fun createTeacher(@Valid @RequestBody request: CreateTeacherDTO): TeacherDTO {
         val teacher = teacherService.createTeacher(request)
         MDC.put("teacherRequest", teacher.id.toString())
@@ -112,6 +116,7 @@ class TeacherController(private val teacherService: TeacherService) {
         )]
     )
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun updateTeacher(@PathVariable id: Long, @Valid @RequestBody patch: UpdateTeacherDTO): TeacherDTO {
         MDC.put("teacherRequest", id.toString())
         logger.info("/teacher/ updateTeacher")
@@ -126,6 +131,7 @@ class TeacherController(private val teacherService: TeacherService) {
         ]
     )
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteTeacherById(@PathVariable id: Long) {
         MDC.put("teacherRequest", id.toString())
         logger.info("/teacher/$id deleteTeacherById")

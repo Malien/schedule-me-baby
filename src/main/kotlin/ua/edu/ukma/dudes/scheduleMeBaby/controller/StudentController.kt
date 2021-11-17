@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.slf4j.MarkerFactory
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
@@ -37,6 +38,7 @@ class StudentController(private val studentService: StudentService) {
         )]
     )
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun getStudents(): Iterable<StudentDTO> {
         logger.info(CONFIDENTIAL_MARKER, "/student/ getStudents")
         return studentService.findAllStudents()
@@ -55,6 +57,7 @@ class StudentController(private val studentService: StudentService) {
         ]
     )
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun getStudentById(@PathVariable id: Long): StudentDTO {
         MDC.put("item_id", id.toString())
         logger.info("/student/$id getStudentById")
@@ -83,6 +86,7 @@ class StudentController(private val studentService: StudentService) {
         )]
     )
     @PostMapping("/")
+    @PreAuthorize("hasRole('ADMIN')")
     fun createStudent(@Valid @RequestBody student: CreateStudentDTO): StudentDTO {
         logger.info("/student/ createStudent")
         return studentService.createStudent(student)
@@ -109,6 +113,7 @@ class StudentController(private val studentService: StudentService) {
         )]
     )
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun updateStudent(@PathVariable id: Long, @Valid @RequestBody student: UpdateStudentDTO): StudentDTO {
         MDC.put("item_id", id.toString())
         logger.info("/student/ updateStudent")
@@ -123,6 +128,7 @@ class StudentController(private val studentService: StudentService) {
         ]
     )
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteStudentById(@PathVariable id: Long) {
         MDC.put("item_id", id.toString())
         logger.info("/student/$id deleteStudentById")

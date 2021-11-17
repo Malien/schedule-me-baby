@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.LoggerFactory
 import org.slf4j.MDC
 import org.slf4j.MarkerFactory
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
@@ -41,6 +42,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         )]
     )
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')" )
     fun get(): Iterable<TimeslotDTO> {
         logger.info(CONFIDENTIAL_MARKER, "GET /timeslot findAllTimeslots")
         return timeslotService.findAllTimeslots().map(Timeslot::toDto)
@@ -59,6 +61,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         ]
     )
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')" )
     fun getTimeslotById(@PathVariable id: Long): TimeslotDTO {
         MDC.put("timeslotRequest", id.toString())
         logger.info("GET /timeslot/$id findTimeslotById")
@@ -88,6 +91,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         )]
     )
     @PostMapping("/")
+    @PreAuthorize("hasRole('ADMIN')" )
     fun createTimeslot(@Valid @RequestBody timeslot: CreateTimeslotDTO): TimeslotDTO {
         val timeslot = timeslotService.createTimeslot(timeslot).toDto()
         MDC.put("timeslotRequest", timeslot.id.toString())
@@ -116,6 +120,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         )]
     )
     @PatchMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')" )
     fun updateTimeslot(@PathVariable id: Long, @Valid @RequestBody timeslot: UpdateTimeslotDTO) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("PATCH /timeslot/$id updateTimeslot")
@@ -123,6 +128,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')" )
     fun deleteTimeslotById(@PathVariable id: Long) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("DELETE /timeslot/$id deleteTimeslot")
