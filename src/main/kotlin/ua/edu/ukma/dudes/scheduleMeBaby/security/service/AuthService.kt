@@ -1,5 +1,6 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.security.service
 
+import org.springframework.context.annotation.Profile
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Service
@@ -11,6 +12,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.UserCredentials
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.UserDTO
 
 @Service
+@Profile("prod")
 class AuthService(
     private val authenticationManager: AuthenticationManager,
     private val tokenService: TokenService
@@ -26,12 +28,14 @@ class AuthService(
 
         val token: String = tokenService.generateToken(principal)
 
-        return AuthUserDTO(token,
+        return AuthUserDTO(
+            token,
             UserDTO(
                 userEntity.id!!,
                 userEntity.login,
                 userEntity.password,
                 userEntity.roles
-            ))
+            )
+        )
     }
 }

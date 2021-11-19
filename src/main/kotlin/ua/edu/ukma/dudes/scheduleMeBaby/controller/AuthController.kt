@@ -1,5 +1,6 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller
 
+import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,6 +17,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.UserDTO
 import javax.validation.Valid
 
 @RestController
+@Profile("prod")
 @RequestMapping("/auth")
 class AuthController(val authService: AuthService) {
 
