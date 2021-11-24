@@ -12,6 +12,8 @@ import org.slf4j.MDC
 import org.slf4j.Marker
 import org.slf4j.MarkerFactory
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
@@ -22,12 +24,18 @@ import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")
 
-@RestController
+@Controller
 @RequestMapping("/subject")
 @Tag(name = "Subject", description = "Subject related APIs")
 class SubjectController(private val subjectService: SubjectService) {
 
     val logger = LoggerFactory.getLogger(SubjectController::class.java)
+
+    @GetMapping("/page/")
+    fun listStudent(model: Model): String {
+        model.addAttribute("subjects", subjectService.findAllSubjects())
+        return "subjects"
+    }
 
     @Operation(summary = "Retrieve all subjects")
     @ApiResponses(
