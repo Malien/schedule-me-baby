@@ -10,6 +10,7 @@
     .icon-edit:hover {
         color: #0067b1;
     }
+
     .icon-delete:hover {
         color: #ef4135;
     }
@@ -18,19 +19,41 @@
 <div class="container-fluid">
     <div th:replace="common/navbar.html :: navbar"></div>
 
-    <ul class="list-group">
-        <li class="list-group-item d-flex" th:each="subject : ${subjects}">
-            <div class="col-auto me-auto fs-4" th:text="${subject.name}"></div>
-            <a class="btn my-auto px-2" th:href="${subject.id}"><i class="far fa-edit fa-lg icon-edit"></i></a>
-            <button class="btn my-auto px-2" th:attr="onclick=|deleteSubject('${subject.id}')|"><i class="fas fa-trash-alt fa-lg icon-delete"></i></button>
-        </li>
-    </ul>
+    <div class="row">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form onsubmit="onSubjectCreate(event)">
+                    <div class="mb-3">
+                        <label for="subjectName" class="form-label">Subject's name</label>
+                        <input type="text" class="form-control" id="subjectName" aria-describedby="subjectNameHelp">
+                        <div id="subjectNameHelp" class="form-text">Enter subject's name.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary float-end">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-4 row justify-content-center">
+            <div class="col-6">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex" th:each="subject : ${subjects}">
+                        <div class="col-auto me-auto fs-4" th:text="${subject.name}"></div>
+                        <a class="btn my-auto px-2" th:href="${subject.id}"><i class="far fa-edit fa-lg icon-edit"></i></a>
+                        <button class="btn my-auto px-2" th:attr="onclick=|deleteSubject('${subject.id}')|"><i
+                                class="fas fa-trash-alt fa-lg icon-delete"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 <script>
+
     function deleteSubject(id) {
         const request = "http://localhost:8080/subject/" + id;
-
         fetch(request, {
             method: "DELETE",
             headers: {
@@ -46,11 +69,40 @@
             alert(err);
         });
     }
+
+    function onSubjectCreate(e) {
+        const request = "http://localhost:8080/subject/";
+
+        let name = document.getElementById("subjectName").innerText
+
+        e.preventDefault();
+        fetch(request, {
+            method: "POST",
+            headers: {
+                'Authorization': window.localStorage.getItem('token'),
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify({"name": name})
+        }).then((res) => {
+            if (res.ok) {
+                // location.reload();
+            } else {
+                alert("Either subject is invalid or you are unauthorized to delete a subject");
+            }
+        }).catch(err => {
+            alert(err);
+        });
+
+        return false;
+    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
         crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
 <script src="https://kit.fontawesome.com/8efeb7c04c.js" crossorigin="anonymous"></script>
 </body>
 </html>

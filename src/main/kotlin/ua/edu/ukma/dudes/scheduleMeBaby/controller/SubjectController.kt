@@ -88,8 +88,9 @@ class SubjectController(private val subjectService: SubjectService) {
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
     fun createSubject(@Valid @RequestBody request: CreateSubjectDTO): SubjectDTO {
+        logger.info(request.name)
         val subj = subjectService.createSubject(request)
-        MDC.put("subjectRequest", subj.id.toString())
+        MDC.put("item.id", subj.id.toString())
         logger.info("POST /subject createSubject")
         return subj
     }
