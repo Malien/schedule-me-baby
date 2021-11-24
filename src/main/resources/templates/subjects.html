@@ -19,30 +19,37 @@
 <div class="container-fluid">
     <div th:replace="common/navbar.html :: navbar"></div>
 
-    <div class="row">
-        <div class="row justify-content-center">
-            <div class="col-6">
-                <form onsubmit="onSubjectCreate(event)">
-                    <div class="mb-3">
-                        <label for="subjectName" class="form-label">Subject's name</label>
-                        <input type="text" class="form-control" id="subjectName" aria-describedby="subjectNameHelp">
-                        <div id="subjectNameHelp" class="form-text">Enter subject's name.</div>
-                    </div>
-                    <button type="submit" class="btn btn-primary float-end">Submit</button>
-                </form>
-            </div>
-        </div>
+    <div class="row mt-4 d-flex justify-content-center">
+        <div class="col-12 col-md-8 col-xl-6">
 
-        <div class="mt-4 row justify-content-center">
-            <div class="col-6">
-                <ul class="list-group">
-                    <li class="list-group-item d-flex" th:each="subject : ${subjects}">
-                        <div class="col-auto me-auto fs-4" th:text="${subject.name}"></div>
-                        <a class="btn my-auto px-2" th:href="${subject.id}"><i class="far fa-edit fa-lg icon-edit"></i></a>
-                        <button class="btn my-auto px-2" th:attr="onclick=|deleteSubject('${subject.id}')|"><i
-                                class="fas fa-trash-alt fa-lg icon-delete"></i></button>
-                    </li>
-                </ul>
+            <div class="row">
+                <div class="col">
+                    <form onsubmit="onSubjectCreate(event)">
+                        <div class="mb-3">
+                            <label for="subjectName" class="form-label">Subject's name</label>
+                            <input type="text" class="form-control" id="subjectName"
+                                   aria-describedby="subjectNameHelp">
+                            <div id="subjectNameHelp" class="form-text">Enter subject's name.</div>
+                        </div>
+                        <button type="submit" class="mt-n1 btn btn-primary float-end">Submit</button>
+                    </form>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="mt-4 row">
+                <div class="col">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex" th:each="subject : ${subjects}">
+                            <div class="col-auto me-auto fs-4" th:text="${subject.name}"></div>
+                            <a class="btn my-auto px-2" th:href="'subjects/'+${subject.id}"><i
+                                    class="far fa-edit fa-lg icon-edit"></i></a>
+                            <button class="btn my-auto px-2" th:attr="onclick=|deleteSubject('${subject.id}')|"><i
+                                    class="fas fa-trash-alt fa-lg icon-delete"></i></button>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -73,7 +80,7 @@
     function onSubjectCreate(e) {
         const request = "http://localhost:8080/subject/";
 
-        let name = document.getElementById("subjectName").innerText
+        let name = document.getElementById("subjectName").value
 
         e.preventDefault();
         fetch(request, {
@@ -87,7 +94,7 @@
             body: JSON.stringify({"name": name})
         }).then((res) => {
             if (res.ok) {
-                // location.reload();
+                location.reload();
             } else {
                 alert("Either subject is invalid or you are unauthorized to delete a subject");
             }
