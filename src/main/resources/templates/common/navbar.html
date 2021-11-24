@@ -5,13 +5,13 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item" th:classappend="${page == 'schedule'} ? active">
                 <a class="nav-link" href="#">Schedule</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:classappend="${page == 'courses-and-groups'} ? active">
                 <a class="nav-link" href="#">My courses and groups</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:classappend="${page == 'subjects'} ? active">
                 <a class="nav-link" href="/schedule/subjects">Subjects (Admin)</a>
             </li>
         </ul>
