@@ -29,7 +29,22 @@
 
 <script>
     function deleteSubject(id) {
-        
+        const request = "http://localhost:8080/subject/" + id;
+
+        fetch(request, {
+            method: "DELETE",
+            headers: {
+                'Authorization': window.localStorage.getItem('token')
+            },
+        }).then((res) => {
+            if (res.ok) {
+                location.reload();
+            } else {
+                alert("Either subject is invalid or you are unauthorized to delete a subject");
+            }
+        }).catch(err => {
+            alert(err);
+        });
     }
 </script>
 
