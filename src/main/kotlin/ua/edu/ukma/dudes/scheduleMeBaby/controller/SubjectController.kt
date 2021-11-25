@@ -12,6 +12,7 @@ import org.slf4j.MDC
 import org.slf4j.Marker
 import org.slf4j.MarkerFactory
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
@@ -87,8 +88,9 @@ class SubjectController(private val subjectService: SubjectService) {
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
     fun createSubject(@Valid @RequestBody request: CreateSubjectDTO): SubjectDTO {
+        logger.info(request.name)
         val subj = subjectService.createSubject(request)
-        MDC.put("subjectRequest", subj.id.toString())
+        MDC.put("item.id", subj.id.toString())
         logger.info("POST /subject createSubject")
         return subj
     }
