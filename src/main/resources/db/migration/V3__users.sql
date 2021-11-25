@@ -1,6 +1,6 @@
 CREATE TABLE users
 (
-    id       bigint auto_increment,
+    id       bigserial,
     login    varchar(32) not null,
     password VARCHAR(32) not null,
     constraint USERS_PK

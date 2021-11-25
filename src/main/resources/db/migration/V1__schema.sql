@@ -1,6 +1,6 @@
 create table if not exists students
 (
-    student_id bigint auto_increment,
+    student_id bigserial,
     name varchar(128) not null,
     constraint STUDENTS_PK
         primary key (student_id)
@@ -8,7 +8,7 @@ create table if not exists students
 
 create table if not exists subjects
 (
-    subject_id bigint auto_increment,
+    subject_id bigserial,
     name varchar(128) not null,
     constraint SUBJECTS_PK
         primary key (subject_id)
@@ -16,7 +16,7 @@ create table if not exists subjects
 
 create table if not exists teachers
 (
-    teacher_id bigint auto_increment,
+    teacher_id bigserial,
     name varchar(128) not null,
     constraint TEACHERS_PK
         primary key (teacher_id)
@@ -24,7 +24,7 @@ create table if not exists teachers
 
 create table if not exists groups
 (
-    group_id bigint auto_increment,
+    group_id bigserial,
     subject_id bigint not null,
     teacher_id bigint not null,
     number int not null,
@@ -55,12 +55,12 @@ create table if not exists students_groups
 
 create table if not exists timeslots
 (
-    timeslot_id bigint auto_increment,
+    timeslot_id bigserial,
     group_id bigint not null,
     day int not null,
     class int not null,
-    auditorium varchar(256) not null,
-    weeks array not null,
+    auditorium varchar(255) not null,
+    weeks varchar(255) not null,
     constraint TIMESLOTS_PK
         primary key (timeslot_id),
     constraint TIMESLOTS_GROUPS_ID_FK

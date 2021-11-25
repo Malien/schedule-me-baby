@@ -22,14 +22,9 @@ import javax.validation.Valid
 class AuthController(val authService: AuthService) {
 
     @PostMapping("/login")
-    fun login(@Valid @RequestBody credentials: UserCredentials): ResponseEntity<UserDTO> {
-        return try {
-            val authUserDTO: AuthUserDTO = authService.login(credentials)
-            ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, JWT_TOKEN_PREFIX + authUserDTO.jwtToken)
-                .body(authUserDTO.userDTO)
-        } catch (e: BadCredentialsException) {
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
-        }
+    fun login(@Valid @RequestBody credentials: UserCredentials): ResponseEntity<AuthUserDTO> = try {
+        ResponseEntity.ok().body(authService.login(credentials))
+    } catch (e: BadCredentialsException) {
+        ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
     }
 }

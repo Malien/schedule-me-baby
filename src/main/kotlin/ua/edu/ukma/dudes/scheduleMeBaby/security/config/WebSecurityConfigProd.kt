@@ -27,8 +27,10 @@ class WebSecurityConfig(
         http
             .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/login").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
+//                .antMatchers("/auth/login").permitAll()
+//                .antMatchers("/login").permitAll()
+//                .anyRequest().authenticated()
             .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()

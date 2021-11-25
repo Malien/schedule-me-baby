@@ -10,6 +10,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.security.user.UserPrincipal
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.AuthUserDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.UserCredentials
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.UserDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.toDto
 
 @Service
 @Profile("prod")
@@ -24,18 +25,7 @@ class AuthService(
             UsernamePasswordAuthenticationToken(userCredentials.login, userCredentials.password)
         )
         val principal: UserPrincipal = authenticate.principal as UserPrincipal
-        val userEntity: User = principal.userEntity
-
         val token: String = tokenService.generateToken(principal)
-
-        return AuthUserDTO(
-            token,
-            UserDTO(
-                userEntity.id!!,
-                userEntity.login,
-                userEntity.password,
-                userEntity.roles
-            )
-        )
+        return AuthUserDTO( token, principal.userEntity.toDto() )
     }
 }
