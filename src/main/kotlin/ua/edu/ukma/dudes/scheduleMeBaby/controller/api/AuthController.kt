@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.controller
+package ua.edu.ukma.dudes.scheduleMeBaby.controller.api
 
 import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpHeaders

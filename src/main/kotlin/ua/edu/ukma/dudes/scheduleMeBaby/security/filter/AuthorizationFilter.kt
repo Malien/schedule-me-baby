@@ -1,5 +1,6 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.security.filter
 
+import io.jsonwebtoken.security.SignatureException
 import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -38,6 +39,8 @@ class AuthorizationFilter(
             )
             SecurityContextHolder.getContext().authentication = auth
         } catch (e: UsernameNotFoundException) {
+            SecurityContextHolder.clearContext()
+        } catch (e: SignatureException) {
             SecurityContextHolder.clearContext()
         }
 

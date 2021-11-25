@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.controller
+package ua.edu.ukma.dudes.scheduleMeBaby.controller.api
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.stereotype.Controller

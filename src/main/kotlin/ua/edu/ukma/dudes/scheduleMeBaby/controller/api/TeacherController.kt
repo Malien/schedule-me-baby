@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.controller
+package ua.edu.ukma.dudes.scheduleMeBaby.controller.api
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema

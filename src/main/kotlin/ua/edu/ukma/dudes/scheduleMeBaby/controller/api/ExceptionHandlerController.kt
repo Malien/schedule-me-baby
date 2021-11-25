@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.controller
+package ua.edu.ukma.dudes.scheduleMeBaby.controller.api
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
