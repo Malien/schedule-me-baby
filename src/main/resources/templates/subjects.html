@@ -43,9 +43,9 @@
                     <ul class="list-group">
                         <li class="list-group-item d-flex" th:each="subject : ${subjects}">
                             <div class="col-auto me-auto fs-4" th:text="${subject.name}"></div>
-                            <a class="btn my-auto px-2" th:href="'subjects/'+${subject.id}" th:if="${isAdmin}"><i
+                            <a class="btn my-auto px-2" th:href="'/subjects/'+${subject.id}" th:if="${isAdmin}"><i
                                     class="far fa-edit fa-lg icon-edit"></i></a>
-                            <form method="POST" th:action="'/subjects' + ${subject.id} + '/delete'">
+                            <form method="POST" th:action="'/subjects/' + ${subject.id} + '/delete'">
                                 <button type="submit" class="btn my-auto px-2"
                                         th:attr="onclick=|deleteSubject('${subject.id}')|"
                                         th:if="${isAdmin}"><i

@@ -13,7 +13,7 @@
     <div class="row">
         <div class="row justify-content-center">
             <div class="col-6">
-                <form method="POST" action="'/subjects/' + ${subject.id}">
+                <form method="POST" th:action="'/subjects/' + ${subject.id}">
                     <div class="mb-3">
                         <label for="subjectName" class="form-label">Subject's name</label>
                         <input th:value="${subject.name}" type="text" class="form-control" id="subjectName"
