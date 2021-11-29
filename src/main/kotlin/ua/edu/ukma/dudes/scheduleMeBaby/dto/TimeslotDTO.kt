@@ -8,17 +8,18 @@ import javax.validation.constraints.NotNull
 
 data class TimeslotDTO(
     val id: Long,
-    @Min(1)
-    @Max(7)
+    @field:Min(1)
+    @field:Max(7)
     val day: Int,
-    @Min(1)
-    @Max(8)
+    @field:Min(1)
+    @field:Max(8)
     val clazz: Int,
-    @NotBlank
+    @field:NotBlank
     val auditorium: String,
-    @NotNull
+    @field:NotNull
 //    TODO? @Pattern
     val weeks: String,
+    val groupId: Long?,
 )
 
-fun Timeslot.toDto() = TimeslotDTO(timeslotId!!, day, clazz, auditorium, weeks)
+fun Timeslot.toDto() = TimeslotDTO(timeslotId!!, day, clazz, auditorium, weeks, group.groupId)

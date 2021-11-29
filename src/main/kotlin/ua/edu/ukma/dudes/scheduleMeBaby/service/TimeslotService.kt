@@ -2,6 +2,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.TimeslotRepository
@@ -33,14 +34,14 @@ class TimeslotService(
 
     fun deleteTimeslotById(id: Long) = timeslotRepository.deleteById(id)
 
-    fun createTimeslot(createDto: CreateTimeslotDTO): Timeslot =
+    fun createTimeslot(createDto: TimeslotDTO): Timeslot =
         timeslotRepository.save(
             Timeslot(
                 day = createDto.day,
                 clazz = createDto.clazz,
                 auditorium = createDto.auditorium,
                 weeks = createDto.weeks,
-                group = groupRepository.findByIdOrNull(createDto.groupId)
+                group = groupRepository.findByIdOrNull(createDto.groupId ?: -1)
                     ?: throw RuntimeException("Cannot find group with id ${createDto.groupId}")
             )
         )
