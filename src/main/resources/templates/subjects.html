@@ -24,7 +24,7 @@
 
             <div class="row">
                 <div class="col">
-                    <form method="POST" action="/subjects/">
+                    <form method="POST" th:if="${isAdmin}" action="/subjects/">
                         <div class="mb-3">
                             <label for="subjectName" class="form-label">Subject's name</label>
                             <input type="text" class="form-control" id="subjectName" name="name"
@@ -33,6 +33,7 @@
                         </div>
                         <button type="submit" class="mt-n1 btn btn-primary float-end">Submit</button>
                     </form>
+                    <div th:text="${error}" th:if="${error}"></div>
                 </div>
             </div>
 

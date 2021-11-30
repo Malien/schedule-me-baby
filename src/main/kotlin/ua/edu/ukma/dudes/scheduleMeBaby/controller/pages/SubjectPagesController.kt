@@ -32,6 +32,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
         val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
         if (!isAdmin) {
             model["error"] = "You do not have permissions to access subject edit page"
+            model.addAttribute("subjects", subjectService.findAllSubjects())
             return "subjects"
         }
         val subject = subjectService.findSubjectById(id);
@@ -65,6 +66,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
         val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
         return if (!isAdmin) {
             model["error"] = "You do not have enough permissions to edit a subject"
+            model.addAttribute("subjects", subjectService.findAllSubjects())
             "subjects"
         } else try {
             block()
@@ -72,6 +74,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
         } catch (e: Exception) {
             logger.error(e.message)
             model["error"] = e.message ?: "Unexpected error occurred"
+            model.addAttribute("subjects", subjectService.findAllSubjects())
             "subjects"
         }
     }
