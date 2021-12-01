@@ -2,6 +2,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import ua.edu.ukma.dudes.scheduleMeBaby.aop.annotation.LogExecutionTime
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
@@ -18,8 +19,10 @@ class GroupService(
     private val subjectRepository: SubjectRepository,
     private val teacherRepository: TeacherRepository
 ) {
+    @LogExecutionTime
     fun findAllGroups(): Iterable<Group> = groupRepository.findAll()
 
+    @LogExecutionTime
     fun findGroupById(id: Long): Optional<Group> = groupRepository.findById(id)
 
     fun deleteGroupById(id: Long) = groupRepository.deleteById(id)

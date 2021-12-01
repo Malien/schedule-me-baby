@@ -14,6 +14,8 @@ import org.slf4j.MarkerFactory
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
+import ua.edu.ukma.dudes.scheduleMeBaby.aop.annotation.LogExecutionTime
+import ua.edu.ukma.dudes.scheduleMeBaby.aop.annotation.LogMethodParams
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateSubjectDTO
@@ -60,6 +62,8 @@ class SubjectController(private val subjectService: SubjectService) {
     )
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @LogExecutionTime
+    @LogMethodParams
     fun getSubjectById(@PathVariable id: Long): SubjectDTO {
         MDC.put("subjectRequest", id.toString())
         logger.info("GET /subject/$id findSubjectById")
@@ -87,6 +91,8 @@ class SubjectController(private val subjectService: SubjectService) {
     )
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
+    @LogExecutionTime
+    @LogMethodParams
     fun createSubject(@Valid @RequestBody request: CreateSubjectDTO): SubjectDTO {
         logger.info(request.name)
         val subj = subjectService.createSubject(request)
@@ -117,6 +123,8 @@ class SubjectController(private val subjectService: SubjectService) {
     )
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @LogExecutionTime
+    @LogMethodParams
     fun updateSubject(@PathVariable id: Long, @Valid @RequestBody request: UpdateSubjectDTO): SubjectDTO {
         MDC.put("subjectRequest", id.toString())
         logger.info("POST /subject createSubject")
@@ -132,6 +140,8 @@ class SubjectController(private val subjectService: SubjectService) {
     )
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @LogExecutionTime
+    @LogMethodParams
     fun deleteSubjectById(@PathVariable id: Long) {
         MDC.put("subjectRequest", id.toString())
         logger.info("DELETE /subject/$id deleteSubjectById")
