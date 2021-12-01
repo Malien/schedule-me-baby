@@ -39,7 +39,7 @@ class StudentControllerTest(
             StudentDTO(4, "Petya"),
             StudentDTO(5, "Vasya"),
         )
-        Mockito.`when`(studentService.findAllStudents()).thenReturn(students)
+        `when`(studentService.findAllStudents()).thenReturn(students)
         mockMvc.perform(
             MockMvcRequestBuilders.get("/student/")
         )
@@ -104,14 +104,4 @@ class StudentControllerTest(
             )
         }
     }
-}
-
-object MockitoHelper {
-    fun <T> anyObject(): T {
-        Mockito.any<T>()
-        return uninitialized()
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> uninitialized(): T = null as T
 }
