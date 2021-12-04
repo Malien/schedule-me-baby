@@ -1,23 +1,20 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
-import ua.edu.ukma.dudes.scheduleMeBaby.exception.InvalidArgumentException
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.TeacherRepository
 import java.util.*
-import javax.validation.constraints.NotBlank
-
-data class CreateTeacherDTO(@NotBlank val name: String)
-typealias UpdateTeacherDTO = CreateTeacherDTO
 
 @Service
 class TeacherService(private val teacherRepository: TeacherRepository) {
-    fun findAllTeachers(): Iterable<Teacher> = teacherRepository.findAll()
+    fun findAllTeachers(): Iterable<TeacherDTO> = teacherRepository.findAll().map(Teacher::toDto)
 
-    fun findTeacherById(id: Long): Optional<Teacher> = teacherRepository.findById(id)
+    fun findTeacherById(id: Long): Optional<TeacherDTO> = teacherRepository.findById(id).map(Teacher::toDto)
 
     fun deleteTeacherById(id: Long) = teacherRepository.deleteById(id)
 

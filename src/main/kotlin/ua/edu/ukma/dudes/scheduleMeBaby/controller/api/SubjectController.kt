@@ -13,11 +13,11 @@ import org.slf4j.Marker
 import org.slf4j.MarkerFactory
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
-import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
-import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateSubjectDTO
 import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")

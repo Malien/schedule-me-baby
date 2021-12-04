@@ -3,25 +3,11 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.TimeslotRepository
 import java.util.*
-
-data class CreateTimeslotDTO(
-    val day: Int,
-    val clazz: Int,
-    val auditorium: String,
-    val weeks: String,
-    val groupId: Long
-)
-
-data class UpdateTimeslotDTO(
-    val day: Int? = null,
-    val clazz: Int? = null,
-    val auditorium: String? = null,
-    val weeks: String? = null
-)
 
 @Service
 class TimeslotService(

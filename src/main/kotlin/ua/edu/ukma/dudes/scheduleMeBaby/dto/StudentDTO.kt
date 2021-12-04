@@ -6,3 +6,7 @@ import javax.validation.constraints.NotBlank
 data class StudentDTO(var id: Long, @field:NotBlank var name: String)
 
 fun Student.toDto() = StudentDTO(studentId!!, name)
+
+data class CreateStudentDTO(@field:NotBlank val name: String)
+
+typealias UpdateStudentDTO = CreateStudentDTO

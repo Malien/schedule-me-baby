@@ -6,3 +6,7 @@ import javax.validation.constraints.NotBlank
 data class SubjectDTO(var id: Long, @field:NotBlank var name: String)
 
 fun Subject.toDto() = SubjectDTO(subjectId!!, name)
+
+data class CreateSubjectDTO(@NotBlank val name: String)
+
+typealias UpdateSubjectDTO = CreateSubjectDTO

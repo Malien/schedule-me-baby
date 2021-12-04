@@ -1,16 +1,14 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.SubjectDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Subject
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.SubjectRepository
 import java.util.*
-import javax.validation.constraints.NotBlank
-
-data class CreateSubjectDTO(@NotBlank val name: String)
-typealias UpdateSubjectDTO = CreateSubjectDTO
 
 @Service
 class SubjectService(val subjectRepository: SubjectRepository) {

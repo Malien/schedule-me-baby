@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit teacher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="common/navbar.html :: navbar"></div>
+
+    <div class="row mt-4">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <form method="POST" th:action="'/teachers/' + ${teacher.id}">
+                    <div class="mb-3">
+                        <label for="teacherName" class="form-label">Teacher's name</label>
+                        <input th:value="${teacher.name}" type="text" class="form-control" id="teacherName"
+                               name="name" aria-describedby="teacherNameHelp">
+                        <div id="teacherNameHelp" class="form-text">Enter teacher's name.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary float-end">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
+<script src="https://kit.fontawesome.com/8efeb7c04c.js" crossorigin="anonymous"></script>
+</body>
+</html>

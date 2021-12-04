@@ -10,13 +10,13 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.*
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
-import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
-import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateTeacherDTO
 import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER: Marker = MarkerFactory.getMarker("CONFIDENTIAL")
@@ -41,7 +41,7 @@ class TeacherController(private val teacherService: TeacherService) {
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun getTeachers(): Iterable<TeacherDTO> {
         logger.info(CONFIDENTIAL_MARKER, "/teacher/ getTeachers")
-        return teacherService.findAllTeachers().map(Teacher::toDto)
+        return teacherService.findAllTeachers()
     }
 
     @Operation(summary = "Retrieve teacher by it's id")
@@ -64,7 +64,6 @@ class TeacherController(private val teacherService: TeacherService) {
         return teacherService
             .findTeacherById(id)
             .orElseThrow { NotFoundException("Cannot find teacher by id: $id") }
-            .toDto()
     }
 
     @Operation(summary = "Create new teacher")

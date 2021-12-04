@@ -23,3 +23,18 @@ data class TimeslotDTO(
 )
 
 fun Timeslot.toDto() = TimeslotDTO(timeslotId!!, day, clazz, auditorium, weeks, group.groupId)
+
+data class CreateTimeslotDTO(
+    val day: Int,
+    val clazz: Int,
+    val auditorium: String,
+    val weeks: String,
+    val groupId: Long
+)
+
+data class UpdateTimeslotDTO(
+    val day: Int? = null,
+    val clazz: Int? = null,
+    val auditorium: String? = null,
+    val weeks: String? = null
+)

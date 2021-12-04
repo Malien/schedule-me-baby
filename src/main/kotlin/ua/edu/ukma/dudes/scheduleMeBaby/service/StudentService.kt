@@ -1,17 +1,15 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.stereotype.Service
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateStudentDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.StudentDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateStudentDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Student
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.InvalidArgumentException
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.StudentRepository
 import java.util.*
-import javax.validation.constraints.NotBlank
-
-data class CreateStudentDTO(@field:NotBlank val name: String)
-typealias UpdateStudentDTO = CreateStudentDTO
 
 @Service
 class StudentService(private val studentRepository: StudentRepository) {

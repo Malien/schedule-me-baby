@@ -12,14 +12,13 @@ import org.slf4j.MDC
 import org.slf4j.MarkerFactory
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.TeacherDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
-import ua.edu.ukma.dudes.scheduleMeBaby.service.CreateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TimeslotService
-import ua.edu.ukma.dudes.scheduleMeBaby.service.UpdateTimeslotDTO
 import javax.validation.Valid
 
 private val CONFIDENTIAL_MARKER = MarkerFactory.getMarker("CONFIDENTIAL")
@@ -42,7 +41,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         )]
     )
     @GetMapping("/")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')" )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun get(): Iterable<TimeslotDTO> {
         logger.info(CONFIDENTIAL_MARKER, "GET /timeslot findAllTimeslots")
         return timeslotService.findAllTimeslots().map(Timeslot::toDto)
@@ -61,7 +60,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         ]
     )
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')" )
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     fun getTimeslotById(@PathVariable id: Long): TimeslotDTO {
         MDC.put("timeslotRequest", id.toString())
         logger.info("GET /timeslot/$id findTimeslotById")
@@ -91,7 +90,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         )]
     )
     @PostMapping("/")
-    @PreAuthorize("hasRole('ADMIN')" )
+    @PreAuthorize("hasRole('ADMIN')")
     fun createTimeslot(@Valid @RequestBody timeslot: TimeslotDTO): TimeslotDTO {
         val timeslot = timeslotService.createTimeslot(timeslot).toDto()
         MDC.put("timeslotRequest", timeslot.id.toString())
@@ -120,7 +119,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
         )]
     )
     @PatchMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')" )
+    @PreAuthorize("hasRole('ADMIN')")
     fun updateTimeslot(@PathVariable id: Long, @Valid @RequestBody timeslot: UpdateTimeslotDTO) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("PATCH /timeslot/$id updateTimeslot")
@@ -128,7 +127,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')" )
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteTimeslotById(@PathVariable id: Long) {
         MDC.put("timeslotRequest", id.toString())
         logger.info("DELETE /timeslot/$id deleteTimeslot")

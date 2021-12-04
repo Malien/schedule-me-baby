@@ -2,15 +2,14 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateGroupDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateGroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.SubjectRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.TeacherRepository
 import java.util.*
-
-data class CreateGroupDTO(val number: Int, val type: Int, val subjectId: Long, val teacherId: Long)
-data class UpdateGroupDTO(val teacherId: Long)
 
 @Service
 class GroupService(

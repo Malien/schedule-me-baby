@@ -10,77 +10,75 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateSubjectDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateSubjectDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTeacherDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.security.Principal
 
 @Controller
-@RequestMapping("/subjects")
-class SubjectPagesController(private val subjectService: SubjectService) {
+@RequestMapping("/teachers")
+class TeacherPagesController(private val teacherService: TeacherService) {
 
-    val logger = LoggerFactory.getLogger(SubjectPagesController::class.java)
+    val logger = LoggerFactory.getLogger(TeacherPagesController::class.java)
 
     @GetMapping("")
-    fun listSubjects(model: Model, principal: Principal?): String {
+    fun listTeachers(model: Model, principal: Principal?): String {
         val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
-        logger.info("List subjects: isAdmin=$isAdmin")
+        logger.info("List teachers: isAdmin=$isAdmin")
         model.addAttribute("isAdmin", isAdmin)
-        model.addAttribute("subjects", subjectService.findAllSubjects())
-        return "subjects"
+        model.addAttribute("teachers", teacherService.findAllTeachers())
+        return "teachers"
     }
 
     @GetMapping("/{id}")
-    fun editSubjectPage(@PathVariable id: Long, model: Model, principal: Principal?): String {
+    fun editTeacherPage(@PathVariable id: Long, model: Model, principal: Principal?): String {
         val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
         if (!isAdmin) {
-            model["error"] = "You do not have permissions to access subject edit page"
-            model.addAttribute("subjects", subjectService.findAllSubjects())
-            return "subjects"
+            model["error"] = "You do not have permissions to access teacher edit page"
+            model.addAttribute("teachers", teacherService.findAllTeachers())
+            return "teachers"
         }
-        val subject = subjectService.findSubjectById(id);
-        model.addAttribute("subject", subject.get())
-        return "subjects-edit"
+        val teacher = teacherService.findTeacherById(id);
+        model.addAttribute("teacher", teacher.get())
+        return "teachers-edit"
     }
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
-    fun newSubject(createSubjectDTO: CreateSubjectDTO, model: Model, principal: Principal?) =
+    fun newTeacher(createTeacherDTO: CreateTeacherDTO, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
-            subjectService.createSubject(createSubjectDTO)
+            teacherService.createTeacher(createTeacherDTO)
         }
 
     @PostMapping(path = ["/{id}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
-    fun editSubject(
+    fun editTeacher(
         @PathVariable id: Long,
-        patch: UpdateSubjectDTO,
+        patch: UpdateTeacherDTO,
         model: Model,
         principal: Principal?
     ) = protectedAction(model, principal) {
-        subjectService.updateSubject(id, patch)
+        teacherService.updateTeacher(id, patch)
     }
 
     @PostMapping(path = ["/{id}/delete"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
-    fun deleteSubject(@PathVariable id: Long, model: Model, principal: Principal?) =
+    fun deleteTeacher(@PathVariable id: Long, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
-            subjectService.deleteSubjectById(id)
+            teacherService.deleteTeacherById(id)
         }
 
     fun protectedAction(model: Model, principal: Principal?, block: () -> Unit): String {
         val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
         return if (!isAdmin) {
-            model["error"] = "You do not have enough permissions to edit a subject"
-            model.addAttribute("subjects", subjectService.findAllSubjects())
-            "subjects"
+            model["error"] = "You do not have enough permissions to edit a teacher"
+            model.addAttribute("teachers", teacherService.findAllTeachers())
+            "teachers"
         } else try {
             block()
-            "redirect:/subjects"
+            "redirect:/teachers"
         } catch (e: Exception) {
             logger.error(e.message)
             model["error"] = e.message ?: "Unexpected error occurred"
-            model.addAttribute("subjects", subjectService.findAllSubjects())
-            "subjects"
+            model.addAttribute("teachers", teacherService.findAllTeachers())
+            "teachers"
         }
     }
 }
-
-val UsernamePasswordAuthenticationToken.isAdmin get() = authorities.find { it.authority == "ROLE_ADMIN" } != null
