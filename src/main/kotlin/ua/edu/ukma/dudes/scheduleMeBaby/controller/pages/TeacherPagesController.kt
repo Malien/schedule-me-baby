@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import ua.edu.ukma.dudes.scheduleMeBaby.controller.isAdmin
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
@@ -21,9 +22,9 @@ class TeacherPagesController(private val teacherService: TeacherService) {
 
     val logger = LoggerFactory.getLogger(TeacherPagesController::class.java)
 
-    @GetMapping("")
+    @GetMapping("/")
     fun listTeachers(model: Model, principal: Principal?): String {
-        val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
+        val isAdmin = principal?.isAdmin ?: false
         logger.info("List teachers: isAdmin=$isAdmin")
         model.addAttribute("isAdmin", isAdmin)
         model.addAttribute("teachers", teacherService.findAllTeachers())
@@ -32,7 +33,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
 
     @GetMapping("/{id}")
     fun editTeacherPage(@PathVariable id: Long, model: Model, principal: Principal?): String {
-        val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
+        val isAdmin = principal?.isAdmin ?: false
         if (!isAdmin) {
             model["error"] = "You do not have permissions to access teacher edit page"
             model.addAttribute("teachers", teacherService.findAllTeachers())
@@ -66,7 +67,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
         }
 
     fun protectedAction(model: Model, principal: Principal?, block: () -> Unit): String {
-        val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
+        val isAdmin = principal?.isAdmin ?: false
         return if (!isAdmin) {
             model["error"] = "You do not have enough permissions to edit a teacher"
             model.addAttribute("teachers", teacherService.findAllTeachers())

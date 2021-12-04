@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import ua.edu.ukma.dudes.scheduleMeBaby.controller.isAdmin
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
@@ -23,7 +24,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
 
     @GetMapping("")
     fun listSubjects(model: Model, principal: Principal?): String {
-        val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
+        val isAdmin = principal?.isAdmin ?: false
         logger.info("List subjects: isAdmin=$isAdmin")
         model.addAttribute("isAdmin", isAdmin)
         model.addAttribute("subjects", subjectService.findAllSubjects())
@@ -32,7 +33,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
 
     @GetMapping("/{id}")
     fun editSubjectPage(@PathVariable id: Long, model: Model, principal: Principal?): String {
-        val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
+        val isAdmin = principal?.isAdmin ?: false
         if (!isAdmin) {
             model["error"] = "You do not have permissions to access subject edit page"
             model.addAttribute("subjects", subjectService.findAllSubjects())
@@ -66,7 +67,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
         }
 
     fun protectedAction(model: Model, principal: Principal?, block: () -> Unit): String {
-        val isAdmin = principal != null && principal is UsernamePasswordAuthenticationToken && principal.isAdmin
+        val isAdmin = principal?.isAdmin ?: false
         return if (!isAdmin) {
             model["error"] = "You do not have enough permissions to edit a subject"
             model.addAttribute("subjects", subjectService.findAllSubjects())
@@ -82,5 +83,3 @@ class SubjectPagesController(private val subjectService: SubjectService) {
         }
     }
 }
-
-val UsernamePasswordAuthenticationToken.isAdmin get() = authorities.find { it.authority == "ROLE_ADMIN" } != null

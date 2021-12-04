@@ -3,8 +3,11 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateGroupDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.GroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateGroupDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
+import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.SubjectRepository
@@ -30,9 +33,9 @@ class GroupService(
                 number = createDto.number,
                 type = createDto.type,
                 subject = subjectRepository.findByIdOrNull(createDto.subjectId)
-                    ?: throw NotFoundException("Teacher by id ${createDto.teacherId} is not present "),
+                    ?: throw NotFoundException("Subject with id ${createDto.subjectId} is not present "),
                 teacher = teacherRepository.findByIdOrNull(createDto.teacherId)
-                    ?: throw NotFoundException("Teacher by id ${createDto.teacherId} is not present")
+                    ?: throw NotFoundException("Teacher with id ${createDto.teacherId} is not present")
             )
         )
 

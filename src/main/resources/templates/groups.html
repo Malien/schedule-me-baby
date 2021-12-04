@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Groups</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="common/navbar.html :: navbar"></div>
+    <div class="row mt-4 d-flex justify-content-center">
+        <div class="col-12 col-md-8 col-xl-6">
+            <h1 class="row" th:text="${subject.name}"></h1>
+
+            <div class="row">
+                <div class="col">
+                    <form method="POST" th:if="${isAdmin}" action="/groups/">
+                        <div class="mb-3">
+                            <input hidden type="number" class="form-control" id="subjectId" name="subjectId" th:value="${subject.id}">
+                            <label for="groupTeacher" class="form-label">Teacher's name</label>
+                            <select class="form-control" id="groupTeacher" name="teacherName"
+                                    aria-describedby="groupTeacherHelp">
+                                <option th:each="teacher : ${teachers}" th:text="${teacher.name}">
+                                </option>
+                            </select>
+                            <div id="groupTeacherHelp" class="form-text">Enter group's teacher.</div>
+                            <label for="groupNumber" class="form-label">Group's number</label>
+                            <select class="form-control" id="groupNumber" name="number"
+                                    aria-describedby="groupNumberHelp">
+                                <option>1</option><option>2</option><option>3</option><option>4</option>
+                                <option>5</option><option>6</option><option>7</option><option>8</option>
+                                <option>9</option><option>10</option><option>11</option><option>12</option>
+                            </select>
+                            <div id="groupNumberHelp" class="form-text">Enter group's number.</div>
+                            <label for="groupType" class="form-label">Group's type</label>
+                            <select class="form-control" id="groupType" name="type"
+                                    aria-describedby="groupTypeHelp">
+                                <option>Lecture</option>
+                                <option>Practice</option>
+                            </select>
+                            <div id="groupTypeHelp" class="form-text">Enter group's type.</div>
+                        </div>
+                        <button type="submit" class="mt-n1 btn btn-primary float-end">Submit</button>
+                    </form>
+                    <div th:text="${error}" th:if="${error}"></div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="mt-4 row">
+                <div class="col">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex" th:each="group : ${groups}">
+                            <div class="col-auto me-auto fs-4">
+                                <div th:text="${group.type} + ' ' + ${group.number}"></div>
+                                <div th:text="${group.teacherName}"></div>
+                            </div>
+                            <form method="POST" th:action="'/groups/' + ${subject.id} + '/delete/' + ${group.id}">
+                                <button type="submit" class="btn my-auto px-2"
+                                        th:attr="onclick=|deleteGroup('${group.id}')|"
+                                        th:if="${isAdmin}"><i
+                                        class="fas fa-trash-alt fa-lg icon-delete"></i></button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
+<script src="https://kit.fontawesome.com/8efeb7c04c.js" crossorigin="anonymous"></script>
+</body>
+</html>

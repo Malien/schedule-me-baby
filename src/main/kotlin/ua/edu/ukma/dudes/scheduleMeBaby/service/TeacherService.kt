@@ -18,6 +18,16 @@ class TeacherService(private val teacherRepository: TeacherRepository) {
 
     fun deleteTeacherById(id: Long) = teacherRepository.deleteById(id)
 
+    fun findTeacherByName(name: String): Optional<TeacherDTO> {
+        val teachers = teacherRepository.findByName(name).toList()
+        assert(teachers.isEmpty() || teachers.size == 1)
+        return if (teachers.isEmpty()) {
+            Optional.empty<TeacherDTO>()
+        } else {
+            Optional.of(teachers[0].toDto())
+        }
+    }
+
     fun createTeacher(request: CreateTeacherDTO): TeacherDTO =
         teacherRepository.save(Teacher(name = request.name)).toDto()
 
