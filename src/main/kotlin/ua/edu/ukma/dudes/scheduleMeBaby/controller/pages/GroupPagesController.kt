@@ -35,6 +35,7 @@ class GroupPagesController(
         })
         model.addAttribute("teachers", teacherService.findAllTeachers())
         model.addAttribute("groups", groupService.findAllGroups(subjectId).map(Group::toUIDto))
+        model.addAttribute("enrolledGroupIds", listOf(7)) // TODO enrolledGroupIds
         return "groups"
     }
 

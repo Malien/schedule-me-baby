@@ -80,6 +80,8 @@
                                         th:if="${isAdmin}"><i
                                         class="fas fa-trash-alt fa-lg icon-delete"></i></button>
                             </form>
+                            <button class="btn btn-success my-auto px-2" th:if="${#lists.contains(enrolledGroupIds, subject.id)}">Enroll</button>
+                            <button class="btn btn-danger my-auto px-2" th:unless="${#lists.contains(enrolledGroupIds, subject.id)}">Unenroll</button>
                         </li>
                     </ul>
                 </div>

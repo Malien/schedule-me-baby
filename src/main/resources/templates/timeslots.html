@@ -74,8 +74,8 @@
                                 <div th:text="${timeslot.day} + ' - ' + ${timeslot.clazz} + ' class - ' + ${timeslot.weeks} + ' weeks' "></div>
                                 <div th:text="${timeslot.auditorium}"></div>
                             </div>
-                            <form method="POST" th:action="'/timeslots/' + ${group.id} + '/delete/' + ${timeslot.id}">
-                                <button type="submit" class="btn my-auto px-2"
+                            <form method="POST" class="my-auto px-2" th:action="'/timeslots/' + ${group.id} + '/delete/' + ${timeslot.id}">
+                                <button type="submit" class="btn"
                                         th:attr="onclick=|deleteTimeslot('${timeslot.id}')|"
                                         th:if="${isAdmin}"><i
                                         class="fas fa-trash-alt fa-lg icon-delete"></i></button>
