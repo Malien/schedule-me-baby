@@ -18,7 +18,9 @@
                 <div class="col">
                     <form method="POST" th:if="${isAdmin}" action="/groups/">
                         <div class="mb-3">
-                            <input hidden type="number" class="form-control" id="subjectId" name="subjectId" th:value="${subject.id}">
+                            <input hidden type="number" class="form-control" id="subjectId"
+                                   name="subjectId" th:value="${subject.id}">
+
                             <label for="groupTeacher" class="form-label">Teacher's name</label>
                             <select class="form-control" id="groupTeacher" name="teacherName"
                                     aria-describedby="groupTeacherHelp">
@@ -26,6 +28,7 @@
                                 </option>
                             </select>
                             <div id="groupTeacherHelp" class="form-text">Enter group's teacher.</div>
+
                             <label for="groupNumber" class="form-label">Group's number</label>
                             <select class="form-control" id="groupNumber" name="number"
                                     aria-describedby="groupNumberHelp">
@@ -34,6 +37,7 @@
                                 <option>9</option><option>10</option><option>11</option><option>12</option>
                             </select>
                             <div id="groupNumberHelp" class="form-text">Enter group's number.</div>
+
                             <label for="groupType" class="form-label">Group's type</label>
                             <select class="form-control" id="groupType" name="type"
                                     aria-describedby="groupTypeHelp">

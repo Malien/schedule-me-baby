@@ -3,11 +3,8 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateGroupDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.GroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateGroupDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.toDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
-import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.SubjectRepository
@@ -21,6 +18,8 @@ class GroupService(
     private val teacherRepository: TeacherRepository
 ) {
     fun findAllGroups(): Iterable<Group> = groupRepository.findAll()
+
+    fun findAllGroups(subjectId: Long): Iterable<Group> = groupRepository.findAllBySubjectId(subjectId)
 
     fun findGroupById(id: Long): Optional<Group> = groupRepository.findById(id)
 

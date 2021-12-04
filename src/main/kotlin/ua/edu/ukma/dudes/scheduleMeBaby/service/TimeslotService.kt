@@ -2,6 +2,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
@@ -16,11 +17,13 @@ class TimeslotService(
 ) {
     fun findAllTimeslots(): Iterable<Timeslot> = timeslotRepository.findAll()
 
+    fun findAllTimeslots(groupId: Long): Iterable<Timeslot> = timeslotRepository.findAllByGroupId(groupId)
+
     fun findTimeslotById(id: Long): Optional<Timeslot> = timeslotRepository.findById(id)
 
     fun deleteTimeslotById(id: Long) = timeslotRepository.deleteById(id)
 
-    fun createTimeslot(createDto: TimeslotDTO): Timeslot =
+    fun createTimeslot(createDto: CreateTimeslotDTO): Timeslot =
         timeslotRepository.save(
             Timeslot(
                 day = createDto.day,

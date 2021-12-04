@@ -22,7 +22,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
 
     val logger = LoggerFactory.getLogger(SubjectPagesController::class.java)
 
-    @GetMapping("")
+    @GetMapping("/")
     fun listSubjects(model: Model, principal: Principal?): String {
         val isAdmin = principal?.isAdmin ?: false
         logger.info("List subjects: isAdmin=$isAdmin")

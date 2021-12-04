@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Groups</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="common/navbar.html :: navbar"></div>
+    <div class="row mt-4 d-flex justify-content-center">
+        <div class="col-12 col-md-8 col-xl-6">
+            <h1 class="row" th:text="${subject.name}"></h1>
+            <h2 class="row" th:text="${group.type} + ' ' + ${group.number}"></h2>
+            <h2 class="row" th:text="${group.teacherName}"></h2>
+
+            <div class="row">
+                <div class="col">
+                    <form method="POST" th:if="${isAdmin}" action="/timeslots/">
+                        <div class="mb-3">
+                            <input hidden type="number" class="form-control" id="groupId"
+                                   name="groupId" th:value="${group.id}">
+
+                            <label for="timeslotDay" class="form-label">Timeslot's day</label>
+                            <select class="form-control" id="timeslotDay" name="day"
+                                    aria-describedby="timeslotDayHelp">
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>
+                            </select>
+                            <div id="timeslotDayHelp" class="form-text">Enter timeslot's day.</div>
+
+                            <label for="timeslotClass" class="form-label">Timeslot's class</label>
+                            <select class="form-control" id="timeslotClass" name="clazz"
+                                    aria-describedby="timeslotClassHelp">
+                                <option>1</option><option>2</option><option>3</option><option>4</option>
+                                <option>5</option><option>6</option><option>7</option><option>8</option>
+                            </select>
+                            <div id="timeslotClassHelp" class="form-text">Enter timeslot's class.</div>
+
+                            <label for="timeslotAuditorium" class="form-label">Timeslot's auditorium</label>
+                            <input type="text" class="form-control" id="timeslotAuditorium" name="auditorium"
+                                   aria-describedby="timeslotAuditoriumHelp">
+                            <div id="timeslotAuditoriumHelp" class="form-text">Enter timeslot's auditorium.</div>
+
+                            <label for="timeslotWeeks" class="form-label">Timeslot's weeks</label>
+                            <select class="form-control" multiple id="timeslotWeeks" name="weeks"
+                                    aria-describedby="timeslotWeeksHelp">
+                                <option>1</option><option>2</option><option>3</option><option>4</option>
+                                <option>5</option><option>6</option><option>7</option><option>8</option>
+                                <option>9</option><option>10</option><option>11</option><option>12</option>
+                                <option>13</option><option>14</option><option>15</option><option>16</option>
+                            </select>
+                            <div id="timeslotWeeksHelp" class="form-text">Enter timeslot's weeks.</div>
+                        </div>
+                        <button type="submit" class="mt-n1 btn btn-primary float-end">Submit</button>
+                    </form>
+                    <div th:text="${error}" th:if="${error}"></div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="mt-4 row">
+                <div class="col">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex" th:each="timeslot : ${timeslots}">
+                            <div class="col-auto me-auto fs-4">
+                                <div th:text="${timeslot.day} + ' - ' + ${timeslot.clazz} + ' class - ' + ${timeslot.weeks} + ' weeks' "></div>
+                                <div th:text="${timeslot.auditorium}"></div>
+                            </div>
+                            <form method="POST" th:action="'/timeslots/' + ${group.id} + '/delete/' + ${timeslot.id}">
+                                <button type="submit" class="btn my-auto px-2"
+                                        th:attr="onclick=|deleteTimeslot('${timeslot.id}')|"
+                                        th:if="${isAdmin}"><i
+                                        class="fas fa-trash-alt fa-lg icon-delete"></i></button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
+<script src="https://kit.fontawesome.com/8efeb7c04c.js" crossorigin="anonymous"></script>
+</body>
+</html>
