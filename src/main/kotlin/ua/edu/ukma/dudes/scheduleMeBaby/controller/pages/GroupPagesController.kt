@@ -14,6 +14,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.dto.toUIDto
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Group
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.GroupService
+import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.security.Principal
@@ -24,6 +25,7 @@ class GroupPagesController(
     private val subjectService: SubjectService,
     private val teacherService: TeacherService,
     private val groupService: GroupService,
+    private val studentService: StudentService
 ) {
 
     @GetMapping("/{subjectId}")
@@ -35,7 +37,7 @@ class GroupPagesController(
         })
         model.addAttribute("teachers", teacherService.findAllTeachers())
         model.addAttribute("groups", groupService.findAllGroups(subjectId).map(Group::toUIDto))
-        model.addAttribute("enrolledGroupIds", listOf(7)) // TODO enrolledGroupIds
+        model.addAttribute("enrolledGroupIds", listOf(1)) // TODO enrolledGroupIds
         return "groups"
     }
 
@@ -69,6 +71,30 @@ class GroupPagesController(
     ): String {
         groupService.deleteGroupById(groupId)
         return "redirect:/groups/${subjectId}"
+    }
+
+    @PostMapping(path = ["/enroll/{groupId}"])
+    fun enrollSubject(
+        @PathVariable groupId: Long,
+        principal: Principal?
+    ): String {
+        return enrollGroup(12, groupId, true) // TODO get user to enroll to group
+    }
+
+    @PostMapping(path = ["/unenroll/{groupId}"])
+    fun unenrollSubject(
+        @PathVariable groupId: Long,
+        principal: Principal?
+    ): String {
+        return enrollGroup(12, groupId, false) // TODO get user to unenroll to group
+    }
+
+    fun enrollGroup(studentId: Long, groupId: Long, enroll: Boolean): String {
+        val group = groupService.findGroupById(groupId).orElseThrow {
+            NotFoundException("Group with id $groupId does not exist")
+        }
+        studentService.enrollGroup(studentId, groupId, enroll)
+        return "redirect:/groups/${group.subject.subjectId}"
     }
 
 }

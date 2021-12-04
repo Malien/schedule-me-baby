@@ -73,15 +73,24 @@
                                     <div th:text="${group.teacherName}"></div>
                                 </a>
                             </div>
-                            <form method="POST" class="my-auto px-2" th:action="'/groups/' + ${subject.id} + '/delete/' + ${group.id}">
+                            <form method="POST" class="my-auto px-2"
+                                  th:action="'/groups/enroll/' + ${group.id}"
+                                  th:unless="${#lists.contains(enrolledGroupIds, group.id)}">
+                                <button type="submit" class="btn btn-success">Enroll</button>
+                            </form>
+                            <form method="POST" class="my-auto px-2"
+                                  th:action="'/groups/unenroll/' + ${group.id}"
+                                  th:if="${#lists.contains(enrolledGroupIds, group.id)}">
+                                <button type="submit" class="btn btn-success">Unenroll</button>
+                            </form>
+                            <form method="POST" class="my-auto px-2"
+                                  th:action="'/groups/' + ${subject.id} + '/delete/' + ${group.id}">
                                 <button type="submit"
                                         class="btn"
                                         th:attr="onclick=|deleteGroup('${group.id}')|"
                                         th:if="${isAdmin}"><i
                                         class="fas fa-trash-alt fa-lg icon-delete"></i></button>
                             </form>
-                            <button class="btn btn-success my-auto px-2" th:if="${#lists.contains(enrolledGroupIds, subject.id)}">Enroll</button>
-                            <button class="btn btn-danger my-auto px-2" th:unless="${#lists.contains(enrolledGroupIds, subject.id)}">Unenroll</button>
                         </li>
                     </ul>
                 </div>
