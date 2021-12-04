@@ -5,3 +5,8 @@
 .icon-delete:hover {
     color: #ef4135;
 }
+
+.active {
+    color: #ef4135;
+    /*background-color: #ef4135;*/
+}
