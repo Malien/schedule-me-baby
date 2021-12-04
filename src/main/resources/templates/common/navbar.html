@@ -1,18 +1,18 @@
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Schedule Me Baby</a>
+    <a class="navbar-brand" href="">Schedule Me Baby</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item" th:classappend="${page == 'schedule'} ? active">
-                <a class="nav-link" href="#">Schedule</a>
-            </li>
-            <li class="nav-item" th:classappend="${page == 'courses-and-groups'} ? active">
-                <a class="nav-link" href="#">My courses and groups</a>
+                <a class="nav-link" href="/">Schedule</a>
             </li>
             <li class="nav-item" th:classappend="${page == 'subjects'} ? active">
-                <a class="nav-link" href="/subjects">Subjects (Admin)</a>
+                <a class="nav-link" href="/subjects/">Subjects</a>
+            </li>
+            <li class="nav-item" th:classappend="${page == 'teachers'} ? active">
+                <a class="nav-link" href="/teachers/">Teachers</a>
             </li>
         </ul>
     </div>

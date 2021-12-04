@@ -1,4 +1,4 @@
-package ua.edu.ukma.dudes.scheduleMeBaby.controller.api
+package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.stereotype.Controller
@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 
 @Controller
-@RequestMapping("/schedule")
+@RequestMapping("/")
 @Tag(name = "Schedule", description = "Schedule specific APIs")
-class ScheduleController {
+class SchedulePagesController {
 
-    @GetMapping("")
+    @GetMapping("/")
     fun books(): String {
         return "schedule"
     }
