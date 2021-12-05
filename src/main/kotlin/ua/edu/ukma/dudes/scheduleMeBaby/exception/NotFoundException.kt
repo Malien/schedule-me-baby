@@ -1,3 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.exception
 
-class NotFoundException(override val message: String) : RuntimeException()
+open class NotFoundException(override val message: String) : RuntimeException()
+
+class SubjectNotFoundException(id: Long) : NotFoundException("Subject with id $id does not exist")
