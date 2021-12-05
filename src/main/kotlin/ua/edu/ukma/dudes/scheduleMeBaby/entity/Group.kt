@@ -28,5 +28,5 @@ class Group(
     val timeslot: MutableSet<Timeslot> = mutableSetOf()
 
     @ManyToMany(mappedBy = "studentGroups")
-    var students: MutableSet<Student> = mutableSetOf()
+    var students: MutableSet<User> = mutableSetOf()
 }

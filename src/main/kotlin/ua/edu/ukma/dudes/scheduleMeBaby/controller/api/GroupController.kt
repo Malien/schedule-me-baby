@@ -21,12 +21,12 @@ import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.GroupService
 
 private val CONFIDENTIAL_MARKER = MarkerFactory.getMarker("CONFIDENTIAL")
+private val logger = LoggerFactory.getLogger(GroupController::class.java)
 
 @RestController
 @RequestMapping("/group")
 @Tag(name = "Group", description = "Group related operations")
 class GroupController(private val groupService: GroupService) {
-    private val logger = LoggerFactory.getLogger(StudentController::class.java)
 
     // TODO: filtering via query params
     @Operation(summary = "Retrieve all groups")

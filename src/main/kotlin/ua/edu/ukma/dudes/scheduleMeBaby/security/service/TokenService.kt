@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.UserPrincipal
 import java.security.Key
 
-private val TOKEN_KEY: Key = Keys.secretKeyFor(SignatureAlgorithm.HS256)
+private val TOKEN_KEY: Key = Keys.hmacShaKeyFor("Sure, this is definitely the production encryption key".toByteArray())
 const val JWT_TOKEN_PREFIX = "Bearer "
 
 @Service

@@ -24,12 +24,11 @@ class AuthorizationFilter(
         httpServletResponse: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val header = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)
-        if (header == null || !header.startsWith(JWT_TOKEN_PREFIX)) {
+        val token = httpServletRequest.cookies.find { it.name == "token" }?.value
+        if (token == null) {
             filterChain.doFilter(httpServletRequest, httpServletResponse)
             return
         }
-        val token: String = header.replace(JWT_TOKEN_PREFIX, "")
 
         try {
             val username: String = tokenService.getUsernameFromToken(token)

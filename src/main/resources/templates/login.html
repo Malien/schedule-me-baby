@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form id="login-form">
+<form id="login-form" method="POST" action="/login">
     <div th:text="${username} == null ? 'You are not logged in' : 'You are logged in as ' + ${username}"></div>
     <label>
         Login:
@@ -17,39 +17,5 @@
     </label>
     <button type="submit">Login</button>
 </form>
-<script type="module">
-    import { set } from "https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm"
-
-    const form = document.getElementById("login-form")
-    form.addEventListener("submit", async (ev) => {
-        ev.preventDefault();
-        const data = new FormData(form);
-        const credentials = {
-            login: data.get("login"),
-            password: data.get("password")
-        }
-        const res = await fetch("/auth/login", {
-            body: JSON.stringify(credentials),
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        if (!res.ok) {
-            return console.error(
-                `Server response (/auth/login): ${res.status} - ${res.statusText}\n${await res.text()}`);
-        }
-        const {token, user} = await res.json();
-        if (!token) {
-            return console.error("Server did not provide token in login response");
-        }
-
-        // localStorage.setItem("token", token);
-        // localStorage.setItem("profile", user);
-        set("token", token)
-
-        window.location = "/";
-    })
-</script>
 </body>
 </html>
