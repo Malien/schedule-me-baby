@@ -12,9 +12,11 @@ import java.util.*
 
 @Service
 class SubjectService(val subjectRepository: SubjectRepository) {
-    fun findSubjectById(id: Long): Optional<SubjectDTO> = subjectRepository.findById(id).map(Subject::toDto)
-
     fun findAllSubjects(): Iterable<SubjectDTO> = subjectRepository.findAll().map(Subject::toDto)
+
+    fun findAllSubjects(nameFilter: String): Iterable<SubjectDTO> = subjectRepository.findAllByNameContainingIgnoreCase(nameFilter).map(Subject::toDto)
+
+    fun findSubjectById(id: Long): Optional<SubjectDTO> = subjectRepository.findById(id).map(Subject::toDto)
 
     fun createSubject(request: CreateSubjectDTO): SubjectDTO =
         subjectRepository.save(Subject(name = request.name)).toDto()

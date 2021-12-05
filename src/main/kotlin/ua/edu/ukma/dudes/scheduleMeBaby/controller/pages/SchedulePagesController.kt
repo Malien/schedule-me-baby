@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @Tag(name = "Schedule", description = "Schedule specific APIs")
-class SchedulePageController {
+class SchedulePagesController {
 
     @GetMapping("/schedule")
     fun schedule(): String {

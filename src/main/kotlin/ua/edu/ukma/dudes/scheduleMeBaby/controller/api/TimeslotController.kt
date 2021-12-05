@@ -91,7 +91,7 @@ class TimeslotController(private val timeslotService: TimeslotService) {
     )
     @PostMapping("/")
     @PreAuthorize("hasRole('ADMIN')")
-    fun createTimeslot(@Valid @RequestBody timeslot: TimeslotDTO): TimeslotDTO {
+    fun createTimeslot(@Valid @RequestBody timeslot: CreateTimeslotDTO): TimeslotDTO {
         val timeslot = timeslotService.createTimeslot(timeslot).toDto()
         MDC.put("timeslotRequest", timeslot.id.toString())
         logger.info("PUT /timeslot createTimeslot")

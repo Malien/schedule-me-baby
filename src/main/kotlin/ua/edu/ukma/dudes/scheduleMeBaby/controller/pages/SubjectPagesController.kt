@@ -6,13 +6,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.controller.isAdmin
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateSubjectDTO
+import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
+import ua.edu.ukma.dudes.scheduleMeBaby.exception.SubjectNotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import java.security.Principal
 
@@ -23,11 +22,15 @@ class SubjectPagesController(private val subjectService: SubjectService) {
     val logger = LoggerFactory.getLogger(SubjectPagesController::class.java)
 
     @GetMapping("")
-    fun listSubjects(model: Model, principal: Principal?): String {
+    fun listSubjects(@RequestParam(value = "filter", required = false) nameFilter: String?,
+                     @RequestParam(value = "error", required = false) error: String?,
+                     model: Model, principal: Principal?): String {
         val isAdmin = principal?.isAdmin ?: false
         logger.info("List subjects: isAdmin=$isAdmin")
         model.addAttribute("isAdmin", isAdmin)
-        model.addAttribute("subjects", subjectService.findAllSubjects())
+        model.addAttribute("subjects", subjectService.findAllSubjects(nameFilter ?: ""))
+        model.addAttribute("subjectNameFilter", nameFilter)
+        model.addAttribute("error", error)
         return "subjects"
     }
 
