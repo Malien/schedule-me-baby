@@ -15,6 +15,18 @@
         <div class="col-12 col-md-8 col-xl-6">
 
             <div class="row">
+                <div class="input-group mt-3 mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-primary" type="button" onclick="filterSubjects()">
+                            Search <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <input type="text" id="subjectFilter" class="form-control" th:value="${subjectNameFilter}"
+                           placeholder="Subject's name" aria-label="Subject's name">
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="col">
                     <form method="POST" th:if="${isAdmin}" action="/subjects/">
                         <div class="mb-3">
@@ -56,6 +68,22 @@
 
 
 </div>
+
+<script>
+    const subjectFilter = document.getElementById("subjectFilter");
+
+    subjectFilter.addEventListener("keyup", ev => {
+        if (ev.key === "Enter")
+            filterSubjects();
+    });
+
+    function filterSubjects() {
+        const subjectFilterValue = subjectFilter.value
+
+        window.location.href = "/subjects?filter=" + subjectFilterValue;
+    }
+
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
