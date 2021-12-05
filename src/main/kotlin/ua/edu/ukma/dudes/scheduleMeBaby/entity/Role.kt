@@ -22,4 +22,6 @@ class Role(
     val users: MutableSet<User> = mutableSetOf()
 
     override fun getAuthority() = roleName
+
+    override fun toString(): String = roleName
 }

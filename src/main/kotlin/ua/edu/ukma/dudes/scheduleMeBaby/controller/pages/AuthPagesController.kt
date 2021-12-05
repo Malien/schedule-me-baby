@@ -15,8 +15,6 @@ import java.security.Principal
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
-private val logger = LoggerFactory.getLogger(AuthPagesController::class.java)
-
 @Controller
 class AuthPagesController(private val authService: AuthService) {
 
@@ -32,14 +30,16 @@ class AuthPagesController(private val authService: AuthService) {
     }
 
     @PostMapping(path = ["/login"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
-    fun login(@Valid credentials: UserCredentials, response: HttpServletResponse, model: Model): String = try {
-        val token = authService.login(credentials)
-        response.setHeader("Set-Cookie", "token=${token.token}; HttpOnly; SameSite=Lax")
-        "redirect:schedule"
-    } catch (e: BadCredentialsException) {
-        logger.error("Bad credentials encountered: $e")
-        model["error"] = e.message ?: "Unexpected error occurred"
-        "login"
+    fun login(@Valid credentials: UserCredentials, response: HttpServletResponse, model: Model): String {
+        try {
+            val token = authService.login(credentials)
+            response.setHeader("Set-Cookie", "token=${token.token}; HttpOnly; SameSite=Lax")
+            return "redirect:schedule"
+        } catch (e: BadCredentialsException) {
+            logger.error("Bad credentials encountered: $e")
+            model["error"] = e.message ?: "Unexpected error occurred"
+            return "login"
+        }
     }
 
 }
