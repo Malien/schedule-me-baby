@@ -12,11 +12,14 @@ import ua.edu.ukma.dudes.scheduleMeBaby.security.service.AuthService
 import ua.edu.ukma.dudes.scheduleMeBaby.security.service.TokenService
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.UserCredentials
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
+import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class IntegrationTesting(
     @Autowired
     private val subjectService: SubjectService,
+    @Autowired
+    private val teacherService: TeacherService,
     @Autowired
     private val authService: AuthService,
     @Autowired
@@ -140,6 +143,12 @@ class IntegrationTesting(
         assert(subjectService.findAllSubjects().toList().size == 5);
         assert(subjectService.findSubjectById(1).get().name == "Math")
         assert(subjectService.findAllSubjects("pr").toList().size == 3)
+    }
+
+    @Test
+    fun `teacher service should correctly return teachers`() {
+        assert(teacherService.findAllTeachers().toList().size == 3);
+        assert(teacherService.findTeacherById(1).get().name == "Tony")
     }
 
 }
