@@ -49,6 +49,7 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("io.rest-assured:rest-assured")
     compileOnly("org.flywaydb:flyway-core")
+    runtimeOnly("com.h2database:h2")
 }
 
 tasks.withType<KotlinCompile> {
