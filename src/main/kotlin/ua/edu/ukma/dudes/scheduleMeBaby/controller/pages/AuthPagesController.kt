@@ -1,9 +1,7 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Controller
@@ -11,9 +9,7 @@ import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
 import ua.edu.ukma.dudes.scheduleMeBaby.security.service.AuthService
-import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.AuthUserDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.dto.UserCredentials
 import java.security.Principal
 import javax.servlet.http.HttpServletResponse

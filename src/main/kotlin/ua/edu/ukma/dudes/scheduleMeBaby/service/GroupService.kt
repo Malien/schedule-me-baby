@@ -19,6 +19,8 @@ class GroupService(
 ) {
     fun findAllGroups(): Iterable<Group> = groupRepository.findAll()
 
+    fun findAllGroupsForSubject(subjectId: Long) = groupRepository.findAllBySubjectId(subjectId)
+
     fun findGroupById(id: Long): Optional<Group> = groupRepository.findById(id)
 
     fun deleteGroupById(id: Long) = groupRepository.deleteById(id)
