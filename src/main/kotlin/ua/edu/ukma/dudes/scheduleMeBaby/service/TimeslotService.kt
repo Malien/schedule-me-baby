@@ -1,14 +1,16 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.service
 
+import org.slf4j.LoggerFactory
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTimeslotDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.dto.TimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTimeslotDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.GroupRepository
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.TimeslotRepository
 import java.util.*
+
+val logger = LoggerFactory.getLogger(TimeslotService::class.java)
 
 @Service
 class TimeslotService(
@@ -53,4 +55,6 @@ class TimeslotService(
         }
         timeslotRepository.save(timeslot)
     }
+
+    fun scheduleForStudent(id: Long) = timeslotRepository.scheduleForStudent(id)
 }

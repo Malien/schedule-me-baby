@@ -34,4 +34,7 @@ class User(
         inverseJoinColumns = [JoinColumn(name="group_id")]
     )
     var studentGroups: MutableSet<Group> = mutableSetOf()
+    override fun toString() =
+        "User(name='$name', login='$login', roles=$roles, id=$id)"
+
 }

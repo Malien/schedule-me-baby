@@ -1,6 +1,8 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import ua.edu.ukma.dudes.scheduleMeBaby.controller.isAdmin
+import ua.edu.ukma.dudes.scheduleMeBaby.controller.user
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateGroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateGroupFormDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.toUIDto
@@ -18,6 +21,8 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.security.Principal
+
+val logger = LoggerFactory.getLogger(GroupPagesController::class.java)
 
 @Controller
 @RequestMapping("/groups")
@@ -30,14 +35,18 @@ class GroupPagesController(
 
     @GetMapping("/{subjectId}")
     fun listGroups(@PathVariable subjectId: Long, model: Model, principal: Principal?): String {
-        val isAdmin = principal?.isAdmin ?: false
+        val user = principal?.user
+        val enrolledGroups = user?.let { user ->
+            groupService.findAllGroupsForStudent(user.id!!).map { it.groupId }
+        } ?: emptyList()
+
         model.addAttribute("isAdmin", true)
         model.addAttribute("subject", subjectService.findSubjectById(subjectId).orElseThrow {
             NotFoundException("Subject with id $subjectId does not exist")
         })
         model.addAttribute("teachers", teacherService.findAllTeachers())
         model.addAttribute("groups", groupService.findAllGroupsForSubject(subjectId).map(Group::toUIDto))
-        model.addAttribute("enrolledGroupIds", listOf(1)) // TODO enrolledGroupIds
+        model.addAttribute("enrolledGroupIds", enrolledGroups)
         return "groups"
     }
 
@@ -74,19 +83,23 @@ class GroupPagesController(
     }
 
     @PostMapping(path = ["/enroll/{groupId}"])
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     fun enrollSubject(
         @PathVariable groupId: Long,
-        principal: Principal?
+        principal: Principal
     ): String {
-        return enrollGroup(12, groupId, true) // TODO get user to enroll to group
+        val user = principal.user
+        return enrollGroup(user.id!!, groupId, true) // TODO get user to enroll to group
     }
 
     @PostMapping(path = ["/unenroll/{groupId}"])
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     fun unenrollSubject(
         @PathVariable groupId: Long,
-        principal: Principal?
+        principal: Principal
     ): String {
-        return enrollGroup(12, groupId, false) // TODO get user to unenroll to group
+        val user = principal.user
+        return enrollGroup(user.id!!, groupId, false) // TODO get user to unenroll to group
     }
 
     fun enrollGroup(studentId: Long, groupId: Long, enroll: Boolean): String {

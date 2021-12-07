@@ -5,6 +5,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <title>Schedule</title>
+    <style>
+        .subject-card {
+            background: #3AADC2;
+            color: white;
+            font-family: Helvetica Neue;
+            padding: 12px;
+            border-radius: 10px;
+        }
+        .subject-card.Lecture {
+            background: #2FD68B;
+        }
+        .subject-card.Lecture .subject-group {
+            display: none;
+        }
+        .subject-classifier {
+            font-size: 14px;
+            opacity: 0.8;
+            display: flex;
+            justify-content: space-between;
+        }
+        .subject-group {
+            font-size: 12px;
+            align-self: start;
+        }
+        .subject-name {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .subject-teacher {
+            font-size: 14px;
+        }
+        .subject-weeks {
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body onload="getSchedule()">
 <div class="container-fluid">
@@ -23,69 +58,21 @@
         </thead>
 
         <tbody id="tableBody">
-        <tr>
-            <th scope="row" class="text-center">08:30</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+        <tr th:each="timeslot : ${schedule}">
+            <th scope="row" class="text-center" th:text="${timeslot.second}"></th> <!-- TODO -->
+            <td th:each="day : ${timeslot.first}">
+                <div th:each="subject : ${day}" class="subject-card" th:classappend="${subject.groupType}">
+                    <div class="subject-classifier">
+                        <div class="subject-type" th:text="${subject.groupType}"></div>
+                        <div th:text="${'Group: ' + subject.groupNumber}" class="subject-group"></div>
+                    </div>
+                    <div th:text="${subject.subjectName}" class="subject-name"></div>
+                    <div th:text="${'Teacher: ' + subject.teacherName}" class="subject-teacher"></div>
+                    <div th:text="${'Weeks: ' + subject.weeks}" class="subject-weeks"></div>
+                </div>
+            </td>
         </tr>
-        <tr>
-            <th scope="row" class="text-center">10:00</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">11:40</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">13:30</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">15:00</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">16:30</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <th scope="row" class="text-center">18:00</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+
         </tbody>
     </table>
 </div>
