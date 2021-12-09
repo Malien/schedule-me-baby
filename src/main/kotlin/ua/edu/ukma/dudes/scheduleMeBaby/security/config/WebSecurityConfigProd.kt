@@ -37,6 +37,7 @@ class WebSecurityConfig(
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/css/*").permitAll()
+                .antMatchers("/schedules/*").permitAll()
                 .anyRequest().authenticated()
             .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
