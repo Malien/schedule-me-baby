@@ -89,8 +89,8 @@ class ScheduleService(
         } else false
     }
 
-    fun findAllFiles(): MutableList<FileEntity> {
-        return fileRepository.findAll()
+    fun findAllFiles(nameFilter: String): List<FileEntity> {
+        return fileRepository.findAllByFilenameContainingIgnoreCaseOrderByFilename(nameFilter)
     }
 
 

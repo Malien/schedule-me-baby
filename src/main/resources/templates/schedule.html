@@ -41,9 +41,10 @@
         }
     </style>
 </head>
-<body onload="getSchedule()">
+<body>
+<div th:replace="common/navbar.html :: navbar(page='schedule')"></div>
+
 <div class="container-fluid">
-    <div th:replace="common/navbar.html :: navbar(page='schedule')"></div>
     <table class="table table-bordered">
         <thead>
         <tr>

@@ -8,8 +8,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
 </head>
 <body>
+<div th:replace="common/navbar.html :: navbar(page='teachers')"></div>
+
 <div class="container-fluid">
-    <div th:replace="common/navbar.html :: navbar(page='teachers')"></div>
 
     <div class="row mt-4 d-flex justify-content-center">
         <div class="col-12 col-md-8 col-xl-6">
@@ -28,10 +29,10 @@
                     <div th:text="${error}" th:if="${error}"></div>
                 </div>
 
-                <hr>
+
             </div>
 
-
+            <hr sec:authorize="hasRole('ROLE_ADMIN')">
 
             <div class="mt-4 row">
                 <div class="col">

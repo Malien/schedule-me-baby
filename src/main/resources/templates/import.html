@@ -8,8 +8,10 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
 </head>
 <body>
+<div th:replace="common/navbar.html :: navbar(page='import')"></div>
+
 <div class="container-fluid">
-    <div th:replace="common/navbar.html :: navbar(page='import')"></div>
+
 
     <div class="row mt-4 d-flex justify-content-center">
         <div class="col-12 col-md-8 col-xl-6">
@@ -17,15 +19,16 @@
             <div class="row alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
 
             <div class="row">
-                <div class="input-group mt-3 mb-3">
+                <form method="GET" class="input-group mt-3 mb-3">
                     <div class="input-group-prepend">
-                        <button class="btn btn-outline-primary" type="button" onclick="filterSubjects()">
+                        <button class="btn btn-outline-primary" type="submit">
                             Search <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <input type="text" id="subjectFilter" class="form-control" th:value="${subjectNameFilter}"
-                           placeholder="Subject's name" aria-label="Subject's name">
-                </div>
+                    <input type="text" id="subjectFilter" name="nameFilter" class="form-control"
+                           th:value="${fileNameFilter}"
+                           placeholder="File's name" aria-label="File's name">
+                </form>
             </div>
 
             <div class="mt-4 row">

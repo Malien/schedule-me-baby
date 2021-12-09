@@ -23,14 +23,16 @@ class ScheduleImportController(
     val logger = LoggerFactory.getLogger(SubjectPagesController::class.java)
 
     @GetMapping("")
-    fun importView(model: Model, principal: Principal?): String {
+    fun importView(@RequestParam(value = "nameFilter", required = false) nameFilter: String?,
+                   model: Model, principal: Principal?): String {
         val isAdmin = principal?.isAdmin ?: false
         if (!isAdmin) {
             model["error"] = "You do not have permissions to access subject edit page"
             return "schedule"
         }
         model.addAttribute("isAdmin", isAdmin)
-        model.addAttribute("files", scheduleService.findAllFiles())
+        model.addAttribute("files", scheduleService.findAllFiles(nameFilter ?: ""))
+        model.addAttribute("fileNameFilter", nameFilter)
         return "import"
     }
 
@@ -41,7 +43,7 @@ class ScheduleImportController(
     ): String =
         protectedAction(model, principal) {
             logger.info("Filename: ${file.originalFilename}")
-            model.addAttribute("files", scheduleService.findAllFiles())
+            model.addAttribute("files", scheduleService.findAllFiles(""))
             // parse file hire
             val scheduleDTO = scheduleXLSXParser.readFromExcel(file.inputStream)
             if (scheduleDTO == null)

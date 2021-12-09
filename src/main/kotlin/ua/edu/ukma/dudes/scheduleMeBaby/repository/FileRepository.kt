@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.FileEntity
 
 @Repository
-interface FileRepository: JpaRepository<FileEntity, Long>
+interface FileRepository: JpaRepository<FileEntity, Long> {
+    fun findAllByFilenameContainingIgnoreCaseOrderByFilename(filename: String) : List<FileEntity>
+}
