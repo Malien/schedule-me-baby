@@ -74,7 +74,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
             "teachers"
         } else try {
             block()
-            "redirect:/teachers"
+            "redirect:/teachers/"
         } catch (e: Exception) {
             logger.error(e.message)
             model["error"] = e.message ?: "Unexpected error occurred"
