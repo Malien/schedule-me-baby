@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.*
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.*
 import ua.edu.ukma.dudes.scheduleMeBaby.security.service.AuthService
@@ -47,6 +48,8 @@ class IntegrationTesting(
             groupRepository: GroupRepository,
             @Autowired
             timeslotRepository: TimeslotRepository,
+            @Autowired
+            passwordEncoder: BCryptPasswordEncoder
         ) {
             val roleAdmin = Role("ROLE_ADMIN")
             val roleUser = Role("ROLE_USER")
@@ -54,8 +57,9 @@ class IntegrationTesting(
             roleRepository.save(roleAdmin)
             roleRepository.save(roleUser)
 
-            userRepository.save(User("Admin", "admin", "admin", mutableSetOf(roleAdmin)))
-            userRepository.save(User("User", "user", "user", mutableSetOf(roleUser)))
+            userRepository.save(User("Admin", "test_admin", passwordEncoder.encode("test_admin"), mutableSetOf
+                (roleAdmin)))
+            userRepository.save(User("User", "test_user", passwordEncoder.encode("test_user"), mutableSetOf(roleUser)))
 
             val teacherTony = Teacher("Tony")
             val teacherVlad = Teacher("Vlad")
@@ -125,14 +129,14 @@ class IntegrationTesting(
 
     @Test
     fun `should authenticate as admin and user`() {
-        val authAdminDTO = authService.login(UserCredentials("admin", "admin"))
-        assert(tokenService.getUsernameFromToken(authAdminDTO.token) == "admin")
+        val authAdminDTO = authService.login(UserCredentials("test_admin", "test_admin"))
+        assert(tokenService.getUsernameFromToken(authAdminDTO.token) == "test_admin")
         assert(authAdminDTO.token.isNotEmpty())
         assert(authAdminDTO.userDTO.roles.size == 1)
         assert(authAdminDTO.userDTO.roles.toList()[0].roleName == "ROLE_ADMIN")
 
-        val authUserDTO = authService.login(UserCredentials("user", "user"))
-        assert(tokenService.getUsernameFromToken(authUserDTO.token) == "user")
+        val authUserDTO = authService.login(UserCredentials("test_user", "test_user"))
+        assert(tokenService.getUsernameFromToken(authUserDTO.token) == "test_user")
         assert(authUserDTO.token.isNotEmpty())
         assert(authUserDTO.userDTO.roles.size == 1)
         assert(authUserDTO.userDTO.roles.toList()[0].roleName == "ROLE_USER")
