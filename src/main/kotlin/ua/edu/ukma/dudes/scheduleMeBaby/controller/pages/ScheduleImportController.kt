@@ -2,6 +2,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -23,6 +24,7 @@ class ScheduleImportController(
     val logger = LoggerFactory.getLogger(SubjectPagesController::class.java)
 
     @GetMapping("")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun importView(@RequestParam(value = "nameFilter", required = false) nameFilter: String?,
                    model: Model, principal: Principal?): String {
         val isAdmin = principal?.isAdmin ?: false
@@ -37,6 +39,7 @@ class ScheduleImportController(
     }
 
     @PostMapping(path = [""], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun importSchedule(
         @RequestParam(value = "file", required = true) file: MultipartFile,
         model: Model, principal: Principal?
@@ -64,6 +67,7 @@ class ScheduleImportController(
         }
 
     @PostMapping(path = ["/{id}/delete"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun deleteSchedule(@PathVariable id: Long, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             scheduleService.deleteSchedule(id)

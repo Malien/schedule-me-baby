@@ -1,6 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
-import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import ua.edu.ukma.dudes.scheduleMeBaby.controller.isAdmin
 import ua.edu.ukma.dudes.scheduleMeBaby.controller.user
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateGroupDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateGroupFormDTO
@@ -32,6 +30,7 @@ class GroupPagesController(
 ) {
 
     @GetMapping("/{subjectId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     fun listGroups(@PathVariable subjectId: Long, model: Model, principal: Principal?): String {
         val user = principal?.user
         val enrolledGroups = user?.let { user ->
@@ -49,6 +48,7 @@ class GroupPagesController(
     }
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun newSubject(
         createGroupDTO: CreateGroupFormDTO,
         model: Model,
@@ -69,6 +69,7 @@ class GroupPagesController(
     }
 
     @PostMapping(path = ["/{subjectId}/delete/{groupId}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun deleteSubject(
         @PathVariable subjectId: Long,
         @PathVariable groupId: Long,

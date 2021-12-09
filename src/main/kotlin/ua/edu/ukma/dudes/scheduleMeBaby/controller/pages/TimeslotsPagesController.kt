@@ -28,6 +28,7 @@ class TimeslotsPagesController(
 ) {
 
     @GetMapping("/{groupId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     fun listSubjects(@PathVariable groupId: Long, model: Model, principal: Principal?): String {
         val group = groupService.findGroupById(groupId).orElseThrow {
             NotFoundException("Group with id $groupId does not exist")
@@ -58,6 +59,7 @@ class TimeslotsPagesController(
     }
 
     @PostMapping(path = ["/{groupId}/delete/{timeslotId}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun deleteSubject(@PathVariable groupId: Long, @PathVariable timeslotId: Long, model: Model, principal: Principal?): String {
         timeslotService.deleteTimeslotById(timeslotId)
         return "redirect:/timeslots/${groupId}"

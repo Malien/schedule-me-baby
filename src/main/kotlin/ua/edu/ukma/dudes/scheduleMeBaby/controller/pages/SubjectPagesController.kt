@@ -2,6 +2,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -14,6 +15,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.exception.SubjectNotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import java.security.Principal
+import javax.validation.Valid
 
 @Controller
 @RequestMapping("/subjects")
@@ -22,6 +24,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
     val logger = LoggerFactory.getLogger(SubjectPagesController::class.java)
 
     @GetMapping("")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     fun listSubjects(@RequestParam(value = "filter", required = false) nameFilter: String?,
                      @RequestParam(value = "error", required = false) error: String?,
                      model: Model, principal: Principal?): String {
@@ -35,6 +38,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun editSubjectPage(@PathVariable id: Long, model: Model, principal: Principal?): String {
         val isAdmin = principal?.isAdmin ?: false
         if (!isAdmin) {
@@ -48,12 +52,14 @@ class SubjectPagesController(private val subjectService: SubjectService) {
     }
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
-    fun newSubject(createSubjectDTO: CreateSubjectDTO, model: Model, principal: Principal?) =
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    fun newSubject(@Valid createSubjectDTO: CreateSubjectDTO, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             subjectService.createSubject(createSubjectDTO)
         }
 
     @PostMapping(path = ["/{id}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun editSubject(
         @PathVariable id: Long,
         patch: UpdateSubjectDTO,
@@ -64,6 +70,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
     }
 
     @PostMapping(path = ["/{id}/delete"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun deleteSubject(@PathVariable id: Long, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             subjectService.deleteSubjectById(id)
