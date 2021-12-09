@@ -22,8 +22,6 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.security.Principal
 
-val logger = LoggerFactory.getLogger(GroupPagesController::class.java)
-
 @Controller
 @RequestMapping("/groups")
 class GroupPagesController(
@@ -56,7 +54,6 @@ class GroupPagesController(
         model: Model,
         principal: Principal?
     ): String {
-        val isAdmin = principal?.isAdmin ?: false
         val teacher = teacherService.findTeacherByName(createGroupDTO.teacherName).orElseThrow {
             NotFoundException("Teacher with name ${createGroupDTO.teacherName} does not exist")
         }

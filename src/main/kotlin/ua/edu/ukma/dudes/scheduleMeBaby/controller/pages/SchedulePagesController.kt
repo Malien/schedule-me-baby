@@ -27,7 +27,7 @@ class SchedulePagesController(private val timeslotService: TimeslotService) {
         }.zip(timeslotTimes)
 
         for (item in timeslotService.scheduleForStudent(user.id!!)) {
-            schedule[item.`class`].first[item.day].add(item.toViewItem())
+            schedule[item.`class`].first[item.day - 1].add(item.toViewItem())
         }
 
         model["schedule"] = schedule

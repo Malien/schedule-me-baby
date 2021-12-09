@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -17,15 +17,16 @@
             <div class="row alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
 
             <div class="row">
-                <div class="input-group mt-3 mb-3">
+                <form method="GET" class="input-group mt-3 mb-3">
                     <div class="input-group-prepend">
-                        <button class="btn btn-outline-primary" type="button" onclick="filterSubjects()">
+                        <button class="btn btn-outline-primary" type="submit">
                             Search <i class="fas fa-search"></i>
                         </button>
                     </div>
-                    <input type="text" id="subjectFilter" class="form-control" th:value="${subjectNameFilter}"
-                           placeholder="File's name" aria-label="File's name">
-                </div>
+                    <input type="text" id="subjectFilter" name="filter" class="form-control"
+                           th:value="${subjectNameFilter}"
+                           placeholder="Subject's name" aria-label="Subject's name">
+                </form>
             </div>
 
             <div class="row">
@@ -53,10 +54,10 @@
                             </div>
                             <a class="btn my-auto px-2" th:href="'/subjects/'+${subject.id}" th:if="${isAdmin}"><i
                                     class="far fa-edit fa-lg icon-edit"></i></a>
-                            <form method="POST" class="my-auto px-2" th:action="'/subjects/' + ${subject.id} + '/delete'">
+                            <form method="POST" class="my-auto px-2"
+                                  th:action="'/subjects/' + ${subject.id} + '/delete'">
                                 <button type="submit"
                                         class="btn"
-                                        th:attr="onclick=|deleteSubject('${subject.id}')|"
                                         th:if="${isAdmin}"><i
                                         class="fas fa-trash-alt fa-lg icon-delete"></i></button>
                             </form>
@@ -67,23 +68,8 @@
         </div>
     </div>
 
+
 </div>
-
-<script>
-    const subjectFilter = document.getElementById("subjectFilter");
-
-    subjectFilter.addEventListener("keyup", ev => {
-        if (ev.key === "Enter")
-            filterSubjects();
-    });
-
-    function filterSubjects() {
-        const subjectFilterValue = subjectFilter.value
-
-        window.location.href = "/subjects?filter=" + subjectFilterValue;
-    }
-
-</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
