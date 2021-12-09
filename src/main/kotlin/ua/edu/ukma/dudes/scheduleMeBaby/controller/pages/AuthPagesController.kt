@@ -20,6 +20,14 @@ class AuthPagesController(private val authService: AuthService) {
 
     private val logger = LoggerFactory.getLogger(AuthPagesController::class.java)
 
+    @GetMapping("")
+    fun defaultPage(model: Model, principal: Principal?): String {
+        logger.info("Principal is $principal")
+        if (principal == null)
+            return "redirect:login"
+        return "redirect:schedule"
+    }
+
     @GetMapping("/login")
     fun loginPage(model: Model, principal: Principal?): String {
         logger.info("Principal is $principal")

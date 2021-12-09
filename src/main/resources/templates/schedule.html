@@ -62,7 +62,7 @@
         <tr th:each="timeslot : ${schedule}">
             <th scope="row" class="text-center" th:text="${timeslot.second}"></th> <!-- TODO -->
             <td th:each="day : ${timeslot.first}">
-                <div th:each="subject : ${day}" class="subject-card" th:classappend="${subject.groupType}">
+                <div th:each="subject : ${day}" class="subject-card my-2" th:classappend="${subject.groupType}">
                     <div class="subject-classifier">
                         <div class="subject-type" th:text="${subject.groupType}"></div>
                         <div th:text="${'Group: ' + subject.groupNumber}" class="subject-group"></div>

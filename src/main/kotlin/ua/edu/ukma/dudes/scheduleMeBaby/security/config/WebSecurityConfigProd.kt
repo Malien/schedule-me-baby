@@ -35,6 +35,7 @@ class WebSecurityConfig(
                 .authorizeRequests()
 //                .anyRequest().permitAll()
                 .antMatchers("/auth/login").permitAll()
+                .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/css/*").permitAll()
                 .anyRequest().authenticated()
