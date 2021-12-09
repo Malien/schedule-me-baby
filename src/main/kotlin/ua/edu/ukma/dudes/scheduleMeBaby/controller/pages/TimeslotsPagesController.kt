@@ -1,8 +1,11 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,24 +29,24 @@ class TimeslotsPagesController(
 
     @GetMapping("/{groupId}")
     fun listSubjects(@PathVariable groupId: Long, model: Model, principal: Principal?): String {
-        val isAdmin = principal?.isAdmin ?: false
         val group = groupService.findGroupById(groupId).orElseThrow {
-            NotFoundException("Group with id ${groupId} does not exist")
+            NotFoundException("Group with id $groupId does not exist")
         }
         model.addAttribute("isAdmin", true)
         model.addAttribute("group", group.toUIDto())
         model.addAttribute("subject", group.subject.toDto())
         model.addAttribute("timeslots", timeslotService.findAllTimeslots(groupId).map(Timeslot::toUIDto))
+        model["isAdmin"] = principal.isAdmin
         return "timeslots"
     }
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasRole('ADMIN')")
     fun newSubject(
         createTimeslotDTO: CreateTimeslotFormDTO,
         model: Model,
         principal: Principal?
     ): String {
-        val isAdmin = principal?.isAdmin ?: false
         timeslotService.createTimeslot(CreateTimeslotDTO(
             createTimeslotDTO.groupId,
             dayStringToInt(createTimeslotDTO.day),

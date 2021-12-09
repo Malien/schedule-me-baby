@@ -7,8 +7,9 @@ import ua.edu.ukma.dudes.scheduleMeBaby.entity.User
 import ua.edu.ukma.dudes.scheduleMeBaby.security.user.UserPrincipal
 import java.security.Principal
 
-val Principal.isAdmin: Boolean
+val Principal?.isAdmin: Boolean
     get() {
+        if (this == null) return false
         val token = this as UsernamePasswordAuthenticationToken
         return token.authorities.find { it.authority == "ROLE_ADMIN" } != null
     }
