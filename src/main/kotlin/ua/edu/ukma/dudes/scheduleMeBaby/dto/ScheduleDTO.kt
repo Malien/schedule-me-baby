@@ -47,7 +47,7 @@ enum class Days {
                 WEDNESDAY
             } else if (value.lowercase() == "четвер") {
                 THURSDAY
-            } else if (value.lowercase() == "п`ятниця") {
+            } else if (value.lowercase().replace(Regex("['\"`]"), "") == "пятниця") {
                 FRIDAY
             } else if (value.lowercase() == "субота") {
                 SATURDAY

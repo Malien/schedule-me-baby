@@ -43,9 +43,10 @@ class ScheduleXLSXParser {
 
                 if (value.lowercase().contains("факультет")) {
                     faculty = value
-                } else if (value.lowercase().contains("спеціальність")) {
+                } else if (value.lowercase().contains("спеціальність") ||
+                    value.lowercase().contains("бп")) {
                     speciality = value.split('"')[1]
-                    studyYear = Integer.parseInt(value.split(',')[1].trim().split(' ')[0])
+                    studyYear = Integer.parseInt(value.split(',')[1].trim().filter { it.isDigit() })
                 } else if (value.lowercase().contains("семестр")) {
                     val split = value.split(' ')
                     years = split[split.size - 2]
