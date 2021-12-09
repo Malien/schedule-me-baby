@@ -43,7 +43,6 @@ class ScheduleImportController(
     ): String =
         protectedAction(model, principal) {
             logger.info("Filename: ${file.originalFilename}")
-            model.addAttribute("files", scheduleService.findAllFiles(""))
             // parse file hire
             val scheduleDTO = scheduleXLSXParser.readFromExcel(file.inputStream)
             if (scheduleDTO == null)
@@ -61,12 +60,14 @@ class ScheduleImportController(
                     model["error"] = "The file with the given name already exists."
                 }
             }
+            model.addAttribute("files", scheduleService.findAllFiles(""))
         }
 
     @PostMapping(path = ["/{id}/delete"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun deleteSchedule(@PathVariable id: Long, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             scheduleService.deleteSchedule(id)
+            model.addAttribute("files", scheduleService.findAllFiles(""))
         }
 
     fun protectedAction(model: Model, principal: Principal?, block: () -> Unit): String {

@@ -16,4 +16,8 @@ class FileEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id", nullable = false)
     var fileId: Long? = null
+
+    override fun toString(): String {
+        return "FileEntity(id=$fileId, filename=$filename)"
+    }
 }
