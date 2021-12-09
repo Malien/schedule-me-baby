@@ -51,14 +51,6 @@
                 </form>
             </div>
 
-            <div>
-                <ul>
-                    <li th:each="file : ${files}">
-                        <a th:href="${file}" th:text="${file}" />
-                    </li>
-                </ul>
-            </div>
-
             <div class="mt-4 row">
                 <div class="col">
                     <ul class="list-group">
@@ -68,10 +60,9 @@
                                    th:text="${file.filename}"></a>
                             </div>
                             <form method="POST" class="my-auto px-2"
-                                  th:action="'/schedule/' + ${file} + '/delete'">
+                                  th:action="'/import/' + ${file.fileId} + '/delete'">
                                 <button type="submit"
                                         class="btn"
-                                        th:attr="onclick=|deleteSubject('${subject.id}')|"
                                         th:if="${isAdmin}"><i
                                         class="fas fa-trash-alt fa-lg icon-delete"></i></button>
                             </form>

@@ -11,7 +11,9 @@ import ua.edu.ukma.dudes.scheduleMeBaby.dto.Day
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.DayEntry
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.Days
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.ScheduleDTO
+import java.io.File
 import java.io.IOException
+import java.io.InputStream
 
 
 @Service
@@ -20,8 +22,8 @@ class ScheduleXLSXParser {
     private val logger = LoggerFactory.getLogger(ScheduleXLSXParser::class.java)
 
     @Throws(IOException::class)
-    fun readFromExcel(file: MultipartFile): ScheduleDTO? {
-        val myExcelBook = XSSFWorkbook(file.inputStream)
+    fun readFromExcel(fileInputStream: InputStream): ScheduleDTO? {
+        val myExcelBook = XSSFWorkbook(fileInputStream)
         val myExcelSheet: XSSFSheet = myExcelBook.getSheetAt(0)
 
         var faculty: String? = null
@@ -95,7 +97,8 @@ class ScheduleXLSXParser {
         val subject = row.getCell(2).stringCellValue.split(',')[0]
         val teacher = row.getCell(2).stringCellValue.split(',')[1]
         val groupCell = row.getCell(3)
-        val group = if (groupCell.cellType == CellType.STRING) groupCell.stringCellValue else groupCell.numericCellValue
+        val group = if (groupCell.cellType == CellType.STRING) groupCell.stringCellValue
+                    else groupCell.numericCellValue.toInt()
         val weeks = row.getCell(4).stringCellValue
         val auditorium = row.getCell(5).stringCellValue
 
