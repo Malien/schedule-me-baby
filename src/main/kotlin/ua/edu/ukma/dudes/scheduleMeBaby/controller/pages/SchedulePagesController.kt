@@ -59,6 +59,7 @@ fun ScheduleItem.toViewItem() = ScheduleViewItem(
 )
 
 fun compactWeeksRepr(weeks: String): String {
+    // weeks = 2,4-7,9-10
     val list = weeks.split(',').map(String::toInt)
     if (list.isEmpty()) return ""
 

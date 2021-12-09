@@ -27,10 +27,10 @@ class ScheduleImportController(
         val isAdmin = principal?.isAdmin ?: false
         if (!isAdmin) {
             model["error"] = "You do not have permissions to access subject edit page"
-            model.addAttribute("files", scheduleService.findAllFiles())
             return "schedule"
         }
-//        model.addAttribute("subject", subject.get())
+        model.addAttribute("isAdmin", isAdmin)
+        model.addAttribute("files", scheduleService.findAllFiles())
         return "import"
     }
 
@@ -42,7 +42,7 @@ class ScheduleImportController(
         protectedAction(model, principal) {
             logger.info("Filename: ${file.originalFilename}")
             // parse file hire
-            val scheduleDTO = scheduleXLSXParser.readFromExcel(file)
+            val scheduleDTO = scheduleXLSXParser.readFromExcel(file.inputStream)
             if (scheduleDTO == null)
                 model["error"] = "Something went wrong... Check the format of your schedule."
             else {
@@ -60,7 +60,7 @@ class ScheduleImportController(
             }
         }
 
-    @DeleteMapping(path = ["/{id}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PostMapping(path = ["/{id}/delete"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun deleteSchedule(@PathVariable id: Long, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             scheduleService.deleteSchedule(id)
