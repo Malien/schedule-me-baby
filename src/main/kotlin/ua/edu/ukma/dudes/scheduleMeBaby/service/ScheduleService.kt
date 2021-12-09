@@ -29,25 +29,30 @@ class ScheduleService(
                 val type = if (number > 0) 1 else 0
                 val group = getGroup(subject, teacher, number, type)
 
-                Timeslot(
+                val timeslot = Timeslot(
                     day.day.ordinal + 1,
                     mapTime(dayEntry.time),
                     dayEntry.auditorium,
                     dayEntry.weeks,
                     group
                 )
+
+                timeslotRepository.save(timeslot)
             }
         }
     }
 
 
-    fun saveFile(file: MultipartFile, user: UserPrincipal, fileName: String){
-        val fileToSave = File("static/schedules/${fileName}")
-        val fileOutputStream = FileOutputStream(fileToSave)
-        fileOutputStream.write(file.bytes)
-        fileOutputStream.close()
+    fun saveFile(file: MultipartFile, user: UserPrincipal, fileName: String): Boolean{
 
-        fileRepository.save(FileEntity(fileName, user.userEntity))
+        val fileToSave = File(File("src\\main\\resources\\static\\schedules\\").absolutePath + "\\$fileName")
+        return if (fileToSave.createNewFile()) {
+            val fileOutputStream = FileOutputStream(fileToSave)
+            fileOutputStream.write(file.bytes)
+            fileOutputStream.close()
+            fileRepository.save(FileEntity(fileName, user.userEntity))
+            true
+        } else false
     }
 
     fun findAllFiles(): MutableList<FileEntity> {

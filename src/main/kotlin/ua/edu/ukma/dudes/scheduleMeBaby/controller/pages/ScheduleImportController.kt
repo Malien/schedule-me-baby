@@ -43,28 +43,30 @@ class ScheduleImportController(
             logger.info("Filename: ${file.originalFilename}")
             // parse file hire
             val scheduleDTO = scheduleXLSXParser.readFromExcel(file)
-            return@protectedAction scheduleDTO.toString() + scheduleDTO?.days
-//            if (scheduleDTO == null)
-//                model["error"] = "Something went wrong... Check the format of your schedule."
-//            else {
-//                val token = principal as UsernamePasswordAuthenticationToken
-//                val user = token.details as UserPrincipal
-//                scheduleService.save(scheduleDTO)
-//                scheduleService.saveFile(file, user,
-//                    file.originalFilename ?:
-//                    "${scheduleDTO.faculty}_${scheduleDTO.speciality}_${scheduleDTO.studyYear}_${scheduleDTO.years}"
-//                        .replace(" ", "_"))
-//            }
+            if (scheduleDTO == null)
+                model["error"] = "Something went wrong... Check the format of your schedule."
+            else {
+                val token = principal as UsernamePasswordAuthenticationToken
+                val user = token.principal as UserPrincipal
+                if (scheduleService.saveFile(file, user,
+                    file.originalFilename ?:
+                    "${scheduleDTO.faculty}_${scheduleDTO.speciality}_${scheduleDTO.studyYear}_${scheduleDTO.years}"
+                        .replace(" ", "_"))
+                ) {
+                    scheduleService.save(scheduleDTO)
+                } else {
+                    model["error"] = "The file with the given name already exists."
+                }
+            }
         }
 
     @DeleteMapping(path = ["/{id}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     fun deleteSchedule(@PathVariable id: Long, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             scheduleService.deleteSchedule(id)
-            return@protectedAction ""
         }
 
-    fun protectedAction(model: Model, principal: Principal?, block: () -> String): String {
+    fun protectedAction(model: Model, principal: Principal?, block: () -> Unit): String {
         val isAdmin = principal?.isAdmin ?: false
         logger.info("Import schedule: isAdmin=$isAdmin")
         return if (!isAdmin) {
@@ -72,7 +74,7 @@ class ScheduleImportController(
             "redirect:/schedule"
         } else try {
             block()
-//            "redirect:/import"
+            "redirect:/import"
         } catch (e: Exception) {
             logger.error(e.stackTraceToString())
             model["error"] = e.message ?: "Unexpected error occurred"
