@@ -3,7 +3,6 @@ package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.*
 import ua.edu.ukma.dudes.scheduleMeBaby.controller.isAdmin
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateSubjectDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateSubjectDTO
-import ua.edu.ukma.dudes.scheduleMeBaby.exception.NotFoundException
-import ua.edu.ukma.dudes.scheduleMeBaby.exception.SubjectNotFoundException
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import java.security.Principal
 import javax.validation.Valid
@@ -25,9 +22,11 @@ class SubjectPagesController(private val subjectService: SubjectService) {
 
     @GetMapping("")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    fun listSubjects(@RequestParam(value = "filter", required = false) nameFilter: String?,
-                     @RequestParam(value = "error", required = false) error: String?,
-                     model: Model, principal: Principal?): String {
+    fun listSubjects(
+        @RequestParam(value = "filter", required = false) nameFilter: String?,
+        @RequestParam(value = "error", required = false) error: String?,
+        model: Model, principal: Principal?
+    ): String {
         val isAdmin = principal?.isAdmin ?: false
         logger.info("List subjects: isAdmin=$isAdmin")
         model.addAttribute("isAdmin", isAdmin)
@@ -62,7 +61,7 @@ class SubjectPagesController(private val subjectService: SubjectService) {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun editSubject(
         @PathVariable id: Long,
-        patch: UpdateSubjectDTO,
+        @Valid patch: UpdateSubjectDTO,
         model: Model,
         principal: Principal?
     ) = protectedAction(model, principal) {

@@ -1,6 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
-import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
@@ -18,6 +17,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.GroupService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TimeslotService
 import java.security.Principal
+import javax.validation.Valid
 
 @Controller
 @RequestMapping("/timeslots")
@@ -44,7 +44,7 @@ class TimeslotsPagesController(
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     @PreAuthorize("hasRole('ADMIN')")
     fun newSubject(
-        createTimeslotDTO: CreateTimeslotFormDTO,
+        @Valid createTimeslotDTO: CreateTimeslotFormDTO,
         model: Model,
         principal: Principal?
     ): String {

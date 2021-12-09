@@ -19,6 +19,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.StudentService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.security.Principal
+import javax.validation.Valid
 
 @Controller
 @RequestMapping("/groups")
@@ -50,7 +51,7 @@ class GroupPagesController(
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun newSubject(
-        createGroupDTO: CreateGroupFormDTO,
+        @Valid createGroupDTO: CreateGroupFormDTO,
         model: Model,
         principal: Principal?
     ): String {

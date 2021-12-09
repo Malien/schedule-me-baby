@@ -3,7 +3,6 @@ package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -16,6 +15,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.security.Principal
+import javax.validation.Valid
 
 @Controller
 @RequestMapping("/teachers")
@@ -49,7 +49,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    fun newTeacher(createTeacherDTO: CreateTeacherDTO, model: Model, principal: Principal?) =
+    fun newTeacher(@Valid createTeacherDTO: CreateTeacherDTO, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             teacherService.createTeacher(createTeacherDTO)
         }
@@ -58,7 +58,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun editTeacher(
         @PathVariable id: Long,
-        patch: UpdateTeacherDTO,
+        @Valid patch: UpdateTeacherDTO,
         model: Model,
         principal: Principal?
     ) = protectedAction(model, principal) {
