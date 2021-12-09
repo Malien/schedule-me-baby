@@ -1,6 +1,5 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
-import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
@@ -18,6 +17,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.GroupService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.SubjectService
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TimeslotService
 import java.security.Principal
+import javax.validation.Valid
 
 @Controller
 @RequestMapping("/timeslots")
@@ -28,6 +28,7 @@ class TimeslotsPagesController(
 ) {
 
     @GetMapping("/{groupId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     fun listSubjects(@PathVariable groupId: Long, model: Model, principal: Principal?): String {
         val group = groupService.findGroupById(groupId).orElseThrow {
             NotFoundException("Group with id $groupId does not exist")
@@ -43,7 +44,7 @@ class TimeslotsPagesController(
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
     @PreAuthorize("hasRole('ADMIN')")
     fun newSubject(
-        createTimeslotDTO: CreateTimeslotFormDTO,
+        @Valid createTimeslotDTO: CreateTimeslotFormDTO,
         model: Model,
         principal: Principal?
     ): String {
@@ -58,6 +59,7 @@ class TimeslotsPagesController(
     }
 
     @PostMapping(path = ["/{groupId}/delete/{timeslotId}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun deleteSubject(@PathVariable groupId: Long, @PathVariable timeslotId: Long, model: Model, principal: Principal?): String {
         timeslotService.deleteTimeslotById(timeslotId)
         return "redirect:/timeslots/${groupId}"

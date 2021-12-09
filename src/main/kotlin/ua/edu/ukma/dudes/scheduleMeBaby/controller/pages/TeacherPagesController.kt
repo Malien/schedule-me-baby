@@ -2,7 +2,7 @@ package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -15,6 +15,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.dto.CreateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.UpdateTeacherDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.service.TeacherService
 import java.security.Principal
+import javax.validation.Valid
 
 @Controller
 @RequestMapping("/teachers")
@@ -23,6 +24,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
     val logger = LoggerFactory.getLogger(TeacherPagesController::class.java)
 
     @GetMapping("/")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     fun listTeachers(model: Model, principal: Principal?): String {
         val isAdmin = principal?.isAdmin ?: false
         logger.info("List teachers: isAdmin=$isAdmin")
@@ -32,6 +34,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun editTeacherPage(@PathVariable id: Long, model: Model, principal: Principal?): String {
         val isAdmin = principal?.isAdmin ?: false
         if (!isAdmin) {
@@ -45,15 +48,17 @@ class TeacherPagesController(private val teacherService: TeacherService) {
     }
 
     @PostMapping(path = ["/"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
-    fun newTeacher(createTeacherDTO: CreateTeacherDTO, model: Model, principal: Principal?) =
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    fun newTeacher(@Valid createTeacherDTO: CreateTeacherDTO, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             teacherService.createTeacher(createTeacherDTO)
         }
 
     @PostMapping(path = ["/{id}"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun editTeacher(
         @PathVariable id: Long,
-        patch: UpdateTeacherDTO,
+        @Valid patch: UpdateTeacherDTO,
         model: Model,
         principal: Principal?
     ) = protectedAction(model, principal) {
@@ -61,6 +66,7 @@ class TeacherPagesController(private val teacherService: TeacherService) {
     }
 
     @PostMapping(path = ["/{id}/delete"], consumes = [MediaType.APPLICATION_FORM_URLENCODED_VALUE])
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     fun deleteTeacher(@PathVariable id: Long, model: Model, principal: Principal?) =
         protectedAction(model, principal) {
             teacherService.deleteTeacherById(id)
