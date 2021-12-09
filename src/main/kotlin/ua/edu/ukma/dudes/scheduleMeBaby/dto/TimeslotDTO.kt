@@ -1,23 +1,17 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.dto
 
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Timeslot
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
+import javax.validation.constraints.*
 
 data class TimeslotDTO(
     val id: Long,
-    @field:Min(1)
-    @field:Max(7)
+    @field:Min(1) @field:Max(7)
     val day: Int,
-    @field:Min(1)
-    @field:Max(8)
+    @field:Min(1) @field:Max(8)
     val clazz: Int,
     @field:NotBlank
     val auditorium: String,
     @field:NotNull
-//    TODO? @Pattern
     val weeks: String,
     val groupId: Long?,
 )
@@ -27,9 +21,13 @@ fun Timeslot.toDto() = TimeslotDTO(timeslotId!!, day, clazz, auditorium, weeks, 
 data class TimeslotUIDTO(
     val id: Long,
     val groupId: Long,
+    @field:Min(1) @field:Max(7)
     val day: String,
+    @field:Min(1) @field:Max(8)
     val clazz: Int,
+    @field:NotNull
     val auditorium: String,
+    @field:NotNull
     val weeks: String,
 )
 
@@ -37,24 +35,36 @@ fun Timeslot.toUIDto() = TimeslotUIDTO(timeslotId!!, group.groupId!!, dayIntToSt
 
 data class CreateTimeslotFormDTO(
     val groupId: Long,
+    @field:Min(1) @field:Max(7)
     val day: String,
+    @field:Min(1) @field:Max(8)
     val clazz: Int,
+    @field:NotNull
     val auditorium: String,
+    @field:NotEmpty
     val weeks: List<Int>,
 )
 
 data class CreateTimeslotDTO(
     val groupId: Long,
+    @field:Min(1) @field:Max(7)
     val day: Int,
+    @field:Min(1) @field:Max(8)
     val clazz: Int,
+    @field:NotNull
     val auditorium: String,
+    @field:NotNull
     val weeks: String,
 )
 
 data class UpdateTimeslotDTO(
+    @field:Min(1) @field:Max(7)
     val day: Int? = null,
+    @field:Min(1) @field:Max(8)
     val clazz: Int? = null,
+    @field:NotNull
     val auditorium: String? = null,
+    @field:NotNull
     val weeks: String? = null
 )
 
