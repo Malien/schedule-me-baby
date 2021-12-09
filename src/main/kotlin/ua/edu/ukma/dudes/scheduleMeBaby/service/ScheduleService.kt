@@ -2,7 +2,6 @@ package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.apache.commons.lang3.math.NumberUtils.toInt
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.ScheduleDTO
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.*
 import ua.edu.ukma.dudes.scheduleMeBaby.repository.*
@@ -78,15 +77,14 @@ class ScheduleService(
     }
 
 
-    fun saveFile(file: MultipartFile, user: UserPrincipal, fileName: String): Boolean{
+    fun saveFile(file: InputStream, user: User, fileName: String): Long? {
         val fileToSave = File(File("src\\main\\resources\\static\\schedules\\").absolutePath + "\\$fileName")
         return if (fileToSave.createNewFile()) {
             val fileOutputStream = FileOutputStream(fileToSave)
-            fileOutputStream.write(file.bytes)
+            fileOutputStream.write(file.readAllBytes())
             fileOutputStream.close()
-            fileRepository.save(FileEntity(fileName, user.userEntity))
-            true
-        } else false
+            fileRepository.save(FileEntity(fileName, user)).fileId
+        } else null
     }
 
     fun findAllFiles(nameFilter: String): List<FileEntity> {

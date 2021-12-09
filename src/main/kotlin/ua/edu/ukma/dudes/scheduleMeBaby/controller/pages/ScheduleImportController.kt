@@ -51,10 +51,10 @@ class ScheduleImportController(
             else {
                 val token = principal as UsernamePasswordAuthenticationToken
                 val user = token.principal as UserPrincipal
-                if (scheduleService.saveFile(file, user,
+                if (scheduleService.saveFile(file.inputStream, user.userEntity,
                     file.originalFilename ?:
                     "${scheduleDTO.faculty}_${scheduleDTO.speciality}_${scheduleDTO.studyYear}_${scheduleDTO.years}"
-                        .replace(" ", "_"))
+                        .replace(" ", "_")) != null
                 ) {
                     scheduleService.save(scheduleDTO)
                 } else {

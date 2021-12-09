@@ -91,12 +91,12 @@ class ScheduleXLSXParser {
         return scheduleDTO
     }
 
-    fun getRowEntries(row: Row, lastTime: String? = null): DayEntry? {
+    private fun getRowEntries(row: Row, lastTime: String? = null): DayEntry? {
         var s = ""
         var time = row.getCell(1).stringCellValue
         time = time.ifBlank { lastTime }
-        val subject = row.getCell(2).stringCellValue.split(',')[0]
-        val teacher = row.getCell(2).stringCellValue.split(',')[1]
+        val subject = row.getCell(2).stringCellValue.split(',')[0].trim()
+        val teacher = row.getCell(2).stringCellValue.split(',')[1].trim()
         val groupCell = row.getCell(3)
         val group = if (groupCell.cellType == CellType.STRING) groupCell.stringCellValue
                     else groupCell.numericCellValue.toInt()
