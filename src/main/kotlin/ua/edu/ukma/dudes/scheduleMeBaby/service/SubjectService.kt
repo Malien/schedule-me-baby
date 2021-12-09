@@ -14,7 +14,7 @@ import java.util.*
 class SubjectService(val subjectRepository: SubjectRepository) {
     fun findAllSubjects(): Iterable<SubjectDTO> = subjectRepository.findAll().map(Subject::toDto)
 
-    fun findAllSubjects(nameFilter: String): Iterable<SubjectDTO> = subjectRepository.findAllByNameContainingIgnoreCase(nameFilter).map(Subject::toDto)
+    fun findAllSubjects(nameFilter: String): Iterable<SubjectDTO> = subjectRepository.findAllByNameContainingIgnoreCaseOrderByName(nameFilter).map(Subject::toDto)
 
     fun findSubjectById(id: Long): Optional<SubjectDTO> = subjectRepository.findById(id).map(Subject::toDto)
 

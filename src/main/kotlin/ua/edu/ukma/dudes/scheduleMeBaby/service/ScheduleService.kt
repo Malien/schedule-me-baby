@@ -1,7 +1,6 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.service
 
 import org.apache.commons.lang3.math.NumberUtils.toInt
-import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.ScheduleDTO
@@ -117,7 +116,7 @@ class ScheduleService(
 
 
     private fun getSubject(name: String) : Subject {
-        val subjects = subjectRepository.findAllByNameContainingIgnoreCase(name).toList()
+        val subjects = subjectRepository.findAllByNameContainingIgnoreCaseOrderByName(name).toList()
         return if (subjects.isEmpty()){
             subjectRepository.save(Subject(name))
         } else {

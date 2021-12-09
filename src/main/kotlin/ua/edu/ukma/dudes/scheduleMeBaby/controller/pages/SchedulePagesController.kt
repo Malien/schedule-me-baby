@@ -18,7 +18,7 @@ val timeslotTimes = listOf("8:30", "10:00", "11:40", "13:30", "15:00", "16:30", 
 class SchedulePagesController(private val timeslotService: TimeslotService) {
 
     @GetMapping("/schedule")
-    @PreAuthorize("hasAnyRole('User', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     fun schedule(principal: Principal, model: Model): String {
         val user = principal.user
         // Time of day -> Day of the week (except sunday) -> timeslots per cell (can have collisions)

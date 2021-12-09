@@ -8,7 +8,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.entity.Subject
 import ua.edu.ukma.dudes.scheduleMeBaby.entity.Teacher
 
 interface GroupRepository : CrudRepository<Group, Long> {
-    @Query(value = "SELECT * FROM groups g WHERE g.subject_id = :subjectId", nativeQuery = true)
+    @Query(value = "SELECT * FROM groups g WHERE g.subject_id = :subjectId ORDER BY g.number", nativeQuery = true)
     fun findAllBySubjectId(@Param("subjectId") subjectId: Long): Iterable<Group>
 
     @Query(value = """

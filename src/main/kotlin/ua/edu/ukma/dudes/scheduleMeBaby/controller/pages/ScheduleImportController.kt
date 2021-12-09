@@ -41,6 +41,7 @@ class ScheduleImportController(
     ): String =
         protectedAction(model, principal) {
             logger.info("Filename: ${file.originalFilename}")
+            model.addAttribute("files", scheduleService.findAllFiles())
             // parse file hire
             val scheduleDTO = scheduleXLSXParser.readFromExcel(file.inputStream)
             if (scheduleDTO == null)
@@ -74,7 +75,7 @@ class ScheduleImportController(
             "redirect:/schedule"
         } else try {
             block()
-            "redirect:/import"
+            "import"
         } catch (e: Exception) {
             logger.error(e.stackTraceToString())
             model["error"] = e.message ?: "Unexpected error occurred"

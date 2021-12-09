@@ -24,7 +24,7 @@ class AuthorizationFilter(
         httpServletResponse: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token = httpServletRequest.cookies.find { it.name == "token" }?.value
+        val token = httpServletRequest.cookies?.find { it.name == "token" }?.value
         if (token == null) {
             filterChain.doFilter(httpServletRequest, httpServletResponse)
             return

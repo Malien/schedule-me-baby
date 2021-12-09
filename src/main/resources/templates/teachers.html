@@ -14,7 +14,7 @@
     <div class="row mt-4 d-flex justify-content-center">
         <div class="col-12 col-md-8 col-xl-6">
 
-            <div class="row">
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="row">
                 <div class="col">
                     <form method="POST" th:if="${isAdmin}" action="/teachers/">
                         <div class="mb-3">
@@ -27,9 +27,11 @@
                     </form>
                     <div th:text="${error}" th:if="${error}"></div>
                 </div>
+
+                <hr>
             </div>
 
-            <hr>
+
 
             <div class="mt-4 row">
                 <div class="col">

@@ -37,7 +37,7 @@ class AuthPagesController(private val authService: AuthService) {
             return "redirect:schedule"
         } catch (e: BadCredentialsException) {
             logger.error("Bad credentials encountered: $e")
-            model["error"] = e.message ?: "Unexpected error occurred"
+            model["badCredentials"] = true
             return "login"
         }
     }

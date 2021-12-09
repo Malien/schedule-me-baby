@@ -12,9 +12,13 @@
     <div th:replace="common/navbar.html :: navbar"></div>
     <div class="row mt-4 d-flex justify-content-center">
         <div class="col-12 col-md-8 col-xl-6">
-            <h1 class="row" th:text="${subject.name}"></h1>
-
             <div class="row">
+                <div class="col">
+                    <h1 th:text="${subject.name}"></h1>
+                </div>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="row">
                 <div class="col">
                     <form method="POST" th:if="${isAdmin}" action="/groups/">
                         <div class="mb-3">
@@ -46,17 +50,18 @@
                     </form>
                     <div th:text="${error}" th:if="${error}"></div>
                 </div>
+
+                <hr>
             </div>
 
-            <hr>
-
-            <div class="mt-4 row">
+            <div class="my-4 row">
                 <div class="col">
                     <ul class="list-group">
                         <li class="list-group-item d-flex" th:each="group : ${groups}">
                             <div class="col-auto me-auto">
-                                <a class="btn fs-4" th:href="'/timeslots/' + ${group.id}">
-                                    <div th:text="${group.type} + ' ' + ${group.number}"></div>
+                                <a class="btn fs-4 text-start" th:href="'/timeslots/' + ${group.id}">
+                                    <div
+                                            th:text="${group.type} + ' ' + (${group.number} == 0 ? '' : ${group.number})"></div>
                                     <div th:text="${group.teacherName}"></div>
                                 </a>
                             </div>
@@ -71,12 +76,12 @@
                                 <button type="submit" class="btn btn-success">Unenroll</button>
                             </form>
                             <form method="POST" class="my-auto px-2"
-                                  th:action="'/groups/' + ${subject.id} + '/delete/' + ${group.id}">
+                                  th:action="'/groups/' + ${subject.id} + '/delete/' + ${group.id}"
+                                  sec:authorize="hasRole('ROLE_ADMIN')"
+                            >
                                 <button type="submit"
-                                        class="btn"
-                                        th:attr="onclick=|deleteGroup('${group.id}')|"
-                                        th:if="${isAdmin}"><i
-                                        class="fas fa-trash-alt fa-lg icon-delete"></i></button>
+                                        class="btn">
+                                    <i class="fas fa-trash-alt fa-lg icon-delete"></i></button>
                             </form>
                         </li>
                     </ul>

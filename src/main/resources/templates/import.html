@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div th:replace="common/navbar.html :: navbar(page='subjects')"></div>
+    <div th:replace="common/navbar.html :: navbar(page='import')"></div>
 
     <div class="row mt-4 d-flex justify-content-center">
         <div class="col-12 col-md-8 col-xl-6">
@@ -28,28 +28,17 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col">
-                    <form method="POST" th:if="${isAdmin}" action="/import/">
-                        <div class="mb-3">
-                            <label for="subjectName" class="form-label">Subject's name</label>
-                            <input type="text" class="form-control" id="subjectName" name="name"
-                                   aria-describedby="subjectNameHelp">
-                            <div id="subjectNameHelp" class="form-text">Enter subject's name.</div>
-                        </div>
-                        <button type="submit" class="mt-n1 btn btn-primary float-end">Submit</button>
-                    </form>
-                </div>
-            </div>
-
-            <div>
+            <div class="mt-4 row">
                 <form method="POST" enctype="multipart/form-data" action="/import">
-                    <table>
-                        <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-                        <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-                    </table>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Upload schedule file in <b>.xlsx</b> format</label>
+                        <input class="form-control" type="file" name="file" id="formFile">
+                    </div>
+                    <button type="submit" class="mt-n1 btn btn-primary float-end">Submit</button>
                 </form>
             </div>
+
+            <hr>
 
             <div class="mt-4 row">
                 <div class="col">
@@ -62,8 +51,7 @@
                             <form method="POST" class="my-auto px-2"
                                   th:action="'/import/' + ${file.fileId} + '/delete'">
                                 <button type="submit"
-                                        class="btn"
-                                        th:if="${isAdmin}"><i
+                                        class="btn"><i
                                         class="fas fa-trash-alt fa-lg icon-delete"></i></button>
                             </form>
                         </li>
