@@ -20,7 +20,10 @@ class User(
         joinColumns = [JoinColumn(name = "user_id")],
         inverseJoinColumns = [JoinColumn(name = "role_id")]
     )
-    val roles: MutableSet<Role> = mutableSetOf()
+    val roles: MutableSet<Role> = mutableSetOf(),
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    val files: MutableSet<FileEntity> = mutableSetOf()
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

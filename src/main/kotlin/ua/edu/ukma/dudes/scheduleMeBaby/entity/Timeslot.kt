@@ -6,9 +6,9 @@ import javax.persistence.*
 @Table(name = "timeslots")
 class Timeslot(
     @Column(name = "day", nullable = false)
-    var day: Int,
+    var day: Int, //
     @Column(name = "class", nullable = false)
-    var clazz: Int,
+    var clazz: Int, // пара
     @Column(name = "auditorium", nullable = false)
     var auditorium: String,
     @Column(name = "weeks", nullable = false)

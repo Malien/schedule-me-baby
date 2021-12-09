@@ -9,7 +9,7 @@ class Group(
     val number: Int,
 
     @Column(nullable = false)
-    val type: Int,
+    val type: Int, // 0 - Lection, 1 - Practice
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "subject_id", nullable = false)
@@ -25,7 +25,7 @@ class Group(
     val groupId: Long? = null
 
     @OneToMany(mappedBy = "group", orphanRemoval = true)
-    val timeslot: MutableSet<Timeslot> = mutableSetOf()
+    val timeslots: MutableSet<Timeslot> = mutableSetOf()
 
     @ManyToMany(mappedBy = "studentGroups")
     var students: MutableSet<User> = mutableSetOf()
