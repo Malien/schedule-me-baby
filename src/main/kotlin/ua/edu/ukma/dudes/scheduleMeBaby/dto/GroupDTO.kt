@@ -25,13 +25,13 @@ data class GroupUIDTO(
     val type: String
 )
 
-fun Group.toUIDto(): GroupUIDTO = GroupUIDTO(groupId!!, teacher.name, number, if (type == 0) "Lection" else "Practice")
+fun Group.toUIDto(): GroupUIDTO = GroupUIDTO(groupId!!, teacher.name, number, if (type == 0) "Lecture" else "Practice")
 
 data class CreateGroupFormDTO(
     val subjectId: Long,
     val teacherName: String,
     val number: Int,
-    @field:Pattern(regexp = "(Lection|Practice)")
+    @field:Pattern(regexp = "(Lecture|Practice)")
     val type: String
 )
 

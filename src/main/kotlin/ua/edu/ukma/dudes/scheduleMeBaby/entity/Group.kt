@@ -9,7 +9,7 @@ class Group(
     val number: Int,
 
     @Column(nullable = false)
-    val type: Int, // 0 - Lection, 1 - Practice
+    val type: Int, // 0 - Lecture, 1 - Practice
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "subject_id", nullable = false)

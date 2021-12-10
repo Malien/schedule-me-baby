@@ -35,7 +35,7 @@ fun Timeslot.toUIDto() = TimeslotUIDTO(timeslotId!!, group.groupId!!, dayIntToSt
 
 data class CreateTimeslotFormDTO(
     val groupId: Long,
-    @field:Min(1) @field:Max(7)
+    @field:NotEmpty
     val day: String,
     @field:Min(1) @field:Max(8)
     val clazz: Int,
