@@ -1,6 +1,7 @@
 package ua.edu.ukma.dudes.scheduleMeBaby.controller.pages
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.slf4j.LoggerFactory
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -12,6 +13,7 @@ import ua.edu.ukma.dudes.scheduleMeBaby.service.TimeslotService
 import java.security.Principal
 
 val timeslotTimes = listOf("8:30", "10:00", "11:40", "13:30", "15:00", "16:30", "18:00")
+private val logger = LoggerFactory.getLogger(SchedulePagesController::class.java)
 
 @Controller
 @Tag(name = "Schedule", description = "Schedule specific APIs")
@@ -26,8 +28,12 @@ class SchedulePagesController(private val timeslotService: TimeslotService) {
             Array(6) { ArrayList<ScheduleViewItem>() }
         }.zip(timeslotTimes)
 
-        for (item in timeslotService.scheduleForStudent(user.id!!)) {
-            schedule[item.`class` - 1].first[item.day - 1].add(item.toViewItem())
+        for (item in timeslotService.scheduleForStudent(user.id!!).map(ScheduleItem::toViewItem)) {
+            if ((1..8).contains(item.`class`) && (1..6).contains(item.day)) {
+                schedule[item.`class` - 1].first[item.day - 1].add(item)
+            } else {
+                logger.error("Schedule item contains value out of range: $item")
+            }
         }
 
         model["schedule"] = schedule
@@ -60,7 +66,14 @@ fun ScheduleItem.toViewItem() = ScheduleViewItem(
 
 fun compactWeeksRepr(weeks: String): String {
     // weeks = 2,4-7,9-10
-    val list = weeks.split(',').map(String::toInt)
+    val list = weeks.replace(" ", "").split(',').mapNotNull {
+        try {
+            it.toInt()
+        } catch (e: NumberFormatException) {
+            logger.error("Weeks field contains invalid numeric value: $it")
+            null
+        }
+    }
     if (list.isEmpty()) return ""
 
     val res = ArrayList<String>()
