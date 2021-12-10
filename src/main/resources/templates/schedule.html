@@ -13,31 +13,38 @@
             padding: 12px;
             border-radius: 10px;
         }
+
         .subject-card.Lecture {
             background: #2FD68B;
         }
+
         .subject-card.Lecture .subject-group {
             display: none;
         }
+
         .subject-classifier {
-            font-size: 14px;
+            font-size: 0.8rem;
             opacity: 0.8;
             display: flex;
             justify-content: space-between;
         }
+
         .subject-group {
-            font-size: 12px;
+            font-size: 0.6rem;
             align-self: start;
         }
+
         .subject-name {
-            font-size: 24px;
+            font-size: 1.2rem;
             font-weight: 600;
         }
+
         .subject-teacher {
-            font-size: 14px;
+            font-size: 0.8rem;
         }
+
         .subject-weeks {
-            font-size: 14px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -45,37 +52,39 @@
 <div th:replace="common/navbar.html :: navbar(page='schedule')"></div>
 
 <div class="container-fluid">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th scope="col" class="text-center" style="width: 7%">#</th>
-            <th scope="col" class="text-center" style="width: 15.5%">Monday</th>
-            <th scope="col" class="text-center" style="width: 15.5%">Tuesday</th>
-            <th scope="col" class="text-center" style="width: 15.5%">Wednesday</th>
-            <th scope="col" class="text-center" style="width: 15.5%">Thursday</th>
-            <th scope="col" class="text-center" style="width: 15.5%">Friday</th>
-            <th scope="col" class="text-center" style="width: 15.5%">Saturday</th>
-        </tr>
-        </thead>
+    <div class="table-responsive-md">
+        <table class="table table-bordered ">
+            <thead>
+            <tr>
+                <th scope="col" class="text-center" style="width: 7%">#</th>
+                <th scope="col" class="text-center" style="width: 15.5%">Monday</th>
+                <th scope="col" class="text-center" style="width: 15.5%">Tuesday</th>
+                <th scope="col" class="text-center" style="width: 15.5%">Wednesday</th>
+                <th scope="col" class="text-center" style="width: 15.5%">Thursday</th>
+                <th scope="col" class="text-center" style="width: 15.5%">Friday</th>
+                <th scope="col" class="text-center" style="width: 15.5%">Saturday</th>
+            </tr>
+            </thead>
 
-        <tbody id="tableBody">
-        <tr th:each="timeslot : ${schedule}">
-            <th scope="row" class="text-center" th:text="${timeslot.second}"></th> <!-- TODO -->
-            <td th:each="day : ${timeslot.first}">
-                <div th:each="subject : ${day}" class="subject-card my-2" th:classappend="${subject.groupType}">
-                    <div class="subject-classifier">
-                        <div class="subject-type" th:text="${subject.groupType}"></div>
-                        <div th:text="${'Group: ' + subject.groupNumber}" class="subject-group"></div>
+            <tbody id="tableBody">
+            <tr th:each="timeslot : ${schedule}">
+                <th scope="row" class="text-center" th:text="${timeslot.second}"></th> <!-- TODO -->
+                <td th:each="day : ${timeslot.first}">
+                    <div th:each="subject : ${day}" class="subject-card my-2" th:classappend="${subject.groupType}">
+                        <div class="subject-classifier">
+                            <div class="subject-type" th:text="${subject.groupType}"></div>
+                            <div th:text="${'Group: ' + subject.groupNumber}" class="subject-group"></div>
+                        </div>
+                        <div th:text="${subject.subjectName}" class="subject-name"></div>
+                        <div th:text="${'Teacher: ' + subject.teacherName}" class="subject-teacher"></div>
+                        <div th:text="${'Weeks: ' + subject.weeks}" class="subject-weeks"></div>
                     </div>
-                    <div th:text="${subject.subjectName}" class="subject-name"></div>
-                    <div th:text="${'Teacher: ' + subject.teacherName}" class="subject-teacher"></div>
-                    <div th:text="${'Weeks: ' + subject.weeks}" class="subject-weeks"></div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>

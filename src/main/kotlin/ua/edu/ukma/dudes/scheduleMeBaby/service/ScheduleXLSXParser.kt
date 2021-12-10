@@ -6,12 +6,10 @@ import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.Day
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.DayEntry
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.Days
 import ua.edu.ukma.dudes.scheduleMeBaby.dto.ScheduleDTO
-import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
@@ -100,7 +98,9 @@ class ScheduleXLSXParser {
         val groupCell = row.getCell(3)
         val group = if (groupCell.cellType == CellType.STRING) groupCell.stringCellValue
                     else groupCell.numericCellValue.toInt()
-        val weeks = row.getCell(4).stringCellValue
+        val weeksValue = row.getCell(4)
+        val weeks = if (weeksValue.cellType == CellType.STRING) weeksValue.stringCellValue
+                    else weeksValue.numericCellValue.toString()
         val auditorium = row.getCell(5).stringCellValue
 
         for (cell in row.cellIterator()) {

@@ -58,7 +58,7 @@ class ScheduleService(
                 val group = getGroup(subject, teacher, number, type)
 
                 val timeslot = Timeslot(
-                    day.day.ordinal - 1,
+                    day.day.ordinal,
                     mapTime(dayEntry.time),
                     dayEntry.auditorium,
                     mapWeeksToCommaSep(dayEntry.weeks),
@@ -135,21 +135,17 @@ class ScheduleService(
 
 
     private fun mapTime(time: String): Int =
-        if (time == "8:30-9:50")
-            1
-        else if (time == "10:00-11:20")
-            2
-        else if (time == "11:40-13:00")
-            3
-        else if (time == "13:30-14:50")
-            4
-        else if (time == "15:00-16:20")
-            5
-        else if (time == "16:30-17:50")
-            6
-        else if (time == "18:00-19:20")
-            7
-        else -1
+        when (time) {
+            "8:30-9:50" -> 1
+            "08:30-09:50" -> 1
+            "10:00-11:20" -> 2
+            "11:40-13:00" -> 3
+            "13:30-14:50" -> 4
+            "15:00-16:20" -> 5
+            "16:30-17:50" -> 6
+            "18:00-19:20" -> 7
+            else -> -1
+        }
 
     private fun mapWeeksToCommaSep(weeks: String): String {
         val list = mutableListOf<Int>()
